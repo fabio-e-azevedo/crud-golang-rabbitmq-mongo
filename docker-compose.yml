@@ -9,7 +9,7 @@ services:
       - "15672:15672"
     restart: always
     networks:
-      - rabbitmq_network
+      - network_default
 
   mongo:
     container_name: mongodb
@@ -21,12 +21,32 @@ services:
       MONGO_INITDB_ROOT_USERNAME: root
       MONGO_INITDB_ROOT_PASSWORD: root
     networks:
-      - mongodb_network
+      - network_default
+    healthcheck:
+      test: "mongosh --eval 'print(\"waited for connection\")'"
+      interval: 30s
+      timeout: 3s
+      retries: 3
+      start_period: 15s
+
+  mongo-express:
+    container_name: mongo-express
+    image: mongo-express
+    ports:
+      - "8081:8081"
+    environment:
+      ME_CONFIG_BASICAUTH_USERNAME: guest
+      ME_CONFIG_BASICAUTH_PASSWORD: guest
+      ME_CONFIG_MONGODB_URL: mongodb://root:root@mongo:27017/
+    links:
+      - mongo
+    depends_on:
+      mongo:
+        condition: service_healthy
+    networks:
+      - network_default
 
 networks:
-  rabbitmq_network:
-    name: network_default
-    driver: bridge
-  mongodb_network:
+  network_default:
     name: network_default
     driver: bridge
