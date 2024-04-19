@@ -6,7 +6,7 @@ import (
 	"net/http"
 )
 
-type User struct {
+type UserFromJson struct {
 	Id       int32  `json:"id"`
 	Name     string `json:"name"`
 	Username string `json:"username"`
@@ -30,7 +30,31 @@ type User struct {
 	}
 }
 
-func GetUsers() (*[]User, error) {
+type UserFromBson struct {
+	Id       int32  `bson:"id"`
+	Name     string `bson:"name"`
+	Username string `bson:"username"`
+	Email    string `bson:"email"`
+	Address  struct {
+		Street  string `bson:"street"`
+		Suite   string `bson:"suite"`
+		City    string `bson:"city"`
+		ZipCode string `bson:"zipcode"`
+		Geo     struct {
+			Lat string `bson:"lat"`
+			Lng string `bson:"lng"`
+		}
+	}
+	Phone   string `bson:"phone"`
+	Website string `bson:"website"`
+	Company struct {
+		Name        string `bson:"name"`
+		CatchPhrase string `bson:"catchPhrase"`
+		Bs          string `bson:"bs"`
+	}
+}
+
+func GetUsers() (*[]UserFromJson, error) {
 	resp, err := http.Get("https://jsonplaceholder.typicode.com/users")
 	if err != nil {
 		return nil, err
@@ -42,7 +66,7 @@ func GetUsers() (*[]User, error) {
 	}
 	defer resp.Body.Close()
 
-	var users []User
+	var users []UserFromJson
 
 	err = json.Unmarshal(body, &users)
 	if err != nil {

@@ -5,7 +5,8 @@ import (
 	"log"
 	"os"
 
-	mongo "get-amqp-users/mongodb"
+	mongo "crud-golang-rabbitmq-mongo/mongodb"
+	//z "crud-golang-rabbitmq-mongo/internal"
 
 	"github.com/joho/godotenv"
 	amqp "github.com/rabbitmq/amqp091-go"

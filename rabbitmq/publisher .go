@@ -2,25 +2,19 @@ package rabbitmq
 
 import (
 	"context"
-	"fmt"
 	"log"
 	"os"
 	"time"
+
+	"crud-golang-rabbitmq-mongo/internal"
 
 	"github.com/joho/godotenv"
 	amqp "github.com/rabbitmq/amqp091-go"
 )
 
-func failOnError(err error, msg string) {
-	if err != nil {
-		log.Fatalf("%s: %s", msg, err)
-		panic(fmt.Sprintf("%s: %s", msg, err))
-	}
-}
-
 func Publisher(body []byte) {
 	err := godotenv.Load()
-	failOnError(err, "No .env file found")
+	internal.FailOnError(err, "No .env file found")
 
 	uri := os.Getenv("RABBITMQ_URI")
 	if uri == "" {
@@ -28,11 +22,11 @@ func Publisher(body []byte) {
 	}
 
 	conn, err := amqp.Dial(uri)
-	failOnError(err, "Failed to connect to RabbitMQ")
+	internal.FailOnError(err, "Failed to connect to RabbitMQ")
 	defer conn.Close()
 
 	ch, err := conn.Channel()
-	failOnError(err, "Failed to open a channel")
+	internal.FailOnError(err, "Failed to open a channel")
 	defer ch.Close()
 
 	q, err := ch.QueueDeclare(
@@ -43,7 +37,8 @@ func Publisher(body []byte) {
 		false,   // no-wait
 		nil,     // arguments
 	)
-	failOnError(err, "Failed to declare a queue")
+
+	internal.FailOnError(err, "Failed to declare a queue")
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 	defer cancel()
 
@@ -56,6 +51,7 @@ func Publisher(body []byte) {
 			ContentType: "application/json",
 			Body:        body,
 		})
-	failOnError(err, "Failed to publish a message")
+
+	internal.FailOnError(err, "Failed to publish a message")
 	log.Printf(" [x] Sent %s\n", body)
 }

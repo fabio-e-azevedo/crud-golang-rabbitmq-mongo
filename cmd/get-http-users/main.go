@@ -5,8 +5,8 @@ import (
 	"fmt"
 	"log"
 
-	rt "get-http-users/rabbitmq"
-	data "get-http-users/users"
+	rt "crud-golang-rabbitmq-mongo/rabbitmq"
+	data "crud-golang-rabbitmq-mongo/users"
 )
 
 func failOnError(err error, msg string) {

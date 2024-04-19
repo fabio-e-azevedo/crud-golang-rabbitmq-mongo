@@ -7,7 +7,8 @@ import (
 	"log"
 	"os"
 
-	user "github.com/fabio-e-azevedo/users-jsonplaceholder"
+	user "crud-golang-rabbitmq-mongo/users"
+
 	"github.com/joho/godotenv"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
@@ -22,6 +23,7 @@ func Insert(body []byte) {
 	if uri == "" {
 		log.Fatal("You must set your 'MONGODB_URI' environment variable.")
 	}
+
 	client, err := mongo.Connect(context.TODO(), options.Client().ApplyURI(uri))
 	if err != nil {
 		panic(err)
@@ -33,9 +35,11 @@ func Insert(body []byte) {
 		}
 	}()
 
-	coll := client.Database("example").Collection("users")
+	mongoDB := os.Getenv("MONGODB_DATABASE")
+	mongoCollection := os.Getenv("MONGODB_COLLECTION")
+	coll := client.Database(mongoDB).Collection(mongoCollection)
 
-	var data user.User
+	var data user.UserFromJson
 
 	json.Unmarshal(body, &data)
 
