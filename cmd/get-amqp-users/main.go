@@ -1,27 +1,19 @@
 package main
 
 import (
-	"fmt"
 	"log"
 	"os"
 
+	"crud-golang-rabbitmq-mongo/internal"
 	mongo "crud-golang-rabbitmq-mongo/mongodb"
-	//z "crud-golang-rabbitmq-mongo/internal"
 
 	"github.com/joho/godotenv"
 	amqp "github.com/rabbitmq/amqp091-go"
 )
 
-func failOnError(err error, msg string) {
-	if err != nil {
-		log.Fatalf("%s: %s", msg, err)
-		panic(fmt.Sprintf("%s: %s", msg, err))
-	}
-}
-
 func main() {
 	err := godotenv.Load()
-	failOnError(err, "No .env file found")
+	internal.FailOnError(err, "No .env file found")
 
 	uri := os.Getenv("RABBITMQ_URI")
 	if uri == "" {
@@ -29,11 +21,11 @@ func main() {
 	}
 
 	conn, err := amqp.Dial(uri)
-	failOnError(err, "Failed to connect to RabbitMQ")
+	internal.FailOnError(err, "Failed to connect to RabbitMQ")
 	defer conn.Close()
 
 	ch, err := conn.Channel()
-	failOnError(err, "Failed to open a channel")
+	internal.FailOnError(err, "Failed to open a channel")
 	defer ch.Close()
 
 	q, err := ch.QueueDeclare(
@@ -44,7 +36,7 @@ func main() {
 		false,   // no-wait
 		nil,     // arguments
 	)
-	failOnError(err, "Failed to declare a queue")
+	internal.FailOnError(err, "Failed to declare a queue")
 
 	msgs, err := ch.Consume(
 		q.Name, // queue
@@ -55,7 +47,7 @@ func main() {
 		false,  // no-wait
 		nil,    // args
 	)
-	failOnError(err, "Failed to register a consumer")
+	internal.FailOnError(err, "Failed to register a consumer")
 
 	var forever chan struct{}
 
