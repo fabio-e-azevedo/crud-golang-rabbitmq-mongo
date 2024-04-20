@@ -7,19 +7,14 @@ import (
 	"os"
 	"time"
 
-	"crud-golang-rabbitmq-mongo/internal"
-	"crud-golang-rabbitmq-mongo/users"
+	ph "crud-golang-rabbitmq-mongo/jsonplaceholder"
 
-	"github.com/joho/godotenv"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
 )
 
-func FindOne(name string, value int) (*users.UserFromBson, error) {
-	err := godotenv.Load()
-	internal.FailOnError(err, "No .env file found")
-
+func FindOne(name string, value int) (*ph.UserFromBson, error) {
 	uri := os.Getenv("MONGODB_URI")
 	if uri == "" {
 		log.Fatal("You must set your 'MONGODB_URI' environment variable.")
@@ -42,7 +37,7 @@ func FindOne(name string, value int) (*users.UserFromBson, error) {
 
 	filter := bson.M{name: value}
 
-	var result users.UserFromBson
+	var result ph.UserFromBson
 
 	err = coll.FindOne(context.TODO(), filter).Decode(&result)
 	if err == mongo.ErrNoDocuments {
@@ -57,10 +52,7 @@ func FindOne(name string, value int) (*users.UserFromBson, error) {
 	return &result, nil
 }
 
-func FindAll() (*[]users.UserFromBson, error) {
-	err := godotenv.Load()
-	internal.FailOnError(err, "No .env file found")
-
+func FindAll() (*[]ph.UserFromBson, error) {
 	uri := os.Getenv("MONGODB_URI")
 	if uri == "" {
 		log.Fatal("You must set your 'MONGODB_URI' environment variable.")
@@ -84,7 +76,7 @@ func FindAll() (*[]users.UserFromBson, error) {
 		return nil, err
 	}
 
-	var data []users.UserFromBson
+	var data []ph.UserFromBson
 	if err := cur.All(context.Background(), &data); err != nil {
 		return nil, err
 	}

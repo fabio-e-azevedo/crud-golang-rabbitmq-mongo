@@ -7,14 +7,10 @@ import (
 	"crud-golang-rabbitmq-mongo/internal"
 	mongo "crud-golang-rabbitmq-mongo/mongodb"
 
-	"github.com/joho/godotenv"
 	amqp "github.com/rabbitmq/amqp091-go"
 )
 
 func main() {
-	err := godotenv.Load()
-	internal.FailOnError(err, "No .env file found")
-
 	uri := os.Getenv("RABBITMQ_URI")
 	if uri == "" {
 		log.Fatal("You must set your 'RABBITMQ_URI' environment variable.")

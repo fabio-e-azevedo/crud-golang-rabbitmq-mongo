@@ -7,18 +7,13 @@ import (
 	"log"
 	"os"
 
-	user "crud-golang-rabbitmq-mongo/users"
+	ph "crud-golang-rabbitmq-mongo/jsonplaceholder"
 
-	"github.com/joho/godotenv"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
 )
 
 func Insert(body []byte) {
-	if err := godotenv.Load(); err != nil {
-		log.Println("No .env file found")
-	}
-
 	uri := os.Getenv("MONGODB_URI")
 	if uri == "" {
 		log.Fatal("You must set your 'MONGODB_URI' environment variable.")
@@ -35,15 +30,13 @@ func Insert(body []byte) {
 		}
 	}()
 
-	mongoDB := os.Getenv("MONGODB_DATABASE")
-	mongoCollection := os.Getenv("MONGODB_COLLECTION")
-	coll := client.Database(mongoDB).Collection(mongoCollection)
-
-	var data user.UserFromJson
-
+	var data ph.Resource
 	json.Unmarshal(body, &data)
 
-	result, err := coll.InsertOne(context.TODO(), data)
+	mongoDB := os.Getenv("MONGODB_DATABASE")
+	coll := client.Database(mongoDB).Collection(data.ResourceType)
+
+	result, err := coll.InsertOne(context.TODO(), data.Data)
 	if err != nil {
 		panic(err)
 	}

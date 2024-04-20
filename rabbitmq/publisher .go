@@ -8,13 +8,12 @@ import (
 
 	"crud-golang-rabbitmq-mongo/internal"
 
-	"github.com/joho/godotenv"
 	amqp "github.com/rabbitmq/amqp091-go"
 )
 
-func Publisher(body []byte) {
-	err := godotenv.Load()
-	internal.FailOnError(err, "No .env file found")
+func Publisher(body []byte, queueName string) {
+	// err := godotenv.Load()
+	// internal.FailOnError(err, "No .env file found")
 
 	uri := os.Getenv("RABBITMQ_URI")
 	if uri == "" {
@@ -30,12 +29,12 @@ func Publisher(body []byte) {
 	defer ch.Close()
 
 	q, err := ch.QueueDeclare(
-		"users", // name
-		false,   // durable
-		false,   // delete when unused
-		false,   // exclusive
-		false,   // no-wait
-		nil,     // arguments
+		queueName, // name
+		false,     // durable
+		false,     // delete when unused
+		false,     // exclusive
+		false,     // no-wait
+		nil,       // arguments
 	)
 
 	internal.FailOnError(err, "Failed to declare a queue")

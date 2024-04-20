@@ -7,9 +7,8 @@
 - [MongoDB](https://www.mongodb.com/)
 
 
-To run and stop the applications:
+To run and stop the applications by Makefile:
 
-By Makefile: 
 ```
 make start
 

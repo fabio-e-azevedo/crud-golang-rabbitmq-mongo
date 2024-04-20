@@ -1,10 +1,15 @@
-package users
+package jsonplaceholder
 
 import (
-	"encoding/json"
+	"fmt"
 	"io"
 	"net/http"
 )
+
+type Resource struct {
+	ResourceType string       `json:"resourcetype"`
+	Data         UserFromJson `json:"data"`
+}
 
 type UserFromJson struct {
 	Id       int32  `json:"id"`
@@ -54,8 +59,8 @@ type UserFromBson struct {
 	}
 }
 
-func GetUsers() (*[]UserFromJson, error) {
-	resp, err := http.Get("https://jsonplaceholder.typicode.com/users")
+func Get(resource string) (*[]byte, error) {
+	resp, err := http.Get(fmt.Sprintf("https://jsonplaceholder.typicode.com/%s", resource))
 	if err != nil {
 		return nil, err
 	}
@@ -66,12 +71,19 @@ func GetUsers() (*[]UserFromJson, error) {
 	}
 	defer resp.Body.Close()
 
-	var users []UserFromJson
+	return &body, nil
 
-	err = json.Unmarshal(body, &users)
-	if err != nil {
-		return nil, err
-	}
+	// var users []UserFromJson
 
-	return &users, nil
+	// err = json.Unmarshal(body, &users)
+	// if err != nil {
+	// 	return nil, err
+	// }
+
+	// result := User{
+	// 	Resource: "users",
+	// 	Data:     users,
+	// }
+
+	// return &result, nil
 }
