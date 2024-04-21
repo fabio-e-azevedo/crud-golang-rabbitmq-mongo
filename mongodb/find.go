@@ -14,7 +14,7 @@ import (
 	"go.mongodb.org/mongo-driver/mongo/options"
 )
 
-func FindOne(name string, value int) (*ph.UserFromBson, error) {
+func FindOne(name string, value int) (*ph.User, error) {
 	uri := os.Getenv("MONGODB_URI")
 	if uri == "" {
 		log.Fatal("You must set your 'MONGODB_URI' environment variable.")
@@ -37,7 +37,7 @@ func FindOne(name string, value int) (*ph.UserFromBson, error) {
 
 	filter := bson.M{name: value}
 
-	var result ph.UserFromBson
+	var result ph.User
 
 	err = coll.FindOne(context.TODO(), filter).Decode(&result)
 	if err == mongo.ErrNoDocuments {
@@ -52,7 +52,7 @@ func FindOne(name string, value int) (*ph.UserFromBson, error) {
 	return &result, nil
 }
 
-func FindAll() (*[]ph.UserFromBson, error) {
+func FindAll() (*[]ph.User, error) {
 	uri := os.Getenv("MONGODB_URI")
 	if uri == "" {
 		log.Fatal("You must set your 'MONGODB_URI' environment variable.")
@@ -76,7 +76,7 @@ func FindAll() (*[]ph.UserFromBson, error) {
 		return nil, err
 	}
 
-	var data []ph.UserFromBson
+	var data []ph.User
 	if err := cur.All(context.Background(), &data); err != nil {
 		return nil, err
 	}

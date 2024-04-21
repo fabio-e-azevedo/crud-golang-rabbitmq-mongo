@@ -12,9 +12,6 @@ import (
 )
 
 func Publisher(body []byte, queueName string) {
-	// err := godotenv.Load()
-	// internal.FailOnError(err, "No .env file found")
-
 	uri := os.Getenv("RABBITMQ_URI")
 	if uri == "" {
 		log.Fatal("You must set your 'RABBITMQ_URI' environment variable.")

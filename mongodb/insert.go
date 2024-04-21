@@ -7,13 +7,14 @@ import (
 	"log"
 	"os"
 
-	ph "crud-golang-rabbitmq-mongo/jsonplaceholder"
+	"crud-golang-rabbitmq-mongo/internal"
+	jph "crud-golang-rabbitmq-mongo/jsonplaceholder"
 
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
 )
 
-func Insert(body []byte) {
+func Insert(body []byte, resourceType string) {
 	uri := os.Getenv("MONGODB_URI")
 	if uri == "" {
 		log.Fatal("You must set your 'MONGODB_URI' environment variable.")
@@ -30,13 +31,26 @@ func Insert(body []byte) {
 		}
 	}()
 
-	var data ph.Resource
+	var data jph.Resource[jph.User]
 	json.Unmarshal(body, &data)
 
-	mongoDB := os.Getenv("MONGODB_DATABASE")
-	coll := client.Database(mongoDB).Collection(data.ResourceType)
+	switch resourceType {
+	case "users":
+		dataGeneric[jph.User](body, *client, resourceType)
+	case "photos":
+		dataGeneric[jph.Photo](body, *client, resourceType)
+	}
+}
 
-	result, err := coll.InsertOne(context.TODO(), data.Data)
+func dataGeneric[T jph.ResourceGeneric](resourceBody []byte, client mongo.Client, resourceType string) {
+	var resource T
+	err := json.Unmarshal(resourceBody, &resource)
+	internal.FailOnError(err, "Error Unmarshal resource")
+
+	mongoDB := os.Getenv("MONGODB_DATABASE")
+	coll := client.Database(mongoDB).Collection(resourceType)
+
+	result, err := coll.InsertOne(context.TODO(), resource)
 	if err != nil {
 		panic(err)
 	}

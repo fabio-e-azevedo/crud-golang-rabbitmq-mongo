@@ -11,6 +11,8 @@ import (
 )
 
 func main() {
+	resourceType := "users"
+
 	uri := os.Getenv("RABBITMQ_URI")
 	if uri == "" {
 		log.Fatal("You must set your 'RABBITMQ_URI' environment variable.")
@@ -25,12 +27,12 @@ func main() {
 	defer ch.Close()
 
 	q, err := ch.QueueDeclare(
-		"users", // name
-		false,   // durable
-		false,   // delete when unused
-		false,   // exclusive
-		false,   // no-wait
-		nil,     // arguments
+		resourceType, // name
+		false,        // durable
+		false,        // delete when unused
+		false,        // exclusive
+		false,        // no-wait
+		nil,          // arguments
 	)
 	internal.FailOnError(err, "Failed to declare a queue")
 
@@ -49,7 +51,7 @@ func main() {
 
 	go func() {
 		for d := range msgs {
-			mongo.Insert(d.Body)
+			mongo.Insert(d.Body, resourceType)
 		}
 	}()
 

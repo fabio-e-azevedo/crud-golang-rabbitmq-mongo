@@ -1,65 +1,71 @@
 package jsonplaceholder
 
 import (
+	"encoding/json"
 	"fmt"
 	"io"
 	"net/http"
 )
 
-type Resource struct {
-	ResourceType string       `json:"resourcetype"`
-	Data         UserFromJson `json:"data"`
+type ResourceGeneric interface {
+	User | Photo
 }
 
-type UserFromJson struct {
-	Id       int32  `json:"id"`
-	Name     string `json:"name"`
-	Username string `json:"username"`
-	Email    string `json:"email"`
+type Resource[T any] struct {
+	ResourceType string `json:"resourcetype"`
+	Data         []T    `json:"data"`
+}
+
+type Photo struct {
+	AlbumId      int32  `json:"albumId" bson:"albumId"`
+	Id           int32  `json:"id" bson:"id"`
+	Title        string `json:"title" bson:"title"`
+	Url          string `json:"url" bson:"url"`
+	ThumbnailUrl string `json:"thumbnailUrl" bson:"thumbnailUrl"`
+}
+
+type User struct {
+	Id       int32  `json:"id" bson:"id"`
+	Name     string `json:"name" bson:"name"`
+	Username string `json:"username" bson:"username"`
+	Email    string `json:"email" bson:"email"`
 	Address  struct {
-		Street  string `json:"street"`
-		Suite   string `json:"suite"`
-		City    string `json:"city"`
-		ZipCode string `json:"zipcode"`
+		Street  string `json:"street" bson:"street"`
+		Suite   string `json:"suite" bson:"suite"`
+		City    string `json:"city" bson:"city"`
+		ZipCode string `json:"zipcode" bson:"zipcode"`
 		Geo     struct {
-			Lat string `json:"lat"`
-			Lng string `json:"lng"`
+			Lat string `json:"lat" bson:"lat"`
+			Lng string `json:"lng" bson:"lng"`
 		}
 	}
-	Phone   string `json:"phone"`
-	Website string `json:"website"`
+	Phone   string `json:"phone" bson:"phone"`
+	Website string `json:"website" bson:"website"`
 	Company struct {
-		Name        string `json:"name"`
-		CatchPhrase string `json:"catchPhrase"`
-		Bs          string `json:"bs"`
+		Name        string `json:"name" bson:"name"`
+		CatchPhrase string `json:"catchPhrase" bson:"catchPhrase"`
+		Bs          string `json:"bs" bson:"bs"`
 	}
 }
 
-type UserFromBson struct {
-	Id       int32  `bson:"id"`
-	Name     string `bson:"name"`
-	Username string `bson:"username"`
-	Email    string `bson:"email"`
-	Address  struct {
-		Street  string `bson:"street"`
-		Suite   string `bson:"suite"`
-		City    string `bson:"city"`
-		ZipCode string `bson:"zipcode"`
-		Geo     struct {
-			Lat string `bson:"lat"`
-			Lng string `bson:"lng"`
-		}
+func getJson[T ResourceGeneric](resource string, body []byte) ([]byte, error) {
+	var jsonTostruct []T
+	var resources Resource[T]
+
+	resources.ResourceType = resource
+
+	err := json.Unmarshal(body, &jsonTostruct)
+	if err != nil {
+		return nil, err
 	}
-	Phone   string `bson:"phone"`
-	Website string `bson:"website"`
-	Company struct {
-		Name        string `bson:"name"`
-		CatchPhrase string `bson:"catchPhrase"`
-		Bs          string `bson:"bs"`
-	}
+
+	resources.Data = jsonTostruct
+	bodyResult, _ := json.Marshal(resources)
+
+	return bodyResult, nil
 }
 
-func Get(resource string) (*[]byte, error) {
+func Get(resource string) ([]byte, error) {
 	resp, err := http.Get(fmt.Sprintf("https://jsonplaceholder.typicode.com/%s", resource))
 	if err != nil {
 		return nil, err
@@ -71,19 +77,19 @@ func Get(resource string) (*[]byte, error) {
 	}
 	defer resp.Body.Close()
 
-	return &body, nil
+	var bodyResult []byte
+	switch resource {
+	case "users":
+		bodyResult, err = getJson[User](resource, body)
+		if err != nil {
+			return nil, err
+		}
+	case "photos":
+		bodyResult, err = getJson[Photo](resource, body)
+		if err != nil {
+			return nil, err
+		}
+	}
 
-	// var users []UserFromJson
-
-	// err = json.Unmarshal(body, &users)
-	// if err != nil {
-	// 	return nil, err
-	// }
-
-	// result := User{
-	// 	Resource: "users",
-	// 	Data:     users,
-	// }
-
-	// return &result, nil
+	return bodyResult, nil
 }
