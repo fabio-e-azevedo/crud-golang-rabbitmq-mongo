@@ -30,14 +30,15 @@ var loadCmd = &cobra.Command{
 			SendRabbitMQ[jph.User](resourceType, resultGet)
 		case "photos":
 			SendRabbitMQ[jph.Photo](resourceType, resultGet)
+		case "posts":
+			SendRabbitMQ[jph.Posts](resourceType, resultGet)
 		}
 	},
 }
 
 func SendRabbitMQ[T jph.ResourceGeneric](resourceType string, resourceBody []byte) {
 	var resource jph.Resource[T]
-	err := json.Unmarshal(resourceBody, &resource)
-	internal.FailOnError(err, "Failed to Unmarshal message")
+	resource.New(resourceBody)
 
 	for i := range resource.Data {
 		body, err := json.Marshal(resource.Data[i])

@@ -2,12 +2,9 @@ package mongodb
 
 import (
 	"context"
-	"encoding/json"
-	"fmt"
 	"log"
 	"os"
 
-	"crud-golang-rabbitmq-mongo/internal"
 	jph "crud-golang-rabbitmq-mongo/jsonplaceholder"
 
 	"go.mongodb.org/mongo-driver/mongo"
@@ -31,29 +28,27 @@ func Insert(body []byte, resourceType string) {
 		}
 	}()
 
-	var data jph.Resource[jph.User]
-	json.Unmarshal(body, &data)
-
 	switch resourceType {
 	case "users":
-		dataGeneric[jph.User](body, *client, resourceType)
+		resource := (&jph.User{}).New(body)
+		dataGeneric(resource, *client, resourceType)
 	case "photos":
-		dataGeneric[jph.Photo](body, *client, resourceType)
+		resource := (&jph.Photo{}).New(body)
+		dataGeneric(resource, *client, resourceType)
+	case "posts":
+		resource := (&jph.Posts{}).New(body)
+		dataGeneric(resource, *client, resourceType)
 	}
 }
 
-func dataGeneric[T jph.ResourceGeneric](resourceBody []byte, client mongo.Client, resourceType string) {
-	var resource T
-	err := json.Unmarshal(resourceBody, &resource)
-	internal.FailOnError(err, "Error Unmarshal resource")
-
+func dataGeneric[T jph.ResourceGeneric](resource T, client mongo.Client, resourceType string) {
 	mongoDB := os.Getenv("MONGODB_DATABASE")
 	coll := client.Database(mongoDB).Collection(resourceType)
 
-	result, err := coll.InsertOne(context.TODO(), resource)
+	_, err := coll.InsertOne(context.TODO(), resource)
 	if err != nil {
 		panic(err)
 	}
 
-	fmt.Println(result)
+	//fmt.Println(result)
 }

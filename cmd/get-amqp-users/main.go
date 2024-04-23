@@ -11,7 +11,7 @@ import (
 )
 
 func main() {
-	resourceType := "users"
+	resourceType := "posts"
 
 	uri := os.Getenv("RABBITMQ_URI")
 	if uri == "" {
@@ -55,6 +55,6 @@ func main() {
 		}
 	}()
 
-	log.Printf(" [*] Waiting for messages. To exit press CTRL+C")
+	log.Printf(" [*] Waiting for messages from the queue \"%s\".", resourceType)
 	<-forever
 }

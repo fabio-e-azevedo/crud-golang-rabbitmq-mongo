@@ -1,6 +1,7 @@
 package jsonplaceholder
 
 import (
+	"crud-golang-rabbitmq-mongo/internal"
 	"encoding/json"
 	"fmt"
 	"io"
@@ -8,12 +9,23 @@ import (
 )
 
 type ResourceGeneric interface {
-	User | Photo
+	User | Photo | Posts
+}
+
+type GenericResource[T any] interface {
+	New(data []byte) T
 }
 
 type Resource[T any] struct {
 	ResourceType string `json:"resourcetype"`
 	Data         []T    `json:"data"`
+}
+
+type Posts struct {
+	UserId int32  `json:"userId" bson:"userId"`
+	Id     int32  `json:"id" bson:"id"`
+	Title  string `json:"title" bson:"title"`
+	Body   string `json:"body" bson:"body"`
 }
 
 type Photo struct {
@@ -48,6 +60,30 @@ type User struct {
 	}
 }
 
+func (u *User) New(data []byte) User {
+	err := json.Unmarshal(data, u)
+	internal.FailOnError(err, "Failed to Unmarshal User")
+	return *u
+}
+
+func (p *Photo) New(data []byte) Photo {
+	err := json.Unmarshal(data, p)
+	internal.FailOnError(err, "Failed to Unmarshal Photo")
+	return *p
+}
+
+func (p *Posts) New(data []byte) Posts {
+	err := json.Unmarshal(data, p)
+	internal.FailOnError(err, "Failed to Unmarshal Posts")
+	return *p
+}
+
+func (it *Resource[T]) New(body []byte) Resource[T] {
+	err := json.Unmarshal(body, it)
+	internal.FailOnError(err, "Failed to Unmarshal Resource[T]")
+	return *it
+}
+
 func getJson[T ResourceGeneric](resource string, body []byte) ([]byte, error) {
 	var jsonTostruct []T
 	var resources Resource[T]
@@ -63,6 +99,7 @@ func getJson[T ResourceGeneric](resource string, body []byte) ([]byte, error) {
 	bodyResult, _ := json.Marshal(resources)
 
 	return bodyResult, nil
+	//return body, nil
 }
 
 func Get(resource string) ([]byte, error) {
@@ -86,6 +123,11 @@ func Get(resource string) ([]byte, error) {
 		}
 	case "photos":
 		bodyResult, err = getJson[Photo](resource, body)
+		if err != nil {
+			return nil, err
+		}
+	case "posts":
+		bodyResult, err = getJson[Posts](resource, body)
 		if err != nil {
 			return nil, err
 		}

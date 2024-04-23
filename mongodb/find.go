@@ -7,14 +7,14 @@ import (
 	"os"
 	"time"
 
-	ph "crud-golang-rabbitmq-mongo/jsonplaceholder"
+	jph "crud-golang-rabbitmq-mongo/jsonplaceholder"
 
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
 )
 
-func FindOne(name string, value int) (*ph.User, error) {
+func FindOne[T jph.ResourceGeneric](resource *T, name string, value int, collection string) (*T, error) {
 	uri := os.Getenv("MONGODB_URI")
 	if uri == "" {
 		log.Fatal("You must set your 'MONGODB_URI' environment variable.")
@@ -32,14 +32,11 @@ func FindOne(name string, value int) (*ph.User, error) {
 	}()
 
 	mongoDB := os.Getenv("MONGODB_DATABASE")
-	mongoCollection := os.Getenv("MONGODB_COLLECTION")
-	coll := client.Database(mongoDB).Collection(mongoCollection)
+	coll := client.Database(mongoDB).Collection(collection)
 
 	filter := bson.M{name: value}
 
-	var result ph.User
-
-	err = coll.FindOne(context.TODO(), filter).Decode(&result)
+	err = coll.FindOne(context.TODO(), filter).Decode(resource)
 	if err == mongo.ErrNoDocuments {
 		fmt.Printf("No document was found with the title %s\n", filter)
 		return nil, err
@@ -49,10 +46,10 @@ func FindOne(name string, value int) (*ph.User, error) {
 		return nil, err
 	}
 
-	return &result, nil
+	return resource, nil
 }
 
-func FindAll() (*[]ph.User, error) {
+func FindAll[T jph.ResourceGeneric](resource *[]T, collection string) (*[]T, error) {
 	uri := os.Getenv("MONGODB_URI")
 	if uri == "" {
 		log.Fatal("You must set your 'MONGODB_URI' environment variable.")
@@ -66,20 +63,17 @@ func FindAll() (*[]ph.User, error) {
 	}
 
 	mongoDB := os.Getenv("MONGODB_DATABASE")
-	mongoCollection := os.Getenv("MONGODB_COLLECTION")
-
 	db := client.Database(mongoDB)
 
 	filter := bson.M{}
-	cur, err := db.Collection(mongoCollection).Find(context.Background(), filter)
+	cur, err := db.Collection(collection).Find(context.Background(), filter)
 	if err != nil {
 		return nil, err
 	}
 
-	var data []ph.User
-	if err := cur.All(context.Background(), &data); err != nil {
+	if err := cur.All(context.Background(), resource); err != nil {
 		return nil, err
 	}
 
-	return &data, nil
+	return resource, nil
 }

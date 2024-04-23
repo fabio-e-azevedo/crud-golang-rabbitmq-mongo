@@ -21,3 +21,7 @@ make stop
 |:------:|:---------------------------:|
 |  GET   |         /users              |
 |  GET   |         /users/{id}         |
+|  GET   |         /photos             |
+|  GET   |         /photos/{id}        |
+|  GET   |         /posts              |
+|  GET   |         /posts/{id}         |
