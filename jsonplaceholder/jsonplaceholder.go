@@ -9,7 +9,7 @@ import (
 )
 
 type ResourceGeneric interface {
-	User | Photo | Posts
+	User | Photo | Posts | Comments
 }
 
 type GenericResource[T any] interface {
@@ -21,23 +21,31 @@ type Resource[T any] struct {
 	Data         []T    `json:"data"`
 }
 
+type Comments struct {
+	PostId int16  `json:"postId" bson:"postId"`
+	Id     int16  `json:"id" bson:"id"`
+	Name   string `json:"name" bson:"name"`
+	Email  string `json:"email" bson:"email"`
+	Body   string `json:"body" bson:"body"`
+}
+
 type Posts struct {
-	UserId int32  `json:"userId" bson:"userId"`
-	Id     int32  `json:"id" bson:"id"`
+	UserId int16  `json:"userId" bson:"userId"`
+	Id     int16  `json:"id" bson:"id"`
 	Title  string `json:"title" bson:"title"`
 	Body   string `json:"body" bson:"body"`
 }
 
 type Photo struct {
-	AlbumId      int32  `json:"albumId" bson:"albumId"`
-	Id           int32  `json:"id" bson:"id"`
+	AlbumId      int16  `json:"albumId" bson:"albumId"`
+	Id           int16  `json:"id" bson:"id"`
 	Title        string `json:"title" bson:"title"`
 	Url          string `json:"url" bson:"url"`
 	ThumbnailUrl string `json:"thumbnailUrl" bson:"thumbnailUrl"`
 }
 
 type User struct {
-	Id       int32  `json:"id" bson:"id"`
+	Id       int16  `json:"id" bson:"id"`
 	Name     string `json:"name" bson:"name"`
 	Username string `json:"username" bson:"username"`
 	Email    string `json:"email" bson:"email"`
@@ -78,10 +86,16 @@ func (p *Posts) New(data []byte) Posts {
 	return *p
 }
 
-func (it *Resource[T]) New(body []byte) Resource[T] {
-	err := json.Unmarshal(body, it)
+func (p *Comments) New(data []byte) Comments {
+	err := json.Unmarshal(data, p)
+	internal.FailOnError(err, "Failed to Unmarshal Comments")
+	return *p
+}
+
+func (r *Resource[T]) New(body []byte) Resource[T] {
+	err := json.Unmarshal(body, r)
 	internal.FailOnError(err, "Failed to Unmarshal Resource[T]")
-	return *it
+	return *r
 }
 
 func getJson[T ResourceGeneric](resource string, body []byte) ([]byte, error) {
@@ -128,6 +142,11 @@ func Get(resource string) ([]byte, error) {
 		}
 	case "posts":
 		bodyResult, err = getJson[Posts](resource, body)
+		if err != nil {
+			return nil, err
+		}
+	case "comments":
+		bodyResult, err = getJson[Comments](resource, body)
 		if err != nil {
 			return nil, err
 		}

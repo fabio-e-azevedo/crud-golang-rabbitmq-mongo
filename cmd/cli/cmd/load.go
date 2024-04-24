@@ -5,8 +5,9 @@ import (
 
 	"crud-golang-rabbitmq-mongo/internal"
 
+	"crud-golang-rabbitmq-mongo/config"
 	jph "crud-golang-rabbitmq-mongo/jsonplaceholder"
-	rt "crud-golang-rabbitmq-mongo/rabbitmq"
+	"crud-golang-rabbitmq-mongo/rabbitmq"
 
 	"github.com/spf13/cobra"
 )
@@ -27,22 +28,30 @@ var loadCmd = &cobra.Command{
 
 		switch resourceType {
 		case "users":
-			SendRabbitMQ[jph.User](resourceType, resultGet)
+			SendRabbitMQ[jph.User](resultGet, resourceType)
 		case "photos":
-			SendRabbitMQ[jph.Photo](resourceType, resultGet)
+			SendRabbitMQ[jph.Photo](resultGet, resourceType)
 		case "posts":
-			SendRabbitMQ[jph.Posts](resourceType, resultGet)
+			SendRabbitMQ[jph.Posts](resultGet, resourceType)
+		case "comments":
+			SendRabbitMQ[jph.Comments](resultGet, resourceType)
 		}
 	},
 }
 
-func SendRabbitMQ[T jph.ResourceGeneric](resourceType string, resourceBody []byte) {
+func SendRabbitMQ[T jph.ResourceGeneric](resourceBody []byte, resourceType string) {
 	var resource jph.Resource[T]
 	resource.New(resourceBody)
+
+	cfg := config.NewConfigRabbit()
+	rabbit := rabbitmq.RabbitMQ{
+		URI:       cfg.RabbitURI,
+		QueueName: resource.ResourceType,
+	}
 
 	for i := range resource.Data {
 		body, err := json.Marshal(resource.Data[i])
 		internal.FailOnError(err, "Failed to marshal message")
-		rt.Publisher(body, resource.ResourceType)
+		rabbit.Publisher(body)
 	}
 }

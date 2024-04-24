@@ -1,9 +1,11 @@
 package main
 
 import (
+	"fmt"
 	"log"
-	"os"
 
+	"crud-golang-rabbitmq-mongo/config"
+	"crud-golang-rabbitmq-mongo/database"
 	"crud-golang-rabbitmq-mongo/internal"
 	mongo "crud-golang-rabbitmq-mongo/mongodb"
 
@@ -12,13 +14,9 @@ import (
 
 func main() {
 	resourceType := "posts"
+	cfg := config.NewConfig()
 
-	uri := os.Getenv("RABBITMQ_URI")
-	if uri == "" {
-		log.Fatal("You must set your 'RABBITMQ_URI' environment variable.")
-	}
-
-	conn, err := amqp.Dial(uri)
+	conn, err := amqp.Dial(cfg.RabbitURI)
 	internal.FailOnError(err, "Failed to connect to RabbitMQ")
 	defer conn.Close()
 
@@ -47,11 +45,16 @@ func main() {
 	)
 	internal.FailOnError(err, "Failed to register a consumer")
 
-	var forever chan struct{}
+	var db database.Database = mongo.DbConnect{
+		URI:        cfg.MongoURI,
+		Database:   cfg.MongoDatabase,
+		Collection: resourceType,
+	}
 
+	var forever chan struct{}
 	go func() {
 		for d := range msgs {
-			mongo.Insert(d.Body, resourceType)
+			fmt.Println(db.DbInsert(d.Body))
 		}
 	}()
 

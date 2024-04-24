@@ -3,7 +3,6 @@ package rabbitmq
 import (
 	"context"
 	"log"
-	"os"
 	"time"
 
 	"crud-golang-rabbitmq-mongo/internal"
@@ -11,13 +10,13 @@ import (
 	amqp "github.com/rabbitmq/amqp091-go"
 )
 
-func Publisher(body []byte, queueName string) {
-	uri := os.Getenv("RABBITMQ_URI")
-	if uri == "" {
-		log.Fatal("You must set your 'RABBITMQ_URI' environment variable.")
-	}
+type RabbitMQ struct {
+	URI       string
+	QueueName string
+}
 
-	conn, err := amqp.Dial(uri)
+func (r RabbitMQ) Publisher(body []byte) {
+	conn, err := amqp.Dial(r.URI)
 	internal.FailOnError(err, "Failed to connect to RabbitMQ")
 	defer conn.Close()
 
@@ -26,12 +25,12 @@ func Publisher(body []byte, queueName string) {
 	defer ch.Close()
 
 	q, err := ch.QueueDeclare(
-		queueName, // name
-		false,     // durable
-		false,     // delete when unused
-		false,     // exclusive
-		false,     // no-wait
-		nil,       // arguments
+		r.QueueName, // name
+		false,       // durable
+		false,       // delete when unused
+		false,       // exclusive
+		false,       // no-wait
+		nil,         // arguments
 	)
 
 	internal.FailOnError(err, "Failed to declare a queue")
