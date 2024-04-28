@@ -26,32 +26,16 @@ var loadCmd = &cobra.Command{
 		resultGet, err := jph.Get(resourceType)
 		internal.FailOnError(err, "Failed to get users")
 
-		switch resourceType {
-		case "users":
-			SendRabbitMQ[jph.User](resultGet, resourceType)
-		case "photos":
-			SendRabbitMQ[jph.Photo](resultGet, resourceType)
-		case "posts":
-			SendRabbitMQ[jph.Posts](resultGet, resourceType)
-		case "comments":
-			SendRabbitMQ[jph.Comments](resultGet, resourceType)
+		cfg := config.NewConfigRabbit()
+		rabbit := rabbitmq.RabbitMQ{
+			URI:       cfg.RabbitURI,
+			QueueName: resourceType,
+		}
+
+		for i := range resultGet {
+			body, err := json.Marshal(resultGet[i])
+			internal.FailOnError(err, "Failed to marshal message")
+			rabbit.Publisher(body)
 		}
 	},
-}
-
-func SendRabbitMQ[T jph.ResourceGeneric](resourceBody []byte, resourceType string) {
-	var resource jph.Resource[T]
-	resource.New(resourceBody)
-
-	cfg := config.NewConfigRabbit()
-	rabbit := rabbitmq.RabbitMQ{
-		URI:       cfg.RabbitURI,
-		QueueName: resource.ResourceType,
-	}
-
-	for i := range resource.Data {
-		body, err := json.Marshal(resource.Data[i])
-		internal.FailOnError(err, "Failed to marshal message")
-		rabbit.Publisher(body)
-	}
 }

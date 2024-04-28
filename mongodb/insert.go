@@ -2,6 +2,7 @@ package mongodb
 
 import (
 	"context"
+	"fmt"
 
 	jph "crud-golang-rabbitmq-mongo/jsonplaceholder"
 
@@ -30,28 +31,11 @@ func (m DbConnect) DbInsert(body []byte) string {
 
 	coll := client.Database(m.Database).Collection(m.Collection)
 
-	switch m.Collection {
-	case "users":
-		resource := (&jph.User{}).New(body)
-		r := dataGeneric(resource, *coll)
-		return r
-	case "photos":
-		resource := (&jph.Photo{}).New(body)
-		r := dataGeneric(resource, *coll)
-		return r
-	case "posts":
-		resource := (&jph.Posts{}).New(body)
-		r := dataGeneric(resource, *coll)
-		return r
-	case "comments":
-		resource := (&jph.Comments{}).New(body)
-		r := dataGeneric(resource, *coll)
-		return r
+	resource, err := jph.GetResource(body)
+	if err != nil {
+		return fmt.Sprintln(err)
 	}
-	return ""
-}
 
-func dataGeneric[T jph.ResourceGeneric](resource T, coll mongo.Collection) string {
 	result, err := coll.InsertOne(context.TODO(), resource)
 	if err != nil {
 		panic(err)

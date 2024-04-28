@@ -8,115 +8,62 @@ import (
 	"net/http"
 )
 
-type ResourceGeneric interface {
-	User | Photo | Posts | Comments
+type ValidResource interface {
+	User | Photo | Post | Comment | Album | Todo
 }
 
-type GenericResource[T any] interface {
-	New(data []byte) T
+type IResource interface {
+	Show() []byte
 }
 
-type Resource[T any] struct {
-	ResourceType string `json:"resourcetype"`
-	Data         []T    `json:"data"`
-}
+func GetResources(data []byte) ([]IResource, error) {
+	var result []IResource
 
-type Comments struct {
-	PostId int16  `json:"postId" bson:"postId"`
-	Id     int16  `json:"id" bson:"id"`
-	Name   string `json:"name" bson:"name"`
-	Email  string `json:"email" bson:"email"`
-	Body   string `json:"body" bson:"body"`
-}
-
-type Posts struct {
-	UserId int16  `json:"userId" bson:"userId"`
-	Id     int16  `json:"id" bson:"id"`
-	Title  string `json:"title" bson:"title"`
-	Body   string `json:"body" bson:"body"`
-}
-
-type Photo struct {
-	AlbumId      int16  `json:"albumId" bson:"albumId"`
-	Id           int16  `json:"id" bson:"id"`
-	Title        string `json:"title" bson:"title"`
-	Url          string `json:"url" bson:"url"`
-	ThumbnailUrl string `json:"thumbnailUrl" bson:"thumbnailUrl"`
-}
-
-type User struct {
-	Id       int16  `json:"id" bson:"id"`
-	Name     string `json:"name" bson:"name"`
-	Username string `json:"username" bson:"username"`
-	Email    string `json:"email" bson:"email"`
-	Address  struct {
-		Street  string `json:"street" bson:"street"`
-		Suite   string `json:"suite" bson:"suite"`
-		City    string `json:"city" bson:"city"`
-		ZipCode string `json:"zipcode" bson:"zipcode"`
-		Geo     struct {
-			Lat string `json:"lat" bson:"lat"`
-			Lng string `json:"lng" bson:"lng"`
-		}
-	}
-	Phone   string `json:"phone" bson:"phone"`
-	Website string `json:"website" bson:"website"`
-	Company struct {
-		Name        string `json:"name" bson:"name"`
-		CatchPhrase string `json:"catchPhrase" bson:"catchPhrase"`
-		Bs          string `json:"bs" bson:"bs"`
-	}
-}
-
-func (u *User) New(data []byte) User {
-	err := json.Unmarshal(data, u)
-	internal.FailOnError(err, "Failed to Unmarshal User")
-	return *u
-}
-
-func (p *Photo) New(data []byte) Photo {
-	err := json.Unmarshal(data, p)
-	internal.FailOnError(err, "Failed to Unmarshal Photo")
-	return *p
-}
-
-func (p *Posts) New(data []byte) Posts {
-	err := json.Unmarshal(data, p)
-	internal.FailOnError(err, "Failed to Unmarshal Posts")
-	return *p
-}
-
-func (p *Comments) New(data []byte) Comments {
-	err := json.Unmarshal(data, p)
-	internal.FailOnError(err, "Failed to Unmarshal Comments")
-	return *p
-}
-
-func (r *Resource[T]) New(body []byte) Resource[T] {
-	err := json.Unmarshal(body, r)
-	internal.FailOnError(err, "Failed to Unmarshal Resource[T]")
-	return *r
-}
-
-func getJson[T ResourceGeneric](resource string, body []byte) ([]byte, error) {
-	var jsonTostruct []T
-	var resources Resource[T]
-
-	resources.ResourceType = resource
-
-	err := json.Unmarshal(body, &jsonTostruct)
+	resultUnmarshal := []Resource{}
+	err := newResources(&resultUnmarshal, data)
 	if err != nil {
 		return nil, err
 	}
 
-	resources.Data = jsonTostruct
-	bodyResult, _ := json.Marshal(resources)
-
-	return bodyResult, nil
-	//return body, nil
+	for i := range resultUnmarshal {
+		result = append(result, &resultUnmarshal[i])
+	}
+	return result, nil
 }
 
-func Get(resource string) ([]byte, error) {
+func GetResource(data []byte) (IResource, error) {
+	resultUnmarshal := Resource{}
+	err := newResources(&resultUnmarshal, data)
+	if err != nil {
+		return nil, err
+	}
+	return &resultUnmarshal, nil
+}
+
+func newResources[T any](resource *T, data []byte) error {
+	err := json.Unmarshal(data, &resource)
+	internal.FailOnError(err, "Failed to Unmarshal newResources")
+	return err
+}
+func NewResources() []Resource {
+	return []Resource{}
+}
+
+func NewResource() IResource {
+	return &Resource{}
+}
+
+func (p *Resource) Show() []byte {
+	bodyResult, _ := json.Marshal(p)
+	return bodyResult
+}
+
+func (p *ResourceMongo) Show() []byte {
+	bodyResult, _ := json.Marshal(p)
+	return bodyResult
+}
+
+func Get(resource string) ([]IResource, error) {
 	resp, err := http.Get(fmt.Sprintf("https://jsonplaceholder.typicode.com/%s", resource))
 	if err != nil {
 		return nil, err
@@ -128,28 +75,9 @@ func Get(resource string) ([]byte, error) {
 	}
 	defer resp.Body.Close()
 
-	var bodyResult []byte
-	switch resource {
-	case "users":
-		bodyResult, err = getJson[User](resource, body)
-		if err != nil {
-			return nil, err
-		}
-	case "photos":
-		bodyResult, err = getJson[Photo](resource, body)
-		if err != nil {
-			return nil, err
-		}
-	case "posts":
-		bodyResult, err = getJson[Posts](resource, body)
-		if err != nil {
-			return nil, err
-		}
-	case "comments":
-		bodyResult, err = getJson[Comments](resource, body)
-		if err != nil {
-			return nil, err
-		}
+	bodyResult, err := GetResources(body)
+	if err != nil {
+		fmt.Println(err)
 	}
 
 	return bodyResult, nil

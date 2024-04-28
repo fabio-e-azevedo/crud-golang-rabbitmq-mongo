@@ -13,7 +13,7 @@ import (
 )
 
 func main() {
-	resourceType := "posts"
+	resourceType := "photos"
 	cfg := config.NewConfig()
 
 	conn, err := amqp.Dial(cfg.RabbitURI)
