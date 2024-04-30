@@ -5,7 +5,7 @@ help:
 
 # Run all containers by docker-compose.
 start:
-	docker-compose up -d
+	docker-compose up -d --build
 .PHONY: start
 
 # Stop all containers by docker-compose.
