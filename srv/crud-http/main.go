@@ -1,14 +1,7 @@
 package main
 
 import (
-	"crud-golang-rabbitmq-mongo/pkg/mongodb"
-	"crud-golang-rabbitmq-mongo/pkg/utils"
-	"net/http"
-	"strconv"
-	"strings"
-
-	"crud-golang-rabbitmq-mongo/pkg/config"
-	jph "crud-golang-rabbitmq-mongo/pkg/jsonplaceholder"
+	"crud-golang-rabbitmq-mongo/srv/crud-http/controllers"
 
 	"github.com/gin-gonic/gin"
 )
@@ -16,60 +9,22 @@ import (
 func main() {
 	gin.SetMode(gin.ReleaseMode)
 	router := gin.Default()
-	router.GET("/users", getAll)
-	router.GET("/photos", getAll)
-	router.GET("/posts", getAll)
-	router.GET("/comments", getAll)
-	router.GET("/albums", getAll)
-	router.GET("/todos", getAll)
+	router.GET("/users", controllers.GetAll)
+	router.GET("/photos", controllers.GetAll)
+	router.GET("/posts", controllers.GetAll)
+	router.GET("/comments", controllers.GetAll)
+	router.GET("/albums", controllers.GetAll)
+	router.GET("/todos", controllers.GetAll)
 
-	router.GET("/albums/:id", getByID)
-	router.GET("/todos/:id", getByID)
-	router.GET("/users/:id", getByID)
-	router.GET("/photos/:id", getByID)
-	router.GET("/posts/:id", getByID)
-	router.GET("/comments/:id", getByID)
+	router.GET("/albums/:id", controllers.GetByID)
+	router.GET("/todos/:id", controllers.GetByID)
+	router.GET("/users/:id", controllers.GetByID)
+	router.GET("/photos/:id", controllers.GetByID)
+	router.GET("/posts/:id", controllers.GetByID)
+	router.GET("/comments/:id", controllers.GetByID)
 
 	//router.POST("/users", postUser)
 	//router.PATCH("/users/:id", patchUserByID)
 	//router.DELETE("/users/:id", deleteUserByID)
 	router.Run("0.0.0.0:5000")
-}
-
-func getAll(c *gin.Context) {
-	resources := jph.NewResources()
-
-	resourceType := strings.Split(c.Request.URL.Path, "/")[1]
-	cfg := config.NewConfigMongo()
-	m := mongodb.DbConnect{
-		URI:        cfg.MongoURI,
-		Database:   cfg.MongoDatabase,
-		Collection: resourceType,
-	}
-
-	err := mongodb.FindAll(&resources, &m)
-	utils.FailOnError(err, "Error finding all documents in mongo!")
-	c.IndentedJSON(http.StatusOK, &resources)
-}
-
-func getByID(c *gin.Context) {
-	id, err := strconv.Atoi(c.Param("id"))
-	if err != nil {
-		panic(err)
-	}
-
-	resourceType := strings.Split(c.Request.URL.Path, "/")[1]
-
-	cfg := config.NewConfigMongo()
-	m := mongodb.DbConnect{
-		URI:        cfg.MongoURI,
-		Database:   cfg.MongoDatabase,
-		Collection: resourceType,
-	}
-
-	resource := jph.NewResource()
-
-	err = mongodb.FindOne(&resource, "id", id, &m)
-	utils.FailOnError(err, "Error finding document in mongo!")
-	c.IndentedJSON(http.StatusOK, &resource)
 }

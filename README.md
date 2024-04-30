@@ -19,9 +19,26 @@ make stop
 
 | Method |          Resource           |
 |:------:|:---------------------------:|
-|  GET   |         /users              |
-|  GET   |         /users/{id}         |
-|  GET   |         /photos             |
-|  GET   |         /photos/{id}        |
-|  GET   |         /posts              |
-|  GET   |         /posts/{id}         |
+|  GET   |          /albums            |
+|  GET   |          /comments          |
+|  GET   |          /photos            |
+|  GET   |          /posts             |
+|  GET   |          /todos             |
+|  GET   |          /users             |
+|  GET   |          /albums/{id}       |
+|  GET   |          /comments/{id}     |
+|  GET   |          /photos/{id}       |
+|  GET   |          /posts/{id}        |
+|  GET   |          /todos/{id}        |
+|  GET   |          /users/{id}        |
+
+
+
+
+
+
+
+
+
+
+
