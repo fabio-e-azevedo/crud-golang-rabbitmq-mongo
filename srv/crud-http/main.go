@@ -1,14 +1,14 @@
 package main
 
 import (
-	"crud-golang-rabbitmq-mongo/internal"
-	"crud-golang-rabbitmq-mongo/mongodb"
+	"crud-golang-rabbitmq-mongo/pkg/mongodb"
+	"crud-golang-rabbitmq-mongo/pkg/utils"
 	"net/http"
 	"strconv"
 	"strings"
 
-	"crud-golang-rabbitmq-mongo/config"
-	jph "crud-golang-rabbitmq-mongo/jsonplaceholder"
+	"crud-golang-rabbitmq-mongo/pkg/config"
+	jph "crud-golang-rabbitmq-mongo/pkg/jsonplaceholder"
 
 	"github.com/gin-gonic/gin"
 )
@@ -48,7 +48,7 @@ func getAll(c *gin.Context) {
 	}
 
 	err := mongodb.FindAll(&resources, &m)
-	internal.FailOnError(err, "Error finding all documents in mongo!")
+	utils.FailOnError(err, "Error finding all documents in mongo!")
 	c.IndentedJSON(http.StatusOK, &resources)
 }
 
@@ -70,6 +70,6 @@ func getByID(c *gin.Context) {
 	resource := jph.NewResource()
 
 	err = mongodb.FindOne(&resource, "id", id, &m)
-	internal.FailOnError(err, "Error finding document in mongo!")
+	utils.FailOnError(err, "Error finding document in mongo!")
 	c.IndentedJSON(http.StatusOK, &resource)
 }

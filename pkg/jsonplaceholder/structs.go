@@ -32,16 +32,29 @@ type Resource struct {
 	Completed    *bool   `json:"completed,omitempty" bson:"completed,omitempty"`
 }
 
-type ResourceMongo struct {
-	Resource
-}
+// type Album struct {
+// 	Resource
+// }
 
-type Todo struct {
-	Id        int16  `json:"id" bson:"id"`
-	UserId    int16  `json:"userId" bson:"userId"`
-	Title     string `json:"title" bson:"title"`
-	Completed bool   `json:"completed" bson:"completed"`
-}
+// type Comment struct {
+// 	Resource
+// }
+
+// type Photo struct {
+// 	Resource
+// }
+
+// type Post struct {
+// 	Resource
+// }
+
+// type Todo struct {
+// 	Resource
+// }
+
+// type User struct {
+// 	Resource
+// }
 
 type Album struct {
 	Id     int16  `json:"id" bson:"id"`
@@ -72,6 +85,13 @@ type Photo struct {
 	ThumbnailUrl string `json:"thumbnailUrl" bson:"thumbnailUrl"`
 }
 
+type Todo struct {
+	Id        int16  `json:"id" bson:"id"`
+	UserId    int16  `json:"userId" bson:"userId"`
+	Title     string `json:"title" bson:"title"`
+	Completed bool   `json:"completed" bson:"completed"`
+}
+
 type User struct {
 	Id       int16  `json:"id" bson:"id"`
 	Name     string `json:"name" bson:"name"`
@@ -85,13 +105,13 @@ type User struct {
 		Geo     struct {
 			Lat string `json:"lat" bson:"lat"`
 			Lng string `json:"lng" bson:"lng"`
-		}
-	}
+		} `json:"geo" bson:"geo"`
+	} `json:"address" bson:"address"`
 	Phone   string `json:"phone" bson:"phone"`
 	Website string `json:"website" bson:"website"`
 	Company struct {
 		Name        string `json:"name" bson:"name"`
 		CatchPhrase string `json:"catchPhrase" bson:"catchPhrase"`
 		Bs          string `json:"bs" bson:"bs"`
-	}
+	} `json:"company" bson:"company"`
 }

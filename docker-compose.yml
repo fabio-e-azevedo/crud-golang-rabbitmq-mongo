@@ -46,6 +46,92 @@ services:
     networks:
       - network_default
 
+  consumer-users:
+    container_name: consumer-users
+    build:
+      context: .
+      dockerfile: consumer-amqp.Dockerfile
+    image: consumer-rabbitmq:v2
+    environment:
+      - RESOURCE_TYPE=users
+      - RABBITMQ_URI=amqp://guest:guest@rabbitmq:5672/
+      - MONGODB_URI=mongodb://root:root@mongodb
+      - MONGODB_DATABASE=db
+    networks:
+      - network_default
+    depends_on: 
+      - mongo-express
+
+  consumer-albums:
+    container_name: consumer-albums
+    image: consumer-rabbitmq:v2
+    environment:
+      - RESOURCE_TYPE=albums
+      - RABBITMQ_URI=amqp://guest:guest@rabbitmq:5672/
+      - MONGODB_URI=mongodb://root:root@mongodb
+      - MONGODB_DATABASE=db
+    networks:
+      - network_default
+    depends_on: 
+      - mongo-express
+      - consumer-users
+
+  consumer-posts:
+    container_name: consumer-posts
+    image: consumer-rabbitmq:v2
+    environment:
+      - RESOURCE_TYPE=posts
+      - RABBITMQ_URI=amqp://guest:guest@rabbitmq:5672/
+      - MONGODB_URI=mongodb://root:root@mongodb
+      - MONGODB_DATABASE=db
+    networks:
+      - network_default
+    depends_on: 
+      - mongo-express
+      - consumer-users
+
+  consumer-photos:
+    container_name: consumer-photos
+    image: consumer-rabbitmq:v2
+    environment:
+      - RESOURCE_TYPE=photos
+      - RABBITMQ_URI=amqp://guest:guest@rabbitmq:5672/
+      - MONGODB_URI=mongodb://root:root@mongodb
+      - MONGODB_DATABASE=db
+    networks:
+      - network_default
+    depends_on: 
+      - mongo-express
+      - consumer-users
+
+  consumer-comments:
+    container_name: consumer-comments
+    image: consumer-rabbitmq:v2
+    environment:
+      - RESOURCE_TYPE=comments
+      - RABBITMQ_URI=amqp://guest:guest@rabbitmq:5672/
+      - MONGODB_URI=mongodb://root:root@mongodb
+      - MONGODB_DATABASE=db
+    networks:
+      - network_default
+    depends_on: 
+      - mongo-express
+      - consumer-users
+
+  consumer-todos:
+    container_name: consumer-todos
+    image: consumer-rabbitmq:v2
+    environment:
+      - RESOURCE_TYPE=todos
+      - RABBITMQ_URI=amqp://guest:guest@rabbitmq:5672/
+      - MONGODB_URI=mongodb://root:root@mongodb
+      - MONGODB_DATABASE=db
+    networks:
+      - network_default
+    depends_on: 
+      - mongo-express
+      - consumer-users
+
 networks:
   network_default:
     name: network_default

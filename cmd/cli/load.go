@@ -3,11 +3,11 @@ package cmd
 import (
 	"encoding/json"
 
-	"crud-golang-rabbitmq-mongo/internal"
+	"crud-golang-rabbitmq-mongo/pkg/utils"
 
-	"crud-golang-rabbitmq-mongo/config"
-	jph "crud-golang-rabbitmq-mongo/jsonplaceholder"
-	"crud-golang-rabbitmq-mongo/rabbitmq"
+	"crud-golang-rabbitmq-mongo/pkg/config"
+	jph "crud-golang-rabbitmq-mongo/pkg/jsonplaceholder"
+	"crud-golang-rabbitmq-mongo/pkg/rabbitmq"
 
 	"github.com/spf13/cobra"
 )
@@ -24,7 +24,7 @@ var loadCmd = &cobra.Command{
 		resourceType := args[0]
 
 		resultGet, err := jph.Get(resourceType)
-		internal.FailOnError(err, "Failed to get users")
+		utils.FailOnError(err, "Failed to get users")
 
 		cfg := config.NewConfigRabbit()
 		rabbit := rabbitmq.RabbitMQ{
@@ -34,7 +34,7 @@ var loadCmd = &cobra.Command{
 
 		for i := range resultGet {
 			body, err := json.Marshal(resultGet[i])
-			internal.FailOnError(err, "Failed to marshal message")
+			utils.FailOnError(err, "Failed to marshal message")
 			rabbit.Publisher(body)
 		}
 	},

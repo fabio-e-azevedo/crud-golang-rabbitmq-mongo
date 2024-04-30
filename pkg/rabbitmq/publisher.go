@@ -5,7 +5,7 @@ import (
 	"log"
 	"time"
 
-	"crud-golang-rabbitmq-mongo/internal"
+	"crud-golang-rabbitmq-mongo/pkg/utils"
 
 	amqp "github.com/rabbitmq/amqp091-go"
 )
@@ -17,11 +17,11 @@ type RabbitMQ struct {
 
 func (r RabbitMQ) Publisher(body []byte) {
 	conn, err := amqp.Dial(r.URI)
-	internal.FailOnError(err, "Failed to connect to RabbitMQ")
+	utils.FailOnError(err, "Failed to connect to RabbitMQ")
 	defer conn.Close()
 
 	ch, err := conn.Channel()
-	internal.FailOnError(err, "Failed to open a channel")
+	utils.FailOnError(err, "Failed to open a channel")
 	defer ch.Close()
 
 	q, err := ch.QueueDeclare(
@@ -33,7 +33,7 @@ func (r RabbitMQ) Publisher(body []byte) {
 		nil,         // arguments
 	)
 
-	internal.FailOnError(err, "Failed to declare a queue")
+	utils.FailOnError(err, "Failed to declare a queue")
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 	defer cancel()
 
@@ -47,6 +47,6 @@ func (r RabbitMQ) Publisher(body []byte) {
 			Body:        body,
 		})
 
-	internal.FailOnError(err, "Failed to publish a message")
+	utils.FailOnError(err, "Failed to publish a message")
 	log.Printf(" [x] Sent %s\n", body)
 }
