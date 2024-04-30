@@ -8,4 +8,4 @@ FROM alpine:latest
 WORKDIR /app
 COPY --from=builder /crud-golang-rabbitmq-mongo/consumer .
 
-CMD ["./consumer"]
+CMD ["/app/consumer"]

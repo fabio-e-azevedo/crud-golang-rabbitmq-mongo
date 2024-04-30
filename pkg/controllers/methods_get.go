@@ -4,7 +4,6 @@ import (
 	"crud-golang-rabbitmq-mongo/pkg/config"
 	jph "crud-golang-rabbitmq-mongo/pkg/jsonplaceholder"
 	"crud-golang-rabbitmq-mongo/pkg/mongodb"
-	"crud-golang-rabbitmq-mongo/pkg/utils"
 
 	"net/http"
 	"strconv"
@@ -16,7 +15,8 @@ import (
 func GetAll(c *gin.Context) {
 	resources := jph.NewResources()
 
-	resourceType := strings.Split(c.Request.URL.Path, "/")[1]
+	resourceType := strings.Split(c.Request.URL.Path, "/")[3]
+
 	cfg := config.NewConfigMongo()
 	m := mongodb.DbConnect{
 		URI:        cfg.MongoURI,
@@ -25,7 +25,11 @@ func GetAll(c *gin.Context) {
 	}
 
 	err := mongodb.FindAll(&resources, &m)
-	utils.FailOnError(err, "Error finding all documents in mongo!")
+	if err != nil {
+		c.IndentedJSON(http.StatusNotFound, "Not found documents in mongo!")
+		return
+	}
+
 	c.IndentedJSON(http.StatusOK, &resources)
 }
 
@@ -35,7 +39,7 @@ func GetByID(c *gin.Context) {
 		panic(err)
 	}
 
-	resourceType := strings.Split(c.Request.URL.Path, "/")[1]
+	resourceType := strings.Split(c.Request.URL.Path, "/")[3]
 
 	cfg := config.NewConfigMongo()
 	m := mongodb.DbConnect{
@@ -47,6 +51,10 @@ func GetByID(c *gin.Context) {
 	resource := jph.NewResource()
 
 	err = mongodb.FindOne(&resource, "id", id, &m)
-	utils.FailOnError(err, "Error finding document in mongo!")
+	if err != nil {
+		c.IndentedJSON(http.StatusNotFound, "Not found document in mongo!")
+		return
+	}
+
 	c.IndentedJSON(http.StatusOK, &resource)
 }

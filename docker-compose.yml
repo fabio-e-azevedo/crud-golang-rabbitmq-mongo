@@ -29,83 +29,96 @@ services:
       retries: 3
       start_period: 15s
 
-  mongo-express:
-    container_name: mongo-express
-    image: mongo-express
-    ports:
-      - "8081:8081"
-    environment:
-      ME_CONFIG_BASICAUTH_USERNAME: guest
-      ME_CONFIG_BASICAUTH_PASSWORD: guest
-      ME_CONFIG_MONGODB_URL: mongodb://root:root@mongodb:27017/
-    links:
-      - mongodb
-    depends_on:
-      mongodb:
-        condition: service_healthy
-    networks:
-      - network_default
+  # mongo-express:
+  #   container_name: mongo-express
+  #   image: mongo-express
+  #   ports:
+  #     - "8081:8081"
+  #   environment:
+  #     ME_CONFIG_BASICAUTH_USERNAME: guest
+  #     ME_CONFIG_BASICAUTH_PASSWORD: guest
+  #     ME_CONFIG_MONGODB_URL: mongodb://root:root@mongodb:27017/
+  #   links:
+  #     - mongodb
+  #   depends_on:
+  #     mongodb:
+  #       condition: service_healthy
+  #   networks:
+  #     - network_default
 
   consumer-users:
     container_name: consumer-users
     build:
       context: .
       dockerfile: consumer-amqp.Dockerfile
-    image: consumer-rabbitmq:v2
+    image: consumer-rabbitmq:v1
     environment:
       RESOURCE_TYPE: users
     env_file:
-      - .env_consumer
+      - .environment
     networks:
       - network_default
 
   consumer-albums:
     container_name: consumer-albums
-    image: consumer-rabbitmq:v2
+    image: consumer-rabbitmq:v1
     environment:
       RESOURCE_TYPE: albums
     env_file:
-      - .env_consumer
+      - .environment
     networks:
       - network_default
 
   consumer-posts:
     container_name: consumer-posts
-    image: consumer-rabbitmq:v2
+    image: consumer-rabbitmq:v1
     environment:
       RESOURCE_TYPE: posts
     env_file:
-      - .env_consumer
+      - .environment
     networks:
       - network_default
 
   consumer-photos:
     container_name: consumer-photos
-    image: consumer-rabbitmq:v2
+    image: consumer-rabbitmq:v1
     environment:
       RESOURCE_TYPE: photos
     env_file:
-      - .env_consumer
+      - .environment
     networks:
       - network_default
 
   consumer-comments:
     container_name: consumer-comments
-    image: consumer-rabbitmq:v2
+    image: consumer-rabbitmq:v1
     environment:
       RESOURCE_TYPE: comments
     env_file:
-      - .env_consumer
+      - .environment
     networks:
       - network_default
 
   consumer-todos:
     container_name: consumer-todos
-    image: consumer-rabbitmq:v2
+    image: consumer-rabbitmq:v1
     environment:
       RESOURCE_TYPE: todos
     env_file:
-      - .env_consumer
+      - .environment
+    networks:
+      - network_default
+
+  crud-http:
+    container_name: crud-http
+    build:
+      context: .
+      dockerfile: crud-http.Dockerfile
+    image: crud-http:v1
+    ports:
+      - "5000:5000"
+    env_file:
+      - .environment
     networks:
       - network_default
 

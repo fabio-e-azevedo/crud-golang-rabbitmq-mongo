@@ -2,7 +2,7 @@ package mongodb
 
 import (
 	"context"
-	"fmt"
+	"log"
 	"time"
 
 	"go.mongodb.org/mongo-driver/bson"
@@ -28,7 +28,7 @@ func FindOne[T any](resource *T, name string, value int, m *DbConnect) error {
 
 	err = coll.FindOne(context.TODO(), filter).Decode(*resource)
 	if err == mongo.ErrNoDocuments {
-		fmt.Printf("No document was found with the title %s\n", filter)
+		log.Printf("No document was found with the field: \"%s\" and value: %d\n", name, value)
 		return err
 	}
 

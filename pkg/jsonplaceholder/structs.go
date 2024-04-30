@@ -63,23 +63,23 @@ type Album struct {
 }
 
 type Comment struct {
-	PostId int16  `json:"postId" bson:"postId"`
 	Id     int16  `json:"id" bson:"id"`
+	PostId int16  `json:"postId" bson:"postId"`
 	Name   string `json:"name" bson:"name"`
 	Email  string `json:"email" bson:"email"`
 	Body   string `json:"body" bson:"body"`
 }
 
 type Post struct {
-	UserId int16  `json:"userId" bson:"userId"`
 	Id     int16  `json:"id" bson:"id"`
+	UserId int16  `json:"userId" bson:"userId"`
 	Title  string `json:"title" bson:"title"`
 	Body   string `json:"body" bson:"body"`
 }
 
 type Photo struct {
-	AlbumId      int16  `json:"albumId" bson:"albumId"`
 	Id           int16  `json:"id" bson:"id"`
+	AlbumId      int16  `json:"albumId" bson:"albumId"`
 	Title        string `json:"title" bson:"title"`
 	Url          string `json:"url" bson:"url"`
 	ThumbnailUrl string `json:"thumbnailUrl" bson:"thumbnailUrl"`

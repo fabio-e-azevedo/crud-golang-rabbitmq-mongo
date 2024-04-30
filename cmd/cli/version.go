@@ -15,6 +15,6 @@ var versionCmd = &cobra.Command{
 	Short: "Print the version number of CRUD",
 	Long:  `All software has versions. This is CRUD`,
 	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println("CRUD v0.7")
+		fmt.Println("CRUD v0.8")
 	},
 }

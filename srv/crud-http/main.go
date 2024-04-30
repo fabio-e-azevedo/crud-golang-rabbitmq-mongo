@@ -1,7 +1,7 @@
 package main
 
 import (
-	"crud-golang-rabbitmq-mongo/srv/crud-http/controllers"
+	"crud-golang-rabbitmq-mongo/pkg/controllers"
 
 	"github.com/gin-gonic/gin"
 )
@@ -9,21 +9,28 @@ import (
 func main() {
 	gin.SetMode(gin.ReleaseMode)
 	router := gin.Default()
-	router.GET("/users", controllers.GetAll)
-	router.GET("/photos", controllers.GetAll)
-	router.GET("/posts", controllers.GetAll)
-	router.GET("/comments", controllers.GetAll)
-	router.GET("/albums", controllers.GetAll)
-	router.GET("/todos", controllers.GetAll)
+	v1 := router.Group("/api/v1")
+	v1.GET("/albums", controllers.GetAll)
+	v1.GET("/comments", controllers.GetAll)
+	v1.GET("/photos", controllers.GetAll)
+	v1.GET("/posts", controllers.GetAll)
+	v1.GET("/todos", controllers.GetAll)
+	v1.GET("/users", controllers.GetAll)
 
-	router.GET("/albums/:id", controllers.GetByID)
-	router.GET("/todos/:id", controllers.GetByID)
-	router.GET("/users/:id", controllers.GetByID)
-	router.GET("/photos/:id", controllers.GetByID)
-	router.GET("/posts/:id", controllers.GetByID)
-	router.GET("/comments/:id", controllers.GetByID)
+	v1.GET("/albums/:id", controllers.GetByID)
+	v1.GET("/comments/:id", controllers.GetByID)
+	v1.GET("/photos/:id", controllers.GetByID)
+	v1.GET("/posts/:id", controllers.GetByID)
+	v1.GET("/todos/:id", controllers.GetByID)
+	v1.GET("/users/:id", controllers.GetByID)
 
-	//router.POST("/users", postUser)
+	v1.POST("/albums", controllers.PostAll)
+	v1.POST("/comments", controllers.PostAll)
+	v1.POST("/photos", controllers.PostAll)
+	v1.POST("/posts", controllers.PostAll)
+	v1.POST("/todos", controllers.PostAll)
+	v1.POST("/users", controllers.PostAll)
+
 	//router.PATCH("/users/:id", patchUserByID)
 	//router.DELETE("/users/:id", deleteUserByID)
 	router.Run("0.0.0.0:5000")

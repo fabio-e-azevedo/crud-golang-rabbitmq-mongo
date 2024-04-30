@@ -1,13 +1,16 @@
 package cmd
 
 import (
+	"bytes"
 	"encoding/json"
+	"fmt"
+	"io"
+	"log"
+	"net/http"
 
 	"crud-golang-rabbitmq-mongo/pkg/utils"
 
-	"crud-golang-rabbitmq-mongo/pkg/config"
 	jph "crud-golang-rabbitmq-mongo/pkg/jsonplaceholder"
-	"crud-golang-rabbitmq-mongo/pkg/rabbitmq"
 
 	"github.com/spf13/cobra"
 )
@@ -24,18 +27,28 @@ var loadCmd = &cobra.Command{
 		resourceType := args[0]
 
 		resultGet, err := jph.Get(resourceType)
-		utils.FailOnError(err, "Failed to get users")
+		utils.FailOnError(err, fmt.Sprintf("Failed to GET %s", resourceType))
 
-		cfg := config.NewConfigRabbit()
-		rabbit := rabbitmq.RabbitMQ{
-			URI:       cfg.RabbitURI,
-			QueueName: resourceType,
-		}
+		urlPost := fmt.Sprintf("http://localhost:5000/api/v1/%s", resourceType)
 
 		for i := range resultGet {
-			body, err := json.Marshal(resultGet[i])
+			msgByte, err := json.Marshal(resultGet[i])
 			utils.FailOnError(err, "Failed to marshal message")
-			rabbit.Publisher(body)
+
+			msgReader := bytes.NewReader(msgByte)
+
+			resp, err := http.Post(urlPost, "application/json", msgReader)
+			if err != nil {
+				log.Println(err)
+			}
+
+			resultPost, err := io.ReadAll(resp.Body)
+			if err != nil {
+				log.Println(err)
+			}
+			resp.Body.Close()
+
+			log.Println(string(resultPost))
 		}
 	},
 }
