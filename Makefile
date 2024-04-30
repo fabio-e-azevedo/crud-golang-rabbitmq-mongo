@@ -15,8 +15,8 @@ stop:
 
 # Run container mongodb by docker-compose.
 mongodb:
-	docker-compose up -d mongo
-	docker-compose up -d mongo mongo-express
+	docker-compose up -d mongodb
+	docker-compose up -d mongo-express
 .PHONY: mongodb
 
 # Run container rabbitmq by docker-compose.

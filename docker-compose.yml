@@ -11,7 +11,7 @@ services:
     networks:
       - network_default
 
-  mongo:
+  mongodb:
     container_name: mongodb
     image: mongo
     ports:
@@ -37,11 +37,11 @@ services:
     environment:
       ME_CONFIG_BASICAUTH_USERNAME: guest
       ME_CONFIG_BASICAUTH_PASSWORD: guest
-      ME_CONFIG_MONGODB_URL: mongodb://root:root@mongo:27017/
+      ME_CONFIG_MONGODB_URL: mongodb://root:root@mongodb:27017/
     links:
-      - mongo
+      - mongodb
     depends_on:
-      mongo:
+      mongodb:
         condition: service_healthy
     networks:
       - network_default
