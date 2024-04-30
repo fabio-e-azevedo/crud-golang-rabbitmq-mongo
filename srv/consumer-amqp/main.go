@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"log"
+	"time"
 
 	"crud-golang-rabbitmq-mongo/pkg/config"
 	"crud-golang-rabbitmq-mongo/pkg/database"
@@ -16,8 +17,19 @@ import (
 func main() {
 	cfg := config.NewConfig()
 
-	conn, err := amqp.Dial(cfg.RabbitURI)
-	utils.FailOnError(err, "Failed to connect to RabbitMQ")
+	var conn *amqp.Connection
+	var err error
+
+	for {
+		conn, err = amqp.Dial(cfg.RabbitURI)
+		if err != nil {
+			log.Printf("- Failed to connect to RabbitMQ: %s\n", err)
+			time.Sleep(30 * time.Second)
+			continue
+		}
+		break
+	}
+
 	defer conn.Close()
 
 	ch, err := conn.Channel()
