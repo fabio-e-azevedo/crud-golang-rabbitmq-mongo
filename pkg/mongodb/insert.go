@@ -14,7 +14,7 @@ type DbConnect struct {
 	Collection string
 }
 
-func (m DbConnect) DbInsert(document interface{}) string {
+func (m DbConnect) DbInsert(document interface{}) (string, error) {
 	client, err := mongo.Connect(context.TODO(), options.Client().ApplyURI(m.URI))
 	if err != nil {
 		panic(err)
@@ -33,5 +33,5 @@ func (m DbConnect) DbInsert(document interface{}) string {
 		panic(err)
 	}
 
-	return result.InsertedID.(primitive.ObjectID).Hex()
+	return result.InsertedID.(primitive.ObjectID).Hex(), nil
 }

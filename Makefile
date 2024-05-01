@@ -3,12 +3,12 @@ help:
 	mmake help
 .PHONY: help
 
-# Run all containers by docker-compose.
+# Up all containers by docker-compose.
 start:
 	docker-compose up -d --build
 .PHONY: start
 
-# Stop all containers by docker-compose.
+# Down all containers by docker-compose.
 stop:
 	docker-compose down
 .PHONY: stop
@@ -23,3 +23,9 @@ mongodb:
 rabbitmq:
 	docker-compose up -d rabbitmq
 .PHONY: rabbitmq
+
+# Go build command line "crud".
+build:
+	go build -o ./crud cmd/main.go
+	./crud -h
+.PHONY: build

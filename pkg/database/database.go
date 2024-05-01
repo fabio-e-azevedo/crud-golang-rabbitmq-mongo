@@ -1,5 +1,5 @@
 package database
 
 type Database interface {
-	DbInsert(d interface{}) string
+	DbInsert(d interface{}) (string, error)
 }

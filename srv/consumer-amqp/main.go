@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"log"
 	"time"
 
@@ -23,7 +22,7 @@ func main() {
 	for {
 		conn, err = amqp.Dial(cfg.RabbitURI)
 		if err != nil {
-			log.Printf("- Failed to connect to RabbitMQ: %s\n", err)
+			log.Printf("- failed to connect to rabbitmq: %s\n", err)
 			time.Sleep(30 * time.Second)
 			continue
 		}
@@ -33,7 +32,7 @@ func main() {
 	defer conn.Close()
 
 	ch, err := conn.Channel()
-	utils.FailOnError(err, "Failed to open a channel")
+	utils.FailOnError(err, "failed to open a channel")
 	defer ch.Close()
 
 	q, err := ch.QueueDeclare(
@@ -44,18 +43,18 @@ func main() {
 		false,                   // no-wait
 		nil,                     // arguments
 	)
-	utils.FailOnError(err, "Failed to declare a queue")
+	utils.FailOnError(err, "failed to declare a queue")
 
 	msgs, err := ch.Consume(
 		q.Name, // queue
 		"",     // consumer
-		true,   // auto-ack
+		false,  // auto-ack
 		false,  // exclusive
 		false,  // no-local
 		false,  // no-wait
 		nil,    // args
 	)
-	utils.FailOnError(err, "Failed to register a consumer")
+	utils.FailOnError(err, "failed to register a consumer")
 
 	var db database.Database = mongo.DbConnect{
 		URI:        cfg.MongoURI,
@@ -64,12 +63,27 @@ func main() {
 	}
 
 	var document jph.IResource
+	var resultInsert string
+	var acknowledge bool
 
 	var forever chan struct{}
 	go func() {
 		for d := range msgs {
+			acknowledge = true
 			document, _ = jph.GetResource(cfg.MongoCollection, d.Body)
-			fmt.Println(db.DbInsert(document))
+			resultInsert, err = db.DbInsert(document)
+			if err != nil {
+				log.Printf("- error insert document in mongodb: %s\n", err)
+				acknowledge = false
+			}
+
+			err = d.Ack(acknowledge)
+			if err != nil {
+				log.Printf("- error to confirm message: %s\n", err)
+				continue
+			}
+
+			log.Printf("- success in inserting document with _id: %s\n", resultInsert)
 		}
 	}()
 

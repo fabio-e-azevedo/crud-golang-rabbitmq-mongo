@@ -19,18 +19,18 @@ make stop
 
 | Method |          Resource           |
 |:------:|:---------------------------:|
-|  GET   |          /albums            |
-|  GET   |          /comments          |
-|  GET   |          /photos            |
-|  GET   |          /posts             |
-|  GET   |          /todos             |
-|  GET   |          /users             |
-|  GET   |          /albums/{id}       |
-|  GET   |          /comments/{id}     |
-|  GET   |          /photos/{id}       |
-|  GET   |          /posts/{id}        |
-|  GET   |          /todos/{id}        |
-|  GET   |          /users/{id}        |
+|  GET   |     /api/v1/albums          |
+|  GET   |     /api/v1/comments        |
+|  GET   |     /api/v1/photos          |
+|  GET   |     /api/v1/posts           |
+|  GET   |     /api/v1/todos           |
+|  GET   |     /api/v1/users           |
+|  GET   |     /api/v1/albums/{id}     |
+|  GET   |     /api/v1/comments/{id}   |
+|  GET   |     /api/v1/photos/{id}     |
+|  GET   |     /api/v1/posts/{id}      |
+|  GET   |     /api/v1/todos/{id}      |
+|  GET   |     /api/v1/users/{id}      |
 
 
 
