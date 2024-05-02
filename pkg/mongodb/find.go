@@ -28,7 +28,7 @@ func FindOne[T any](resource *T, name string, value int, m *DbConnect) error {
 
 	err = coll.FindOne(context.TODO(), filter).Decode(*resource)
 	if err == mongo.ErrNoDocuments {
-		log.Printf("No document was found with the field: \"%s\" and value: %d\n", name, value)
+		log.Printf("no document was found with the field: \"%s\" and value: %d\n", name, value)
 		return err
 	}
 
@@ -56,6 +56,29 @@ func FindAll[T any](resource *[]T, m *DbConnect) error {
 	}
 
 	if err := cur.All(context.Background(), resource); err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func FindAndDelete(id int, m *DbConnect) error {
+	client, err := mongo.Connect(context.TODO(), options.Client().ApplyURI(m.URI))
+	if err != nil {
+		return err
+	}
+
+	defer func() {
+		if err := client.Disconnect(context.TODO()); err != nil {
+			panic(err)
+		}
+	}()
+
+	filter := bson.M{"id": id}
+	coll := client.Database(m.Database).Collection(m.Collection)
+
+	err = coll.FindOneAndDelete(context.TODO(), filter).Err()
+	if err != nil {
 		return err
 	}
 

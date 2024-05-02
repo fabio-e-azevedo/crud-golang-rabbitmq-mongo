@@ -4,14 +4,14 @@ help:
 .PHONY: help
 
 # Up all containers by docker-compose.
-start:
+up:
 	docker-compose up -d --build
-.PHONY: start
+.PHONY: up
 
 # Down all containers by docker-compose.
-stop:
+down:
 	docker-compose down
-.PHONY: stop
+.PHONY: down
 
 # Run container mongodb by docker-compose.
 mongodb:

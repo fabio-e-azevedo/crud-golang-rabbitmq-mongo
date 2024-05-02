@@ -21,7 +21,7 @@ func init() {
 
 var loadCmd = &cobra.Command{
 	Use:   "load",
-	Short: "Get Resource JSON and Send RabbitMQ",
+	Short: "Get Resources JSON and Send API HTTP",
 
 	Run: func(cmd *cobra.Command, args []string) {
 		resourceType := args[0]

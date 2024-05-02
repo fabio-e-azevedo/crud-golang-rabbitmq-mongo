@@ -16,12 +16,14 @@ type RabbitMQ struct {
 }
 
 func (r RabbitMQ) Publisher(body []byte) {
+	log.SetPrefix("[RBT] ")
+
 	conn, err := amqp.Dial(r.URI)
-	utils.FailOnError(err, "Failed to connect to RabbitMQ")
+	utils.FailOnError(err, "failed to connect to rabbitmq")
 	defer conn.Close()
 
 	ch, err := conn.Channel()
-	utils.FailOnError(err, "Failed to open a channel")
+	utils.FailOnError(err, "failed to open a channel")
 	defer ch.Close()
 
 	q, err := ch.QueueDeclare(
@@ -33,7 +35,7 @@ func (r RabbitMQ) Publisher(body []byte) {
 		nil,         // arguments
 	)
 
-	utils.FailOnError(err, "Failed to declare a queue")
+	utils.FailOnError(err, "failed to declare a queue")
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 	defer cancel()
 
@@ -47,6 +49,6 @@ func (r RabbitMQ) Publisher(body []byte) {
 			Body:        body,
 		})
 
-	utils.FailOnError(err, "Failed to publish a message")
-	log.Printf(" [x] Sent %s\n", body)
+	utils.FailOnError(err, "failed to publish a message")
+	log.Printf("| [x] Sent: %s\n", body)
 }

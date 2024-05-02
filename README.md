@@ -10,9 +10,9 @@
 To run and stop the applications by Makefile:
 
 ```
-make start
+make up
 
-make stop
+make down
 ```
 
 ## API

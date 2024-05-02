@@ -26,7 +26,7 @@ func GetAll(c *gin.Context) {
 
 	err := mongodb.FindAll(&resources, &m)
 	if err != nil {
-		c.IndentedJSON(http.StatusNotFound, "Not found documents in mongo!")
+		c.IndentedJSON(http.StatusNotFound, "not found documents in mongo!")
 		return
 	}
 
@@ -52,7 +52,7 @@ func GetByID(c *gin.Context) {
 
 	err = mongodb.FindOne(&resource, "id", id, &m)
 	if err != nil {
-		c.IndentedJSON(http.StatusNotFound, "Not found document in mongo!")
+		c.IndentedJSON(http.StatusNotFound, "not found document in mongo!")
 		return
 	}
 

@@ -32,30 +32,6 @@ type Resource struct {
 	Completed    *bool   `json:"completed,omitempty" bson:"completed,omitempty"`
 }
 
-// type Album struct {
-// 	Resource
-// }
-
-// type Comment struct {
-// 	Resource
-// }
-
-// type Photo struct {
-// 	Resource
-// }
-
-// type Post struct {
-// 	Resource
-// }
-
-// type Todo struct {
-// 	Resource
-// }
-
-// type User struct {
-// 	Resource
-// }
-
 type Album struct {
 	Id     int16  `json:"id" bson:"id"`
 	UserId int16  `json:"userId" bson:"userId"`

@@ -47,7 +47,5 @@ func sendMessageRabbitMq(resourceType string, msg []byte) {
 		URI:       cfg.RabbitURI,
 		QueueName: resourceType,
 	}
-
 	rabbit.Publisher(msg)
-
 }

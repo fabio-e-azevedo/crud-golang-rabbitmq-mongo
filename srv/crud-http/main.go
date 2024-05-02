@@ -31,6 +31,13 @@ func main() {
 	v1.POST("/todos", controllers.PostAll)
 	v1.POST("/users", controllers.PostAll)
 
+	v1.DELETE("/albums/:id", controllers.DeleteByID)
+	v1.DELETE("/comments/:id", controllers.DeleteByID)
+	v1.DELETE("/photos/:id", controllers.DeleteByID)
+	v1.DELETE("/posts/:id", controllers.DeleteByID)
+	v1.DELETE("/todos/:id", controllers.DeleteByID)
+	v1.DELETE("/users/:id", controllers.DeleteByID)
+
 	//router.PATCH("/users/:id", patchUserByID)
 	//router.DELETE("/users/:id", deleteUserByID)
 	router.Run("0.0.0.0:5000")
