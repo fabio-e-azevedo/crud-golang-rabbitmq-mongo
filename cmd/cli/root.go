@@ -7,6 +7,9 @@ import (
 	"github.com/spf13/cobra"
 )
 
+var resourceName validResourceValue
+var resourceId int
+
 var rootCmd = &cobra.Command{
 	Use:   "crud",
 	Short: "CRUD example command line",

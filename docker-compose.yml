@@ -1,4 +1,4 @@
-version: '3.8'
+version: '3.9'
 
 services:
   rabbitmq:
@@ -59,7 +59,7 @@ services:
     networks:
       - network_default
 
-  consumer-albums:
+  consumer-albums: &consumer
     container_name: consumer-albums
     image: consumer-rabbitmq:v1
     environment:
@@ -70,14 +70,20 @@ services:
       - network_default
 
   consumer-posts:
+    <<: *consumer
     container_name: consumer-posts
-    image: consumer-rabbitmq:v1
     environment:
       RESOURCE_TYPE: posts
-    env_file:
-      - .environment
-    networks:
-      - network_default
+
+  # consumer-posts:
+  #   container_name: consumer-posts
+  #   image: consumer-rabbitmq:v1
+  #   environment:
+  #     RESOURCE_TYPE: posts
+  #   env_file:
+  #     - .environment
+  #   networks:
+  #     - network_default
 
   consumer-photos:
     container_name: consumer-photos
