@@ -75,45 +75,23 @@ services:
     environment:
       RESOURCE_TYPE: posts
 
-  # consumer-posts:
-  #   container_name: consumer-posts
-  #   image: consumer-rabbitmq:v1
-  #   environment:
-  #     RESOURCE_TYPE: posts
-  #   env_file:
-  #     - .environment
-  #   networks:
-  #     - network_default
-
   consumer-photos:
+    <<: *consumer
     container_name: consumer-photos
-    image: consumer-rabbitmq:v1
     environment:
       RESOURCE_TYPE: photos
-    env_file:
-      - .environment
-    networks:
-      - network_default
 
   consumer-comments:
+    <<: *consumer
     container_name: consumer-comments
-    image: consumer-rabbitmq:v1
     environment:
       RESOURCE_TYPE: comments
-    env_file:
-      - .environment
-    networks:
-      - network_default
 
   consumer-todos:
+    <<: *consumer
     container_name: consumer-todos
-    image: consumer-rabbitmq:v1
     environment:
       RESOURCE_TYPE: todos
-    env_file:
-      - .environment
-    networks:
-      - network_default
 
   crud-http:
     container_name: crud-http
