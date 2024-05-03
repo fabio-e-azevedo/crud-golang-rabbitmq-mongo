@@ -7,6 +7,7 @@ import (
 	"io"
 	"log"
 	"net/http"
+	"strings"
 
 	"crud-golang-rabbitmq-mongo/pkg/utils"
 
@@ -17,6 +18,8 @@ import (
 
 func init() {
 	rootCmd.AddCommand(loadCmd)
+	loadCmd.Flags().VarP(&resourceName, "resource", "r", fmt.Sprintf("resource name. options: %s", strings.Join(validResourceOptions, ", ")))
+	loadCmd.MarkFlagRequired("resource")
 }
 
 var loadCmd = &cobra.Command{
@@ -24,7 +27,7 @@ var loadCmd = &cobra.Command{
 	Short: "Get Resources JSON and Send API HTTP",
 
 	Run: func(cmd *cobra.Command, args []string) {
-		resourceType := args[0]
+		resourceType := resourceName.String()
 
 		resultGet, err := jph.Get(resourceType)
 		utils.FailOnError(err, fmt.Sprintf("Failed to GET %s", resourceType))

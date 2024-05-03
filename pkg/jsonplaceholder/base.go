@@ -21,23 +21,41 @@ func GetResources(resourceType string, data []byte) ([]IResource, error) {
 
 	switch resourceType {
 	case "albums":
-		result, err = newAlbums(data)
+		var resources []*Album
+		result, err = newResources(resources, data)
 	case "comments":
-		result, err = newComments(data)
+		var resources []*Comment
+		result, err = newResources(resources, data)
 	case "photos":
-		result, err = newPhotos(data)
+		var resources []*Photo
+		result, err = newResources(resources, data)
 	case "posts":
-		result, err = newPosts(data)
+		var resources []*Post
+		result, err = newResources(resources, data)
 	case "todos":
-		result, err = newTodos(data)
+		var resources []*Todo
+		result, err = newResources(resources, data)
 	case "users":
-		result, err = newUsers(data)
+		var resources []*User
+		result, err = newResources(resources, data)
 	}
 
 	if err != nil {
 		return nil, err
 	}
 	return result, err
+}
+
+func newResources[T IResource](resources []T, data []byte) ([]IResource, error) {
+	err := json.Unmarshal(data, &resources)
+	if err != nil {
+		return nil, err
+	}
+	result := []IResource{}
+	for i := range resources {
+		result = append(result, resources[i])
+	}
+	return result, nil
 }
 
 func GetResource(resourceType string, data []byte) (IResource, error) {
@@ -47,12 +65,6 @@ func GetResource(resourceType string, data []byte) (IResource, error) {
 	}
 	return resource, nil
 }
-
-// func newResources[T any](resource *T, data []byte) error {
-// 	err := json.Unmarshal(data, &resource)
-// 	internal.FailOnError(err, "Failed to Unmarshal newResources")
-// 	return err
-// }
 
 func newResource(resourceType string, data []byte) (IResource, error) {
 	var resource IResource
@@ -75,84 +87,6 @@ func newResource(resourceType string, data []byte) (IResource, error) {
 		return nil, err
 	}
 	return resource, nil
-}
-
-func newAlbums(data []byte) ([]IResource, error) {
-	var resources []Album
-	err := json.Unmarshal(data, &resources)
-	if err != nil {
-		return nil, err
-	}
-	result := []IResource{}
-	for i := range resources {
-		result = append(result, &resources[i])
-	}
-	return result, nil
-}
-
-func newComments(data []byte) ([]IResource, error) {
-	var resources []Comment
-	err := json.Unmarshal(data, &resources)
-	if err != nil {
-		return nil, err
-	}
-	result := []IResource{}
-	for i := range resources {
-		result = append(result, &resources[i])
-	}
-	return result, nil
-}
-
-func newPhotos(data []byte) ([]IResource, error) {
-	var resources []Photo
-	err := json.Unmarshal(data, &resources)
-	if err != nil {
-		return nil, err
-	}
-	result := []IResource{}
-	for i := range resources {
-		result = append(result, &resources[i])
-	}
-	return result, nil
-}
-
-func newPosts(data []byte) ([]IResource, error) {
-	var resources []Post
-	err := json.Unmarshal(data, &resources)
-	if err != nil {
-		return nil, err
-	}
-	result := []IResource{}
-	for i := range resources {
-		result = append(result, &resources[i])
-	}
-	return result, nil
-}
-
-func newTodos(data []byte) ([]IResource, error) {
-	var resources []Todo
-	err := json.Unmarshal(data, &resources)
-	if err != nil {
-		return nil, err
-	}
-	result := []IResource{}
-	for i := range resources {
-		result = append(result, &resources[i])
-	}
-	return result, nil
-}
-
-func newUsers(data []byte) ([]IResource, error) {
-	var resources []User
-	err := json.Unmarshal(data, &resources)
-	if err != nil {
-		return nil, err
-	}
-	result := []IResource{}
-	for i := range resources {
-		result = append(result, &resources[i])
-	}
-	return result, nil
 }
 
 func NewResources() []Resource {
