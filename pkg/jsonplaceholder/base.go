@@ -52,9 +52,11 @@ func newResources[T IResource](resources []T, data []byte) ([]IResource, error) 
 	if err != nil {
 		return nil, err
 	}
-	result := []IResource{}
+
+	result := make([]IResource, len(resources))
+
 	for i := range resources {
-		result = append(result, resources[i])
+		result[i] = resources[i]
 	}
 	return result, nil
 }
