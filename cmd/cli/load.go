@@ -28,8 +28,9 @@ var loadCmd = &cobra.Command{
 
 	Run: func(cmd *cobra.Command, args []string) {
 		resourceType := resourceName.String()
+		url := fmt.Sprintf("https://jsonplaceholder.typicode.com/%s", resourceType)
 
-		resultGet, err := jph.Get(resourceType)
+		resultGet, err := jph.Get(url, resourceType, true)
 		utils.FailOnError(err, fmt.Sprintf("Failed to GET %s", resourceType))
 
 		urlPost := fmt.Sprintf("http://localhost:5000/api/v1/%s", resourceType)

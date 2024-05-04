@@ -13,6 +13,7 @@ type ValidResource interface {
 
 type IResource interface {
 	Show() []byte
+	Echo() string
 }
 
 func GetResources(resourceType string, data []byte) ([]IResource, error) {
@@ -97,8 +98,8 @@ func NewResource() IResource {
 	return &Resource{}
 }
 
-func Get(resource string) ([]IResource, error) {
-	resp, err := http.Get(fmt.Sprintf("https://jsonplaceholder.typicode.com/%s", resource))
+func Get(url string, resource string, all bool) ([]IResource, error) {
+	resp, err := http.Get(url)
 	if err != nil {
 		return nil, err
 	}
@@ -109,10 +110,20 @@ func Get(resource string) ([]IResource, error) {
 	}
 	defer resp.Body.Close()
 
-	bodyResult, err := GetResources(resource, body)
-	if err != nil {
-		fmt.Println(err)
-	}
+	var bodyResult []IResource
 
+	if all {
+		bodyResult, err = GetResources(resource, body)
+		if err != nil {
+			fmt.Println(err)
+		}
+	} else {
+		result, err := GetResource(resource, body)
+		if err != nil {
+			fmt.Println(err)
+		}
+
+		bodyResult = append(bodyResult, result)
+	}
 	return bodyResult, nil
 }
