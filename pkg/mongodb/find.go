@@ -11,6 +11,8 @@ import (
 )
 
 func FindOne[T any](resource *T, name string, value int, m *DbConnect) error {
+	log.SetPrefix("[MNG] ")
+
 	client, err := mongo.Connect(context.TODO(), options.Client().ApplyURI(m.URI))
 	if err != nil {
 		return err
@@ -40,6 +42,8 @@ func FindOne[T any](resource *T, name string, value int, m *DbConnect) error {
 }
 
 func FindAll[T any](resource *[]T, m *DbConnect) error {
+	log.SetPrefix("[MNG] ")
+
 	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 	defer cancel()
 	client, err := mongo.Connect(ctx, options.Client().ApplyURI(m.URI))
@@ -63,6 +67,8 @@ func FindAll[T any](resource *[]T, m *DbConnect) error {
 }
 
 func FindAndDelete(id int, m *DbConnect) error {
+	log.SetPrefix("[MNG] ")
+
 	client, err := mongo.Connect(context.TODO(), options.Client().ApplyURI(m.URI))
 	if err != nil {
 		return err

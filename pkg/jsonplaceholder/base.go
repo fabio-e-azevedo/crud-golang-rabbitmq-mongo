@@ -110,17 +110,21 @@ func Get(url string, resource string, all bool) ([]IResource, error) {
 	}
 	defer resp.Body.Close()
 
+	if resp.StatusCode == 404 {
+		return nil, fmt.Errorf("%s", string(body))
+	}
+
 	var bodyResult []IResource
 
 	if all {
 		bodyResult, err = GetResources(resource, body)
 		if err != nil {
-			fmt.Println(err)
+			return nil, err
 		}
 	} else {
 		result, err := GetResource(resource, body)
 		if err != nil {
-			fmt.Println(err)
+			return nil, err
 		}
 
 		bodyResult = append(bodyResult, result)

@@ -28,10 +28,9 @@ func DeleteByID(c *gin.Context) {
 
 	err = mongodb.FindAndDelete(idNumber, &m)
 	if err != nil {
-		c.IndentedJSON(http.StatusNotFound, fmt.Sprintf("%s", err))
+		c.JSON(http.StatusNotFound, fmt.Sprint(err))
 		return
-
 	}
 
-	c.IndentedJSON(http.StatusNoContent, fmt.Sprintf("successfully deleted document id %d\n", idNumber))
+	c.JSON(http.StatusNoContent, fmt.Sprintf("successfully deleted document id %d\n", idNumber))
 }

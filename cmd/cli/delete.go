@@ -19,7 +19,7 @@ func init() {
 
 var deleteCmd = &cobra.Command{
 	Use:   "delete",
-	Short: "Delete Resource by ID",
+	Short: "Deleting a resource by ID",
 	Run: func(cmd *cobra.Command, args []string) {
 		deleteResourceById(resourceName.String(), resourceId)
 		//fmt.Printf("delete in %s id %d", resourceName.String(), resourceId)

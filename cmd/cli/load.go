@@ -31,13 +31,13 @@ var loadCmd = &cobra.Command{
 		url := fmt.Sprintf("https://jsonplaceholder.typicode.com/%s", resourceType)
 
 		resultGet, err := jph.Get(url, resourceType, true)
-		utils.FailOnError(err, fmt.Sprintf("Failed to GET %s", resourceType))
+		utils.FailOnError(err, fmt.Sprintf("failed to get %s", resourceType))
 
 		urlPost := fmt.Sprintf("http://localhost:5000/api/v1/%s", resourceType)
 
 		for i := range resultGet {
 			msgByte, err := json.Marshal(resultGet[i])
-			utils.FailOnError(err, "Failed to marshal message")
+			utils.FailOnError(err, "failed to marshal message")
 
 			msgReader := bytes.NewReader(msgByte)
 
