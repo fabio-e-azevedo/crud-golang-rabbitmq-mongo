@@ -7,14 +7,14 @@ import (
 )
 
 func (m DbConnect) DbInsert(document interface{}) (string, error) {
-	client, err := GetMongoClient(&m)
+	err := GetMongoClient(&m)
 	if err != nil {
 		return "", err
 	}
 
-	coll := client.Database(m.Database).Collection(m.Collection)
+	coll := m.Client.Database(m.Database).Collection(m.Collection)
 
-	result, err := coll.InsertOne(context.TODO(), document)
+	result, err := coll.InsertOne(context.Background(), document)
 	if err != nil {
 		return "", err
 	}

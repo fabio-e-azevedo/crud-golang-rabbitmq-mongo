@@ -11,16 +11,16 @@ import (
 func FindOne[T any](resource *T, name string, value int, cfg *DbConnect) error {
 	log.SetPrefix("[MNG] ")
 
-	client, err := GetMongoClient(cfg)
+	err := GetMongoClient(cfg)
 	if err != nil {
 		return err
 	}
 
-	coll := client.Database(cfg.Database).Collection(cfg.Collection)
+	coll := cfg.Client.Database(cfg.Database).Collection(cfg.Collection)
 
 	filter := bson.M{name: value}
 
-	err = coll.FindOne(context.TODO(), filter).Decode(*resource)
+	err = coll.FindOne(context.Background(), filter).Decode(*resource)
 	if err == mongo.ErrNoDocuments {
 		log.Printf("no document was found with the field: \"%s\" and value: %d\n", name, value)
 		return err
@@ -40,12 +40,12 @@ func FindAll[T any](resource *[]T, cfg *DbConnect) error {
 	// defer cancel()
 	// client, err := mongo.Connect(ctx, options.Client().ApplyURI(m.URI))
 
-	client, err := GetMongoClient(cfg)
+	err := GetMongoClient(cfg)
 	if err != nil {
 		return err
 	}
 
-	coll := client.Database(cfg.Database).Collection(cfg.Collection)
+	coll := cfg.Client.Database(cfg.Database).Collection(cfg.Collection)
 
 	filter := bson.M{}
 
@@ -64,16 +64,16 @@ func FindAll[T any](resource *[]T, cfg *DbConnect) error {
 func FindAndDelete(id int, cfg *DbConnect) error {
 	log.SetPrefix("[MNG] ")
 
-	client, err := GetMongoClient(cfg)
+	err := GetMongoClient(cfg)
 	if err != nil {
 		return err
 	}
 
-	coll := client.Database(cfg.Database).Collection(cfg.Collection)
+	coll := cfg.Client.Database(cfg.Database).Collection(cfg.Collection)
 
 	filter := bson.M{"id": id}
 
-	err = coll.FindOneAndDelete(context.TODO(), filter).Err()
+	err = coll.FindOneAndDelete(context.Background(), filter).Err()
 	if err != nil {
 		return err
 	}

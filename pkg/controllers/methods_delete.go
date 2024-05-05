@@ -20,13 +20,13 @@ func DeleteByID(c *gin.Context) {
 	resourceType := strings.Split(c.Request.URL.Path, "/")[3]
 
 	cfg := config.NewConfigMongo()
-	m := mongodb.DbConnect{
+	cfgMongo := mongodb.DbConnect{
 		URI:        cfg.MongoURI,
 		Database:   cfg.MongoDatabase,
 		Collection: resourceType,
 	}
 
-	err = mongodb.FindAndDelete(idNumber, &m)
+	err = mongodb.FindAndDelete(idNumber, &cfgMongo)
 	if err != nil {
 		c.JSON(http.StatusNotFound, fmt.Sprint(err))
 		return
