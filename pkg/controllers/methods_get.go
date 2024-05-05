@@ -18,13 +18,13 @@ func GetAll(c *gin.Context) {
 	resourceType := strings.Split(c.Request.URL.Path, "/")[3]
 
 	cfg := config.NewConfigMongo()
-	m := mongodb.DbConnect{
+	cfgMongo := mongodb.DbConnect{
 		URI:        cfg.MongoURI,
 		Database:   cfg.MongoDatabase,
 		Collection: resourceType,
 	}
 
-	err := mongodb.FindAll(&resources, &m)
+	err := mongodb.FindAll(&resources, &cfgMongo)
 	if err != nil {
 		c.JSON(http.StatusNotFound, gin.H{
 			"error": "not found documents in mongo",
@@ -35,6 +35,29 @@ func GetAll(c *gin.Context) {
 	c.JSON(http.StatusOK, &resources)
 }
 
+// func GetAllv1(configMongo *mongodb.DbConnect) gin.HandlerFunc {
+// 	return func(c *gin.Context) {
+// 		resources := jph.NewResources()
+
+// 		resourceType := strings.Split(c.Request.URL.Path, "/")[3]
+
+// 		cfgMongo := mongodb.DbConnect{
+// 			Database:   configMongo.Database,
+// 			Collection: resourceType,
+// 		}
+
+// 		err := mongodb.FindAll(&resources, &cfgMongo)
+// 		if err != nil {
+// 			c.JSON(http.StatusNotFound, gin.H{
+// 				"error": "not found documents in mongo",
+// 			})
+// 			return
+// 		}
+
+// 		c.JSON(http.StatusOK, &resources)
+// 	}
+// }
+
 func GetByID(c *gin.Context) {
 	id, err := strconv.Atoi(c.Param("id"))
 	if err != nil {
@@ -44,7 +67,7 @@ func GetByID(c *gin.Context) {
 	resourceType := strings.Split(c.Request.URL.Path, "/")[3]
 
 	cfg := config.NewConfigMongo()
-	m := mongodb.DbConnect{
+	cfgMongo := mongodb.DbConnect{
 		URI:        cfg.MongoURI,
 		Database:   cfg.MongoDatabase,
 		Collection: resourceType,
@@ -52,7 +75,7 @@ func GetByID(c *gin.Context) {
 
 	resource := jph.NewResource()
 
-	err = mongodb.FindOne(&resource, "id", id, &m)
+	err = mongodb.FindOne(&resource, "id", id, &cfgMongo)
 	if err != nil {
 		//c.AbortWithStatus(http.StatusNotFound)
 		c.JSON(http.StatusNotFound, gin.H{

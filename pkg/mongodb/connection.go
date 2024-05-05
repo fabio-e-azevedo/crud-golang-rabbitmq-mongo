@@ -11,11 +11,11 @@ import (
 /*
 Used to create a singleton object of MongoDB client.
 
-Initialized and exposed through getMongoClient().
+Initialized and exposed through GetMongoClient().
 */
 var clientInstance *mongo.Client
 
-// Used during creation of singleton client object in getMongoClient().
+// Used during creation of singleton client object in GetMongoClient().
 var clientInstanceError error
 
 // Used to execute client creation procedure only once.
@@ -27,8 +27,8 @@ type DbConnect struct {
 	Collection string
 }
 
-// getMongoClient - Return mongodb connection to work with
-func getMongoClient(m *DbConnect) (*mongo.Client, error) {
+// GetMongoClient - Return mongodb connection to work with
+func GetMongoClient(m *DbConnect) (*mongo.Client, error) {
 	//Perform connection creation operation only once.
 	mongoOnce.Do(func() {
 

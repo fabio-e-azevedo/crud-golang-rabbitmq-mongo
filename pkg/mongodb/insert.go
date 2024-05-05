@@ -7,7 +7,7 @@ import (
 )
 
 func (m DbConnect) DbInsert(document interface{}) (string, error) {
-	client, err := getMongoClient(&m)
+	client, err := GetMongoClient(&m)
 	if err != nil {
 		return "", err
 	}

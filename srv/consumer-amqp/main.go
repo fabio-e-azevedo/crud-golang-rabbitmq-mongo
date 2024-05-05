@@ -5,7 +5,6 @@ import (
 	"time"
 
 	"crud-golang-rabbitmq-mongo/pkg/config"
-	"crud-golang-rabbitmq-mongo/pkg/database"
 	jph "crud-golang-rabbitmq-mongo/pkg/jsonplaceholder"
 	mongo "crud-golang-rabbitmq-mongo/pkg/mongodb"
 	"crud-golang-rabbitmq-mongo/pkg/utils"
@@ -56,7 +55,7 @@ func main() {
 	)
 	utils.FailOnError(err, "failed to register a consumer")
 
-	var db database.Database = mongo.DbConnect{
+	var db = mongo.DbConnect{
 		URI:        cfg.MongoURI,
 		Database:   cfg.MongoDatabase,
 		Collection: cfg.MongoCollection,
@@ -70,7 +69,10 @@ func main() {
 	go func() {
 		for d := range msgs {
 			acknowledge = true
-			document, _ = jph.GetResource(cfg.MongoCollection, d.Body)
+			resourceType := cfg.MongoCollection
+
+			document, _ = jph.GetResource(resourceType, d.Body)
+
 			resultInsert, err = db.DbInsert(document)
 			if err != nil {
 				log.Printf("- error insert document in mongodb: %s\n", err)
