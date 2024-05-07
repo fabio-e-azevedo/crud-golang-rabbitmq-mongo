@@ -65,5 +65,5 @@ func (p *User) Show() []byte {
 }
 
 func (p *User) Echo() string {
-	return fmt.Sprintf("Id: %d ===>>> Name: %s ===>>> %s", p.Id, p.Name, p.Email)
+	return fmt.Sprintf("Id: %d ===>>> Name: %s ===>>> Email: %s", p.Id, p.Name, p.Email)
 }

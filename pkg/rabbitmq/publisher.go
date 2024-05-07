@@ -10,19 +10,13 @@ import (
 	amqp "github.com/rabbitmq/amqp091-go"
 )
 
-type RabbitMQ struct {
-	URI       string
-	QueueName string
-}
-
-func (r RabbitMQ) Publisher(body []byte) {
+func (r *RabbitMQ) Publisher(body []byte) {
 	log.SetPrefix("[RBT] ")
 
-	conn, err := amqp.Dial(r.URI)
+	err := GetConnection(r)
 	utils.FailOnError(err, "failed to connect to rabbitmq")
-	defer conn.Close()
 
-	ch, err := conn.Channel()
+	ch, err := r.Connection.Channel()
 	utils.FailOnError(err, "failed to open a channel")
 	defer ch.Close()
 
@@ -34,8 +28,8 @@ func (r RabbitMQ) Publisher(body []byte) {
 		false,       // no-wait
 		nil,         // arguments
 	)
-
 	utils.FailOnError(err, "failed to declare a queue")
+
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 	defer cancel()
 

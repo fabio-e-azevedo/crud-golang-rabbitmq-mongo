@@ -13,8 +13,6 @@ import (
 )
 
 func GetAll(c *gin.Context) {
-	resources := jph.NewResources()
-
 	resourceType := strings.Split(c.Request.URL.Path, "/")[3]
 
 	cfg := config.NewConfigMongo()
@@ -24,7 +22,7 @@ func GetAll(c *gin.Context) {
 		Collection: resourceType,
 	}
 
-	err := mongodb.FindAll(&resources, &cfgMongo)
+	docBytes, docTotal, err := mongodb.FindAll(&cfgMongo)
 	if err != nil {
 		c.JSON(http.StatusNotFound, gin.H{
 			"error": "not found documents in mongo",
@@ -32,7 +30,15 @@ func GetAll(c *gin.Context) {
 		return
 	}
 
-	c.JSON(http.StatusOK, &resources)
+	result, err := jph.GetResources(resourceType, docTotal, docBytes)
+	if err != nil {
+		c.JSON(http.StatusForbidden, gin.H{
+			"error": err,
+		})
+		return
+	}
+
+	c.JSON(http.StatusOK, &result)
 }
 
 // func GetAllv1(configMongo *mongodb.DbConnect) gin.HandlerFunc {

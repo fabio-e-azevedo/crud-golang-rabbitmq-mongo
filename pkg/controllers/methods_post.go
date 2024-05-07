@@ -37,15 +37,12 @@ func PostAll(ctx *gin.Context) {
 		return
 	}
 
-	sendMessageRabbitMq(resourceType, content.Show())
-	ctx.JSON(http.StatusOK, content)
-}
-
-func sendMessageRabbitMq(resourceType string, msg []byte) {
 	cfg := config.NewConfigRabbit()
-	rabbit := rabbitmq.RabbitMQ{
+	cfgRabbit := rabbitmq.RabbitMQ{
 		URI:       cfg.RabbitURI,
 		QueueName: resourceType,
 	}
-	rabbit.Publisher(msg)
+	cfgRabbit.Publisher(content.Show())
+
+	ctx.JSON(http.StatusOK, content)
 }

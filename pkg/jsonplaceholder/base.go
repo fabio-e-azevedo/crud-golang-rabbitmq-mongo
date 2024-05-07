@@ -16,34 +16,37 @@ type IResource interface {
 	Echo() string
 }
 
-func GetResources(resourceType string, data []byte) ([]IResource, error) {
+func GetResources(resourceType string, length int, data []byte) ([]IResource, error) {
 	var result []IResource
 	var err error
 
 	switch resourceType {
 	case "albums":
-		var resources []*Album
+		resources := make([]*Album, length)
 		result, err = newResources(resources, data)
 	case "comments":
-		var resources []*Comment
+		resources := make([]*Comment, length)
 		result, err = newResources(resources, data)
 	case "photos":
-		var resources []*Photo
+		resources := make([]*Photo, length)
 		result, err = newResources(resources, data)
 	case "posts":
-		var resources []*Post
+		resources := make([]*Post, length)
 		result, err = newResources(resources, data)
 	case "todos":
-		var resources []*Todo
+		resources := make([]*Todo, length)
 		result, err = newResources(resources, data)
 	case "users":
-		var resources []*User
+		resources := make([]*User, length)
 		result, err = newResources(resources, data)
+	default:
+		return nil, nil
 	}
 
 	if err != nil {
 		return nil, err
 	}
+
 	return result, err
 }
 
@@ -71,6 +74,7 @@ func GetResource(resourceType string, data []byte) (IResource, error) {
 
 func newResource(resourceType string, data []byte) (IResource, error) {
 	var resource IResource
+
 	switch resourceType {
 	case "albums":
 		resource = &Album{}
@@ -79,12 +83,13 @@ func newResource(resourceType string, data []byte) (IResource, error) {
 	case "photos":
 		resource = &Photo{}
 	case "posts":
-		resource = &Post{}
+		resource = new(Post)
 	case "todos":
-		resource = &Todo{}
+		resource = new(Todo)
 	case "users":
-		resource = &User{}
+		resource = new(User)
 	}
+
 	err := json.Unmarshal(data, &resource)
 	if err != nil {
 		return nil, err
@@ -119,7 +124,7 @@ func Get(url string, resource string, all bool) ([]IResource, error) {
 	var bodyResult []IResource
 
 	if all {
-		bodyResult, err = GetResources(resource, body)
+		bodyResult, err = GetResources(resource, 1, body)
 		if err != nil {
 			return nil, err
 		}

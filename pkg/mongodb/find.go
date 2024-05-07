@@ -2,6 +2,7 @@ package mongodb
 
 import (
 	"context"
+	"encoding/json"
 	"log"
 
 	"go.mongodb.org/mongo-driver/bson"
@@ -33,32 +34,36 @@ func FindOne[T any](resource *T, name string, value int, cfg *DbConnect) error {
 	return nil
 }
 
-func FindAll[T any](resource *[]T, cfg *DbConnect) error {
+func FindAll(cfg *DbConnect) ([]byte, int, error) {
 	log.SetPrefix("[MNG] ")
 
-	// ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
-	// defer cancel()
-	// client, err := mongo.Connect(ctx, options.Client().ApplyURI(m.URI))
+	var totalDocuments int
 
 	err := GetMongoClient(cfg)
 	if err != nil {
-		return err
+		return nil, totalDocuments, err
 	}
 
 	coll := cfg.Client.Database(cfg.Database).Collection(cfg.Collection)
 
-	filter := bson.M{}
-
-	cur, err := coll.Find(context.Background(), filter)
+	cur, err := coll.Find(context.Background(), bson.M{})
 	if err != nil {
-		return err
+		return nil, totalDocuments, err
 	}
 
-	if err := cur.All(context.Background(), resource); err != nil {
-		return err
+	var documents []bson.M
+	if err := cur.All(context.Background(), &documents); err != nil {
+		return nil, totalDocuments, err
 	}
 
-	return nil
+	documentsBytes, err := json.Marshal(documents)
+	if err != nil {
+		return nil, totalDocuments, err
+	}
+
+	totalDocuments = len(documents)
+
+	return documentsBytes, totalDocuments, nil
 }
 
 func FindAndDelete(id int, cfg *DbConnect) error {
