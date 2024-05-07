@@ -45,4 +45,5 @@ func (r *RabbitMQ) Publisher(body []byte) {
 
 	utils.FailOnError(err, "failed to publish a message")
 	log.Printf("| [x] Sent: %s\n", body)
+	log.SetPrefix("")
 }

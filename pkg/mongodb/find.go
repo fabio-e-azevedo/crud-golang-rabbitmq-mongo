@@ -31,6 +31,7 @@ func FindOne[T any](resource *T, name string, value int, cfg *DbConnect) error {
 		return err
 	}
 
+	log.SetPrefix("")
 	return nil
 }
 
@@ -63,6 +64,7 @@ func FindAll(cfg *DbConnect) ([]byte, int, error) {
 
 	totalDocuments = len(documents)
 
+	log.SetPrefix("")
 	return documentsBytes, totalDocuments, nil
 }
 
@@ -83,5 +85,6 @@ func FindAndDelete(id int, cfg *DbConnect) error {
 		return err
 	}
 
+	log.SetPrefix("")
 	return nil
 }

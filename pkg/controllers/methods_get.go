@@ -52,7 +52,10 @@ func GetAll(c *gin.Context) {
 
 	resultRedis, err := rediscache.Get(resourceType)
 	if err != nil {
-		log.Printf("REDIS: %v", err)
+		log.SetPrefix("[RDS] ")
+		log.Printf("| %v", err)
+		log.SetPrefix("")
+
 		cfg := config.NewConfigMongo()
 		cfgMongo := mongodb.DbConnect{
 			URI:        cfg.MongoURI,
@@ -70,7 +73,6 @@ func GetAll(c *gin.Context) {
 
 		rediscache.Set(resourceType, resultBytes)
 	} else {
-		// totalDocuments = 5000
 		resultBytes = []byte(resultRedis)
 	}
 
