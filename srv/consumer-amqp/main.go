@@ -22,7 +22,7 @@ func main() {
 		conn, err = amqp.Dial(cfg.RabbitURI)
 		if err != nil {
 			log.Printf("- failed to connect to rabbitmq: %s\n", err)
-			time.Sleep(30 * time.Second)
+			time.Sleep(20 * time.Second)
 			continue
 		}
 		break

@@ -56,6 +56,8 @@ services:
       RESOURCE_TYPE: users
     env_file:
       - .environment
+    depends_on: 
+      - rabbitmq
     networks:
       - network_default
 
@@ -66,6 +68,8 @@ services:
       RESOURCE_TYPE: albums
     env_file:
       - .environment
+    depends_on: 
+      - rabbitmq
     networks:
       - network_default
 
@@ -103,6 +107,15 @@ services:
       - "5000:5000"
     env_file:
       - .environment
+    networks:
+      - network_default
+
+  redis:
+    container_name: redis
+    image: redis:alpine
+    ports:
+      - "6379:6379"
+    restart: always
     networks:
       - network_default
 
