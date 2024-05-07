@@ -29,3 +29,8 @@ build:
 	go build -o ./crud cmd/main.go
 	./crud -h
 .PHONY: build
+
+# Remove images from build.
+clean:
+	@docker images | fgrep '<none>' | fgrep -v 'kindest/node' | awk '{ print $$3 }' | while read img; do docker rmi $$img; done
+.PHONY: clean
