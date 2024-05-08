@@ -1,6 +1,6 @@
-FROM golang:1.22.2-alpine AS builder
+FROM golang:1.22.3-alpine AS builder
 WORKDIR /crud-golang-rabbitmq-mongo
-COPY ./go.mod ./go.sum ./srv/consumer-amqp/main.go .
+COPY ./go.mod ./go.sum ./srv/consumer-amqp/main.go ./
 COPY ./pkg/ ./pkg
 RUN go build -o consumer main.go
 

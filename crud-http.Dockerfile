@@ -1,6 +1,6 @@
-FROM golang:1.22.2-alpine AS builder
+FROM golang:1.22.3-alpine AS builder
 WORKDIR /crud-golang-rabbitmq-mongo
-COPY ./go.mod ./go.sum ./srv/crud-http/main.go .
+COPY ./go.mod ./go.sum ./srv/crud-http/main.go ./
 COPY ./pkg/ ./pkg
 RUN go build -o http main.go
 

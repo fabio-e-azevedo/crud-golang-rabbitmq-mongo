@@ -38,6 +38,14 @@ func main() {
 	v1.DELETE("/todos/:id", controllers.DeleteByID)
 	v1.DELETE("/users/:id", controllers.DeleteByID)
 
+	v2 := router.Group("/api/v2")
+	v2.GET("/albums", controllers.GetAllv2)
+	v2.GET("/comments", controllers.GetAllv2)
+	v2.GET("/photos", controllers.GetAllv2)
+	v2.GET("/posts", controllers.GetAllv2)
+	v2.GET("/todos", controllers.GetAllv2)
+	v2.GET("/users", controllers.GetAllv2)
+
 	//router.PATCH("/users/:id", patchUserByID)
 	//router.DELETE("/users/:id", deleteUserByID)
 	router.Run("0.0.0.0:5000")

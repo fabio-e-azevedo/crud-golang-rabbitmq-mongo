@@ -14,7 +14,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func GetAllv3(c *gin.Context) {
+func GetAllv2(c *gin.Context) {
 	resourceType := strings.Split(c.Request.URL.Path, "/")[3]
 
 	cfg := config.NewConfigMongo()

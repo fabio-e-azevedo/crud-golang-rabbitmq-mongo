@@ -20,12 +20,12 @@ make down
 
 | Method      |          Resource           |
 |:-----------:|:---------------------------:|
-|  GET        |     /api/v1/albums          |
-|  GET        |     /api/v1/comments        |
-|  GET        |     /api/v1/photos          |
-|  GET        |     /api/v1/posts           |
-|  GET        |     /api/v1/todos           |
-|  GET        |     /api/v1/users           |
+|  GET, POST  |     /api/v1/albums          |
+|  GET, POST  |     /api/v1/comments        |
+|  GET, POST  |     /api/v1/photos          |
+|  GET, POST  |     /api/v1/posts           |
+|  GET, POST  |     /api/v1/todos           |
+|  GET, POST  |     /api/v1/users           |
 | GET, DELETE |     /api/v1/albums/{id}     |
 | GET, DELETE |     /api/v1/comments/{id}   |
 | GET, DELETE |     /api/v1/photos/{id}     |
