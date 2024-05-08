@@ -2,6 +2,28 @@
 
 ![concept map](.img/concept-map.jpg)
 
+## Command Line
+```
+$ ./crud --help                                                                                                                                                              CRUD example command line
+
+Usage:
+  crud [flags]
+  crud [command]
+
+Available Commands:
+  completion  Generate the autocompletion script for the specified shell
+  delete      Deleting a resource by ID
+  help        Help about any command
+  load        Get Resources JSON and Send API HTTP
+  read        Getting by ID or Listing all resources
+  version     Print the version number of CRUD
+
+Flags:
+  -h, --help   help for crud
+
+Use "crud [command] --help" for more information about a command.
+```
+
 ## Stack
 
 - [Golang](https://go.dev/)
