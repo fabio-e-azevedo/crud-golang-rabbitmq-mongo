@@ -1,5 +1,7 @@
 # crud-golang-rabbitmq-mongo
 
+![concept map](.img/concept-map.jpg)
+
 ## Stack
 
 - [Golang](https://go.dev/)
