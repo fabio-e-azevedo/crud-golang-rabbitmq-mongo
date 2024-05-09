@@ -11,6 +11,7 @@ up:
 # Down all containers by docker-compose.
 down:
 	docker-compose down
+	@sudo chown $$USER containers/.erlang.cookie
 .PHONY: down
 
 # Run container mongodb by docker-compose.

@@ -15,6 +15,12 @@ services:
     entrypoint: /usr/local/bin/cluster-entrypoint.sh
     networks:
       - network_default
+    healthcheck:
+      test: "rabbitmq-diagnostics -q ping > /dev/null"
+      interval: 30s
+      timeout: 3s
+      retries: 3
+      start_period: 15s
 
   rabbitmq2:
     image: rabbitmq:3-management
@@ -30,6 +36,12 @@ services:
     entrypoint: /usr/local/bin/cluster-entrypoint.sh
     networks:
       - network_default
+    healthcheck:
+      test: "rabbitmq-diagnostics -q ping > /dev/null"
+      interval: 30s
+      timeout: 3s
+      retries: 3
+      start_period: 15s
 
   rabbitmq3:
     image: rabbitmq:3-management
@@ -45,6 +57,12 @@ services:
     entrypoint: /usr/local/bin/cluster-entrypoint.sh
     networks:
       - network_default
+    healthcheck:
+      test: "rabbitmq-diagnostics -q ping > /dev/null"
+      interval: 30s
+      timeout: 3s
+      retries: 3
+      start_period: 15s
 
   haproxy:
     image: haproxy:2.9.7
@@ -52,9 +70,12 @@ services:
     volumes:
       - ./containers/haproxy.cfg:/usr/local/etc/haproxy/haproxy.cfg:ro
     depends_on:
-      - rabbitmq1
-      - rabbitmq2
-      - rabbitmq3
+      rabbitmq1:
+        condition: service_healthy
+      rabbitmq2:
+        condition: service_healthy
+      rabbitmq3:
+        condition: service_healthy
     ports:
       - 15692:15692
       - 15672:15672
