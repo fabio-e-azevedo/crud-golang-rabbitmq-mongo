@@ -22,7 +22,7 @@ func (r *RabbitMQ) Publisher(body []byte) {
 
 	q, err := ch.QueueDeclare(
 		r.QueueName, // name
-		false,       // durable
+		true,        // durable
 		false,       // delete when unused
 		false,       // exclusive
 		false,       // no-wait

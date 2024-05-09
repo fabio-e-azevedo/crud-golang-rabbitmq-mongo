@@ -36,7 +36,7 @@ func main() {
 
 	q, err := ch.QueueDeclare(
 		cfg.RabbitQueueConsumer, // name
-		false,                   // durable
+		true,                    // durable
 		false,                   // delete when unused
 		false,                   // exclusive
 		false,                   // no-wait

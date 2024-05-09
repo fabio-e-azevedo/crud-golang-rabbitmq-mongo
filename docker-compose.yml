@@ -129,7 +129,7 @@ services:
       RESOURCE_TYPE: users
     env_file:
       - .environment
-    depends_on: 
+    depends_on:
       - haproxy
     networks:
       - network_default
@@ -141,8 +141,8 @@ services:
       RESOURCE_TYPE: albums
     env_file:
       - .environment
-    depends_on: 
-      - haproxy
+    depends_on:
+      - consumer-users
     networks:
       - network_default
 
@@ -151,24 +151,32 @@ services:
     container_name: consumer-posts
     environment:
       RESOURCE_TYPE: posts
+    depends_on:
+      - consumer-albums
 
   consumer-photos:
     <<: *consumer
     container_name: consumer-photos
     environment:
       RESOURCE_TYPE: photos
+    depends_on:
+      - consumer-posts
 
   consumer-comments:
     <<: *consumer
     container_name: consumer-comments
     environment:
       RESOURCE_TYPE: comments
+    depends_on:
+      - consumer-photos
 
   consumer-todos:
     <<: *consumer
     container_name: consumer-todos
     environment:
       RESOURCE_TYPE: todos
+    depends_on:
+      - consumer-comments
 
   crud-http:
     container_name: crud-http
