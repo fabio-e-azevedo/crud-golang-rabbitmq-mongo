@@ -13,6 +13,7 @@ Usage:
 
 Available Commands:
   completion  Generate the autocompletion script for the specified shell
+  create      Create resources by reading JSON file
   delete      Deleting a resource by ID
   help        Help about any command
   load        Get Resources JSON and Send API HTTP
