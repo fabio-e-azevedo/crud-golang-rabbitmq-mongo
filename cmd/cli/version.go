@@ -12,8 +12,9 @@ func init() {
 
 var versionCmd = &cobra.Command{
 	Use:   "version",
-	Short: "Print the version number of CRUD",
+	Short: "Show version of crud",
 	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println("CRUD v0.8")
+		fmt.Println("“My favorite things in life don’t cost any money. It’s really clear that the most precious resource we all have is time.” - Steve Jobs")
+		fmt.Println("CRUD v0.9")
 	},
 }
