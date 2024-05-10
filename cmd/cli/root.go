@@ -12,7 +12,7 @@ var resourceId int
 
 var rootCmd = &cobra.Command{
 	Use:   "crud",
-	Short: "CRUD example command line",
+	Short: "CRUD, command created to apply knowledge in learning the Go language",
 
 	Run: func(cmd *cobra.Command, args []string) {
 		cmd.Help()

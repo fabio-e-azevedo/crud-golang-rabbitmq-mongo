@@ -4,7 +4,8 @@
 
 ## Command Line
 ```
-$ ./crud --help                                                                                                                                                              CRUD example command line
+$ ./crud --help
+CRUD, command created to apply knowledge in learning the Go language
 
 Usage:
   crud [flags]
