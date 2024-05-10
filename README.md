@@ -18,7 +18,7 @@ Available Commands:
   help        Help about any command
   load        Get Resources JSON and Send API HTTP
   read        Getting by ID or Listing all resources
-  version     Print the version number of CRUD
+  version     Show version of crud
 
 Flags:
   -h, --help   help for crud
