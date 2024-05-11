@@ -26,9 +26,9 @@ func init() {
 }
 
 var createCmd = &cobra.Command{
-	Use:   "create",
-	Short: "Create resources by reading JSON file",
-
+	Use:     "create",
+	Short:   "Create resources by reading JSON file",
+	Example: "crud create --resource name --file /path/to/file.json",
 	Run: func(cmd *cobra.Command, args []string) {
 		resourceType := resourceName.String()
 
@@ -37,10 +37,10 @@ var createCmd = &cobra.Command{
 			log.Fatal(err)
 		}
 
-		//fmt.Println(string(fileContent))
+		fmt.Println(string(fileContent))
 
 		resources, err := jph.GetResources(resourceType, 1, fileContent)
-		utils.FailOnError(err, fmt.Sprintf("failed to read file %s", fileContent))
+		utils.FailOnError(err, fmt.Sprintf("failed to read file %s", filePath))
 
 		urlPost := fmt.Sprintf("http://localhost:5000/api/v1/%s", resourceType)
 

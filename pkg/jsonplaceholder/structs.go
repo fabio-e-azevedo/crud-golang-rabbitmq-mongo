@@ -1,7 +1,7 @@
 package jsonplaceholder
 
 type Resource struct {
-	Id       int16   `json:"id" bson:"id"`
+	Id       int     `json:"id" bson:"_id"`
 	Name     *string `json:"name,omitempty" bson:"name,omitempty"`
 	Username *string `json:"username,omitempty" bson:"username,omitempty"`
 	Email    *string `json:"email,omitempty" bson:"email,omitempty"`
@@ -33,13 +33,13 @@ type Resource struct {
 }
 
 type Album struct {
-	Id     int16  `json:"id" bson:"id"`
+	Id     int    `json:"id" bson:"_id"`
 	UserId int16  `json:"userId" bson:"userId"`
 	Title  string `json:"title" bson:"title"`
 }
 
 type Comment struct {
-	Id     int16  `json:"id" bson:"id"`
+	Id     int    `json:"id" bson:"_id"`
 	PostId int16  `json:"postId" bson:"postId"`
 	Name   string `json:"name" bson:"name"`
 	Email  string `json:"email" bson:"email"`
@@ -47,14 +47,14 @@ type Comment struct {
 }
 
 type Post struct {
-	Id     int16  `json:"id" bson:"id"`
+	Id     int    `json:"id" bson:"_id"`
 	UserId int16  `json:"userId" bson:"userId"`
 	Title  string `json:"title" bson:"title"`
 	Body   string `json:"body" bson:"body"`
 }
 
 type Photo struct {
-	Id           int16  `json:"id" bson:"id"`
+	Id           int    `json:"id" bson:"_id"`
 	AlbumId      int16  `json:"albumId" bson:"albumId"`
 	Title        string `json:"title" bson:"title"`
 	Url          string `json:"url" bson:"url"`
@@ -62,14 +62,14 @@ type Photo struct {
 }
 
 type Todo struct {
-	Id        int16  `json:"id" bson:"id"`
+	Id        int    `json:"id" bson:"_id"`
 	UserId    int16  `json:"userId" bson:"userId"`
 	Title     string `json:"title" bson:"title"`
 	Completed bool   `json:"completed" bson:"completed"`
 }
 
 type User struct {
-	Id       int16  `json:"id" bson:"id"`
+	Id       int    `json:"id" bson:"_id"`
 	Name     string `json:"name" bson:"name"`
 	Username string `json:"username" bson:"username"`
 	Email    string `json:"email" bson:"email"`

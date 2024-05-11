@@ -124,15 +124,15 @@ func GetByID(c *gin.Context) {
 		Collection: resourceType,
 	}
 
-	resource := jph.NewResource()
-
-	err = mongodb.FindOne(&resource, "id", id, &cfgMongo)
+	resultBytes, err := mongodb.FindOneById(id, &cfgMongo)
 	if err != nil {
 		c.JSON(http.StatusNotFound, gin.H{
 			"error": "not found document in mongo",
 		})
 		return
 	}
+
+	resource, _ := jph.GetResource(resourceType, resultBytes)
 
 	c.JSON(http.StatusOK, &resource)
 }

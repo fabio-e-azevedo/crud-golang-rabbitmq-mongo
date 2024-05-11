@@ -2,8 +2,7 @@ package mongodb
 
 import (
 	"context"
-
-	"go.mongodb.org/mongo-driver/bson/primitive"
+	"fmt"
 )
 
 func (m DbConnect) DbInsert(document interface{}) (string, error) {
@@ -19,5 +18,5 @@ func (m DbConnect) DbInsert(document interface{}) (string, error) {
 		return "", err
 	}
 
-	return result.InsertedID.(primitive.ObjectID).Hex(), nil
+	return fmt.Sprintf("insert document id %v", result.InsertedID), nil
 }

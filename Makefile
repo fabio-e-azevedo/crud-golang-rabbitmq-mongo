@@ -6,7 +6,7 @@ help:
 # Up all containers by docker-compose.
 up:
 	@docker-compose up -d --build rabbitmq1 rabbitmq2 rabbitmq3 mongodb haproxy mongo-express redis crud-http
-	@sleep 12
+	@sleep 15 # wait for the rabbitmq cluster to become healthy
 	@docker-compose up -d --build consumer-users consumer-albums consumer-posts consumer-photos consumer-comments consumer-todos
 .PHONY: up
 

@@ -73,6 +73,12 @@ func main() {
 
 			document, _ = jph.GetResource(resourceType, d.Body)
 
+			if document.IsZeroId() {
+				latestId, _ := mongo.LatestId(&db)
+				document.SetId(latestId)
+				log.Printf("Zero Id: %v", document)
+			}
+
 			resultInsert, err = db.DbInsert(document)
 			if err != nil {
 				log.Printf("- error insert document in mongodb: %s\n", err)

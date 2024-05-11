@@ -14,6 +14,8 @@ type ValidResource interface {
 type IResource interface {
 	Show() []byte
 	Echo() string
+	IsZeroId() bool
+	SetId(n int)
 }
 
 func GetResources(resourceType string, length int, data []byte) ([]IResource, error) {
@@ -95,14 +97,6 @@ func newResource(resourceType string, data []byte) (IResource, error) {
 		return nil, err
 	}
 	return resource, nil
-}
-
-func NewResources() []Resource {
-	return []Resource{}
-}
-
-func NewResource() IResource {
-	return &Resource{}
 }
 
 func Get(url string, resource string, all bool) ([]IResource, error) {
