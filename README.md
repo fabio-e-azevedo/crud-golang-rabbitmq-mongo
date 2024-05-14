@@ -42,7 +42,7 @@ make up
 make down
 ```
 
-## API
+## API REST
 
 | Method      |          Resource           |
 |:-----------:|:---------------------------:|
