@@ -1,11 +1,14 @@
 FROM golang:1.22.3-alpine AS builder
 WORKDIR /crud-golang-rabbitmq-mongo
-COPY ./go.mod ./go.sum ./srv/crud-http/main.go ./
+RUN go install github.com/swaggo/swag/cmd/swag@latest
+COPY ./go.mod ./go.sum ./
+COPY crud-http ./crud-http
 COPY ./pkg/ ./pkg
-RUN go build -o http main.go
+RUN swag init -d crud-http --parseDependency --parseInternal --parseDepth 2 -o pkg/docs
+RUN go build -o ./goapp ./crud-http/main.go
 
 FROM alpine:latest
-WORKDIR /app
-COPY --from=builder /crud-golang-rabbitmq-mongo/http .
+WORKDIR /api
+COPY --from=builder /crud-golang-rabbitmq-mongo/goapp .
 
-CMD ["/app/http"]
+CMD ["/api/goapp"]

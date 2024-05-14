@@ -1,0 +1,255 @@
+basePath: /api/v1
+definitions:
+  jsonplaceholder.Album:
+    properties:
+      id:
+        type: integer
+      title:
+        type: string
+      userId:
+        type: integer
+    type: object
+  jsonplaceholder.Comment:
+    properties:
+      body:
+        type: string
+      email:
+        type: string
+      id:
+        type: integer
+      name:
+        type: string
+      postId:
+        type: integer
+    type: object
+  jsonplaceholder.Photo:
+    properties:
+      albumId:
+        type: integer
+      id:
+        type: integer
+      thumbnailUrl:
+        type: string
+      title:
+        type: string
+      url:
+        type: string
+    type: object
+  jsonplaceholder.Post:
+    properties:
+      body:
+        type: string
+      id:
+        type: integer
+      title:
+        type: string
+      userId:
+        type: integer
+    type: object
+  jsonplaceholder.Todo:
+    properties:
+      completed:
+        type: boolean
+      id:
+        type: integer
+      title:
+        type: string
+      userId:
+        type: integer
+    type: object
+  jsonplaceholder.User:
+    properties:
+      address:
+        properties:
+          city:
+            type: string
+          geo:
+            properties:
+              lat:
+                type: string
+              lng:
+                type: string
+            type: object
+          street:
+            type: string
+          suite:
+            type: string
+          zipcode:
+            type: string
+        type: object
+      company:
+        properties:
+          bs:
+            type: string
+          catchPhrase:
+            type: string
+          name:
+            type: string
+        type: object
+      email:
+        type: string
+      id:
+        type: integer
+      name:
+        type: string
+      phone:
+        type: string
+      username:
+        type: string
+      website:
+        type: string
+    type: object
+externalDocs:
+  description: OpenAPI
+  url: https://swagger.io/resources/open-api/
+host: cao-veio:5000
+info:
+  contact:
+    name: Fabio Azevedo
+  description: API REST created to apply knowledge in learning the Go language
+  license:
+    name: MIT
+    url: https://www.mit.edu/~amini/LICENSE.md
+  termsOfService: http://swagger.io/terms/
+  title: CRUD API REST
+  version: 1.0.0
+paths:
+  /albums:
+    get:
+      consumes:
+      - application/json
+      description: get albums
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              items:
+                $ref: '#/definitions/jsonplaceholder.Album'
+              type: array
+            type: array
+        "404":
+          description: error
+          schema:
+            type: string
+      summary: List albums
+      tags:
+      - albums
+  /comments:
+    get:
+      consumes:
+      - application/json
+      description: get comments
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              items:
+                $ref: '#/definitions/jsonplaceholder.Comment'
+              type: array
+            type: array
+        "404":
+          description: error
+          schema:
+            type: string
+      summary: List comments
+      tags:
+      - comments
+  /photos:
+    get:
+      consumes:
+      - application/json
+      description: get photos
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              items:
+                $ref: '#/definitions/jsonplaceholder.Photo'
+              type: array
+            type: array
+        "404":
+          description: error
+          schema:
+            type: string
+      summary: List photos
+      tags:
+      - photos
+  /posts:
+    get:
+      consumes:
+      - application/json
+      description: get posts
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              items:
+                $ref: '#/definitions/jsonplaceholder.Post'
+              type: array
+            type: array
+        "404":
+          description: error
+          schema:
+            type: string
+      summary: List posts
+      tags:
+      - posts
+  /todos:
+    get:
+      consumes:
+      - application/json
+      description: get todos
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              items:
+                $ref: '#/definitions/jsonplaceholder.Todo'
+              type: array
+            type: array
+        "404":
+          description: error
+          schema:
+            type: string
+      summary: List todos
+      tags:
+      - todos
+  /users:
+    get:
+      consumes:
+      - application/json
+      description: get users
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              items:
+                $ref: '#/definitions/jsonplaceholder.User'
+              type: array
+            type: array
+        "404":
+          description: error
+          schema:
+            type: string
+      summary: List users
+      tags:
+      - users
+swagger: "2.0"
