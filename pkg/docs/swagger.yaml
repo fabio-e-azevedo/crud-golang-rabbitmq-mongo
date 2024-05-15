@@ -1,6 +1,16 @@
 basePath: /api/v1
 definitions:
-  jsonplaceholder.Album:
+  controllers.httpError:
+    properties:
+      error:
+        type: string
+    type: object
+  controllers.httpSuccess:
+    properties:
+      result:
+        type: string
+    type: object
+  model.Album:
     properties:
       id:
         type: integer
@@ -8,8 +18,11 @@ definitions:
         type: string
       userId:
         type: integer
+    required:
+    - title
+    - userId
     type: object
-  jsonplaceholder.Comment:
+  model.Comment:
     properties:
       body:
         type: string
@@ -21,8 +34,13 @@ definitions:
         type: string
       postId:
         type: integer
+    required:
+    - body
+    - email
+    - name
+    - postId
     type: object
-  jsonplaceholder.Photo:
+  model.Photo:
     properties:
       albumId:
         type: integer
@@ -34,8 +52,13 @@ definitions:
         type: string
       url:
         type: string
+    required:
+    - albumId
+    - thumbnailUrl
+    - title
+    - url
     type: object
-  jsonplaceholder.Post:
+  model.Post:
     properties:
       body:
         type: string
@@ -45,8 +68,12 @@ definitions:
         type: string
       userId:
         type: integer
+    required:
+    - body
+    - title
+    - userId
     type: object
-  jsonplaceholder.Todo:
+  model.Todo:
     properties:
       completed:
         type: boolean
@@ -56,8 +83,12 @@ definitions:
         type: string
       userId:
         type: integer
+    required:
+    - completed
+    - title
+    - userId
     type: object
-  jsonplaceholder.User:
+  model.User:
     properties:
       address:
         properties:
@@ -69,6 +100,9 @@ definitions:
                 type: string
               lng:
                 type: string
+            required:
+            - lat
+            - lng
             type: object
           street:
             type: string
@@ -76,6 +110,12 @@ definitions:
             type: string
           zipcode:
             type: string
+        required:
+        - city
+        - geo
+        - street
+        - suite
+        - zipcode
         type: object
       company:
         properties:
@@ -85,6 +125,10 @@ definitions:
             type: string
           name:
             type: string
+        required:
+        - bs
+        - catchPhrase
+        - name
         type: object
       email:
         type: string
@@ -98,6 +142,14 @@ definitions:
         type: string
       website:
         type: string
+    required:
+    - address
+    - company
+    - email
+    - name
+    - phone
+    - username
+    - website
     type: object
 externalDocs:
   description: OpenAPI
@@ -118,7 +170,7 @@ paths:
     get:
       consumes:
       - application/json
-      description: get albums
+      description: get all albums
       produces:
       - application/json
       responses:
@@ -126,22 +178,127 @@ paths:
           description: OK
           schema:
             items:
-              items:
-                $ref: '#/definitions/jsonplaceholder.Album'
-              type: array
+              $ref: '#/definitions/model.Album'
             type: array
         "404":
           description: error
           schema:
             type: string
-      summary: List albums
+      summary: List All Albums
+      tags:
+      - albums
+    post:
+      consumes:
+      - application/json
+      description: post create album
+      parameters:
+      - description: album model for creation
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/model.Album'
+      produces:
+      - application/json
+      responses:
+        "204":
+          description: No Content
+          schema:
+            $ref: '#/definitions/model.Album'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/controllers.httpError'
+      summary: Post Create Album
+      tags:
+      - albums
+    put:
+      consumes:
+      - application/json
+      description: update album
+      parameters:
+      - description: Album ID
+        in: path
+        minimum: 1
+        name: id
+        required: true
+        type: integer
+      - description: album model for update
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/model.Album'
+      produces:
+      - application/json
+      responses:
+        "204":
+          description: No Content
+          schema:
+            $ref: '#/definitions/model.Album'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/controllers.httpError'
+      summary: Update Album
+      tags:
+      - albums
+  /albums/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: delete album by id
+      parameters:
+      - description: Album ID
+        in: path
+        minimum: 1
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "204":
+          description: No Content
+          schema:
+            $ref: '#/definitions/controllers.httpSuccess'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/controllers.httpError'
+      summary: Delete Album By ID
+      tags:
+      - albums
+    get:
+      consumes:
+      - application/json
+      description: get album by id
+      parameters:
+      - description: Album ID
+        in: path
+        minimum: 1
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.Album'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/controllers.httpError'
+      summary: Get Album By ID
       tags:
       - albums
   /comments:
     get:
       consumes:
       - application/json
-      description: get comments
+      description: get all comments
       produces:
       - application/json
       responses:
@@ -149,22 +306,127 @@ paths:
           description: OK
           schema:
             items:
-              items:
-                $ref: '#/definitions/jsonplaceholder.Comment'
-              type: array
+              $ref: '#/definitions/model.Comment'
             type: array
         "404":
           description: error
           schema:
             type: string
-      summary: List comments
+      summary: List All Comments
+      tags:
+      - comments
+    post:
+      consumes:
+      - application/json
+      description: post create comment
+      parameters:
+      - description: comment model for creation
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/model.Comment'
+      produces:
+      - application/json
+      responses:
+        "204":
+          description: No Content
+          schema:
+            $ref: '#/definitions/model.Comment'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/controllers.httpError'
+      summary: Post Create Comment
+      tags:
+      - comments
+    put:
+      consumes:
+      - application/json
+      description: update comment
+      parameters:
+      - description: Comment ID
+        in: path
+        minimum: 1
+        name: id
+        required: true
+        type: integer
+      - description: comment model for update
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/model.Comment'
+      produces:
+      - application/json
+      responses:
+        "204":
+          description: No Content
+          schema:
+            $ref: '#/definitions/model.Comment'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/controllers.httpError'
+      summary: Update Comment
+      tags:
+      - comments
+  /comments/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: delete comment by id
+      parameters:
+      - description: Comment ID
+        in: path
+        minimum: 1
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "204":
+          description: No Content
+          schema:
+            $ref: '#/definitions/controllers.httpSuccess'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/controllers.httpError'
+      summary: Delete Comment By ID
+      tags:
+      - comments
+    get:
+      consumes:
+      - application/json
+      description: get comment by id
+      parameters:
+      - description: Comment ID
+        in: path
+        minimum: 1
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.Comment'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/controllers.httpError'
+      summary: Get Comment By ID
       tags:
       - comments
   /photos:
     get:
       consumes:
       - application/json
-      description: get photos
+      description: get all photos
       produces:
       - application/json
       responses:
@@ -172,22 +434,127 @@ paths:
           description: OK
           schema:
             items:
-              items:
-                $ref: '#/definitions/jsonplaceholder.Photo'
-              type: array
+              $ref: '#/definitions/model.Photo'
             type: array
         "404":
           description: error
           schema:
             type: string
-      summary: List photos
+      summary: List All Photos
+      tags:
+      - photos
+    post:
+      consumes:
+      - application/json
+      description: post create photo
+      parameters:
+      - description: photo model for creation
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/model.Photo'
+      produces:
+      - application/json
+      responses:
+        "204":
+          description: No Content
+          schema:
+            $ref: '#/definitions/model.Photo'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/controllers.httpError'
+      summary: Post Create Photo
+      tags:
+      - photos
+    put:
+      consumes:
+      - application/json
+      description: update photo
+      parameters:
+      - description: Photo ID
+        in: path
+        minimum: 1
+        name: id
+        required: true
+        type: integer
+      - description: photo model for update
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/model.Photo'
+      produces:
+      - application/json
+      responses:
+        "204":
+          description: No Content
+          schema:
+            $ref: '#/definitions/model.Photo'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/controllers.httpError'
+      summary: Update Photo
+      tags:
+      - photos
+  /photos/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: delete photo by id
+      parameters:
+      - description: Photo ID
+        in: path
+        minimum: 1
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "204":
+          description: No Content
+          schema:
+            $ref: '#/definitions/controllers.httpSuccess'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/controllers.httpError'
+      summary: Delete Photo By ID
+      tags:
+      - photos
+    get:
+      consumes:
+      - application/json
+      description: get photo by id
+      parameters:
+      - description: Photo ID
+        in: path
+        minimum: 1
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.Photo'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/controllers.httpError'
+      summary: Get Photo By ID
       tags:
       - photos
   /posts:
     get:
       consumes:
       - application/json
-      description: get posts
+      description: get all posts
       produces:
       - application/json
       responses:
@@ -195,22 +562,127 @@ paths:
           description: OK
           schema:
             items:
-              items:
-                $ref: '#/definitions/jsonplaceholder.Post'
-              type: array
+              $ref: '#/definitions/model.Post'
             type: array
         "404":
           description: error
           schema:
             type: string
-      summary: List posts
+      summary: List All Posts
+      tags:
+      - posts
+    post:
+      consumes:
+      - application/json
+      description: post create post
+      parameters:
+      - description: post model for creation
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/model.Post'
+      produces:
+      - application/json
+      responses:
+        "204":
+          description: No Content
+          schema:
+            $ref: '#/definitions/model.Post'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/controllers.httpError'
+      summary: Post Create Post
+      tags:
+      - posts
+    put:
+      consumes:
+      - application/json
+      description: update post
+      parameters:
+      - description: Post ID
+        in: path
+        minimum: 1
+        name: id
+        required: true
+        type: integer
+      - description: post model for update
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/model.Post'
+      produces:
+      - application/json
+      responses:
+        "204":
+          description: No Content
+          schema:
+            $ref: '#/definitions/model.Post'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/controllers.httpError'
+      summary: Update Post
+      tags:
+      - posts
+  /posts/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: delete post by id
+      parameters:
+      - description: Post ID
+        in: path
+        minimum: 1
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "204":
+          description: No Content
+          schema:
+            $ref: '#/definitions/controllers.httpSuccess'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/controllers.httpError'
+      summary: Delete Post By ID
+      tags:
+      - posts
+    get:
+      consumes:
+      - application/json
+      description: get post by id
+      parameters:
+      - description: Post ID
+        in: path
+        minimum: 1
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.Post'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/controllers.httpError'
+      summary: Get Post By ID
       tags:
       - posts
   /todos:
     get:
       consumes:
       - application/json
-      description: get todos
+      description: get all todos
       produces:
       - application/json
       responses:
@@ -218,22 +690,127 @@ paths:
           description: OK
           schema:
             items:
-              items:
-                $ref: '#/definitions/jsonplaceholder.Todo'
-              type: array
+              $ref: '#/definitions/model.Todo'
             type: array
         "404":
           description: error
           schema:
             type: string
-      summary: List todos
+      summary: List All Todos
+      tags:
+      - todos
+    post:
+      consumes:
+      - application/json
+      description: post create todo
+      parameters:
+      - description: todo model for creation
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/model.Todo'
+      produces:
+      - application/json
+      responses:
+        "204":
+          description: No Content
+          schema:
+            $ref: '#/definitions/model.Todo'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/controllers.httpError'
+      summary: Post Create Todo
+      tags:
+      - todos
+    put:
+      consumes:
+      - application/json
+      description: update todo
+      parameters:
+      - description: Todo ID
+        in: path
+        minimum: 1
+        name: id
+        required: true
+        type: integer
+      - description: todo model for update
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/model.Todo'
+      produces:
+      - application/json
+      responses:
+        "204":
+          description: No Content
+          schema:
+            $ref: '#/definitions/model.Todo'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/controllers.httpError'
+      summary: Update Todo
+      tags:
+      - todos
+  /todos/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: delete todo by id
+      parameters:
+      - description: Todo ID
+        in: path
+        minimum: 1
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "204":
+          description: No Content
+          schema:
+            $ref: '#/definitions/controllers.httpSuccess'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/controllers.httpError'
+      summary: Delete Todo By ID
+      tags:
+      - todos
+    get:
+      consumes:
+      - application/json
+      description: get todo by id
+      parameters:
+      - description: Todo ID
+        in: path
+        minimum: 1
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.Todo'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/controllers.httpError'
+      summary: Get Todo By ID
       tags:
       - todos
   /users:
     get:
       consumes:
       - application/json
-      description: get users
+      description: get all users
       produces:
       - application/json
       responses:
@@ -241,15 +818,120 @@ paths:
           description: OK
           schema:
             items:
-              items:
-                $ref: '#/definitions/jsonplaceholder.User'
-              type: array
+              $ref: '#/definitions/model.User'
             type: array
         "404":
           description: error
           schema:
             type: string
-      summary: List users
+      summary: List All Users
+      tags:
+      - users
+    post:
+      consumes:
+      - application/json
+      description: post create user
+      parameters:
+      - description: user model for creation
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/model.User'
+      produces:
+      - application/json
+      responses:
+        "204":
+          description: No Content
+          schema:
+            $ref: '#/definitions/model.User'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/controllers.httpError'
+      summary: Post Create User
+      tags:
+      - users
+    put:
+      consumes:
+      - application/json
+      description: update user
+      parameters:
+      - description: User ID
+        in: path
+        minimum: 1
+        name: id
+        required: true
+        type: integer
+      - description: user model for update
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/model.User'
+      produces:
+      - application/json
+      responses:
+        "204":
+          description: No Content
+          schema:
+            $ref: '#/definitions/model.User'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/controllers.httpError'
+      summary: Update User
+      tags:
+      - users
+  /users/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: delete user by id
+      parameters:
+      - description: User ID
+        in: path
+        minimum: 1
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "204":
+          description: No Content
+          schema:
+            $ref: '#/definitions/controllers.httpSuccess'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/controllers.httpError'
+      summary: Delete User By ID
+      tags:
+      - users
+    get:
+      consumes:
+      - application/json
+      description: get user by id
+      parameters:
+      - description: User ID
+        in: path
+        minimum: 1
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.User'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/controllers.httpError'
+      summary: Get User By ID
       tags:
       - users
 swagger: "2.0"

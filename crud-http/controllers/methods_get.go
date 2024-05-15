@@ -15,8 +15,8 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-// func GetAll(c *gin.Context) {
-// 	resourceType := strings.Split(c.Request.URL.Path, "/")[3]
+// func GetAll(ctx *gin.Context) {
+// 	resourceType := strings.Split(ctx.Request.URL.Path, "/")[3]
 
 // 	cfg := config.NewConfigMongo()
 // 	cfgMongo := mongodb.DbConnect{
@@ -27,7 +27,7 @@ import (
 
 // 	docBytes, docTotal, err := mongodb.FindAll(&cfgMongo)
 // 	if err != nil {
-// 		c.JSON(http.StatusNotFound, gin.H{
+// 		ctx.JSON(http.StatusNotFound, gin.H{
 // 			"error": "not found documents in mongo",
 // 		})
 // 		return
@@ -35,13 +35,13 @@ import (
 
 // 	result, err := jph.GetResources(resourceType, docTotal, docBytes)
 // 	if err != nil {
-// 		c.JSON(http.StatusForbidden, gin.H{
+// 		ctx.JSON(http.StatusForbidden, gin.H{
 // 			"error": err,
 // 		})
 // 		return
 // 	}
 
-// 	c.JSON(http.StatusOK, &result)
+// 	ctx.JSON(http.StatusOK, &result)
 // }
 
 func getAll(resourceType string) ([]jph.IResource, error) {
@@ -89,18 +89,18 @@ func getAll(resourceType string) ([]jph.IResource, error) {
 // @Success     200  {array}   model.Album
 // @Failure     404  {string}  "error"
 // @Router      /albums [get]
-func ListAlbums(c *gin.Context) {
-	resourceType := strings.Split(c.Request.URL.Path, "/")[3]
+func ListAlbums(ctx *gin.Context) {
+	resourceType := strings.Split(ctx.Request.URL.Path, "/")[3]
 
 	result, err := getAll(resourceType)
 	if err != nil {
-		c.JSON(http.StatusNotFound, gin.H{
+		ctx.JSON(http.StatusNotFound, gin.H{
 			"error": err,
 		})
 		return
 	}
 
-	c.JSON(http.StatusOK, &result)
+	ctx.JSON(http.StatusOK, &result)
 }
 
 // ListComments godoc
@@ -112,18 +112,18 @@ func ListAlbums(c *gin.Context) {
 // @Success     200  {array}   model.Comment
 // @Failure     404  {string}  "error"
 // @Router      /comments [get]
-func ListComments(c *gin.Context) {
-	resourceType := strings.Split(c.Request.URL.Path, "/")[3]
+func ListComments(ctx *gin.Context) {
+	resourceType := strings.Split(ctx.Request.URL.Path, "/")[3]
 
 	result, err := getAll(resourceType)
 	if err != nil {
-		c.JSON(http.StatusNotFound, gin.H{
+		ctx.JSON(http.StatusNotFound, gin.H{
 			"error": err,
 		})
 		return
 	}
 
-	c.JSON(http.StatusOK, &result)
+	ctx.JSON(http.StatusOK, &result)
 }
 
 // ListPhotos   godoc
@@ -135,18 +135,18 @@ func ListComments(c *gin.Context) {
 // @Success     200  {array}   model.Photo
 // @Failure     404  {string}  "error"
 // @Router      /photos [get]
-func ListPhotos(c *gin.Context) {
-	resourceType := strings.Split(c.Request.URL.Path, "/")[3]
+func ListPhotos(ctx *gin.Context) {
+	resourceType := strings.Split(ctx.Request.URL.Path, "/")[3]
 
 	result, err := getAll(resourceType)
 	if err != nil {
-		c.JSON(http.StatusNotFound, gin.H{
+		ctx.JSON(http.StatusNotFound, gin.H{
 			"error": err,
 		})
 		return
 	}
 
-	c.JSON(http.StatusOK, &result)
+	ctx.JSON(http.StatusOK, &result)
 }
 
 // ListPosts    godoc
@@ -158,18 +158,18 @@ func ListPhotos(c *gin.Context) {
 // @Success     200  {array}   model.Post
 // @Failure     404  {string}  "error"
 // @Router      /posts [get]
-func ListPosts(c *gin.Context) {
-	resourceType := strings.Split(c.Request.URL.Path, "/")[3]
+func ListPosts(ctx *gin.Context) {
+	resourceType := strings.Split(ctx.Request.URL.Path, "/")[3]
 
 	result, err := getAll(resourceType)
 	if err != nil {
-		c.JSON(http.StatusNotFound, gin.H{
+		ctx.JSON(http.StatusNotFound, gin.H{
 			"error": err,
 		})
 		return
 	}
 
-	c.JSON(http.StatusOK, &result)
+	ctx.JSON(http.StatusOK, &result)
 }
 
 // ListTodos    godoc
@@ -181,18 +181,18 @@ func ListPosts(c *gin.Context) {
 // @Success     200  {array}   model.Todo
 // @Failure     404  {string}  "error"
 // @Router      /todos [get]
-func ListTodos(c *gin.Context) {
-	resourceType := strings.Split(c.Request.URL.Path, "/")[3]
+func ListTodos(ctx *gin.Context) {
+	resourceType := strings.Split(ctx.Request.URL.Path, "/")[3]
 
 	result, err := getAll(resourceType)
 	if err != nil {
-		c.JSON(http.StatusNotFound, gin.H{
+		ctx.JSON(http.StatusNotFound, gin.H{
 			"error": err,
 		})
 		return
 	}
 
-	c.JSON(http.StatusOK, &result)
+	ctx.JSON(http.StatusOK, &result)
 }
 
 // ListUsers    godoc
@@ -204,25 +204,25 @@ func ListTodos(c *gin.Context) {
 // @Success     200  {array}   model.User
 // @Failure     404  {string}  "error"
 // @Router      /users [get]
-func ListUsers(c *gin.Context) {
-	resourceType := strings.Split(c.Request.URL.Path, "/")[3]
+func ListUsers(ctx *gin.Context) {
+	resourceType := strings.Split(ctx.Request.URL.Path, "/")[3]
 
 	result, err := getAll(resourceType)
 	if err != nil {
-		c.JSON(http.StatusNotFound, gin.H{
+		ctx.JSON(http.StatusNotFound, gin.H{
 			"error": err,
 		})
 		return
 	}
 
-	c.JSON(http.StatusOK, &result)
+	ctx.JSON(http.StatusOK, &result)
 }
 
 // func GetAllv1(configMongo *mongodb.DbConnect) gin.HandlerFunc {
-// 	return func(c *gin.Context) {
+// 	return func(ctx *gin.Context) {
 // 		resources := jph.NewResources()
 
-// 		resourceType := strings.Split(c.Request.URL.Path, "/")[3]
+// 		resourceType := strings.Split(ctx.Request.URL.Path, "/")[3]
 
 // 		cfgMongo := mongodb.DbConnect{
 // 			Database:   configMongo.Database,
@@ -231,13 +231,13 @@ func ListUsers(c *gin.Context) {
 
 // 		err := mongodb.FindAll(&resources, &cfgMongo)
 // 		if err != nil {
-// 			c.JSON(http.StatusNotFound, gin.H{
+// 			ctx.JSON(http.StatusNotFound, gin.H{
 // 				"error": "not found documents in mongo",
 // 			})
 // 			return
 // 		}
 
-// 		c.JSON(http.StatusOK, &resources)
+// 		ctx.JSON(http.StatusOK, &resources)
 // 	}
 // }
 
@@ -269,21 +269,21 @@ func getByID(resourceType string, id int) (*jph.IResource, error) {
 // @Success     200  {object}  model.Album
 // @Failure     404  {object}  httpError
 // @Router      /albums/{id} [get]
-func ShowAlbum(c *gin.Context) {
-	id, err := strconv.Atoi(c.Param("id"))
+func ShowAlbum(ctx *gin.Context) {
+	id, err := strconv.Atoi(ctx.Param("id"))
 	if err != nil {
 		panic(err)
 	}
 
-	resourceType := strings.Split(c.Request.URL.Path, "/")[3]
+	resourceType := strings.Split(ctx.Request.URL.Path, "/")[3]
 
 	result, err := getByID(resourceType, id)
 	if err != nil {
-		c.JSON(http.StatusNotFound, &httpError{Error: err.Error()})
+		ctx.JSON(http.StatusNotFound, &httpError{Error: err.Error()})
 		return
 	}
 
-	c.JSON(http.StatusOK, result)
+	ctx.JSON(http.StatusOK, result)
 }
 
 // ShowComment  godoc
@@ -296,21 +296,21 @@ func ShowAlbum(c *gin.Context) {
 // @Success     200  {object}  model.Comment
 // @Failure     404  {object}  httpError
 // @Router      /comments/{id} [get]
-func ShowComment(c *gin.Context) {
-	id, err := strconv.Atoi(c.Param("id"))
+func ShowComment(ctx *gin.Context) {
+	id, err := strconv.Atoi(ctx.Param("id"))
 	if err != nil {
 		panic(err)
 	}
 
-	resourceType := strings.Split(c.Request.URL.Path, "/")[3]
+	resourceType := strings.Split(ctx.Request.URL.Path, "/")[3]
 
 	result, err := getByID(resourceType, id)
 	if err != nil {
-		c.JSON(http.StatusNotFound, &httpError{Error: err.Error()})
+		ctx.JSON(http.StatusNotFound, &httpError{Error: err.Error()})
 		return
 	}
 
-	c.JSON(http.StatusOK, result)
+	ctx.JSON(http.StatusOK, result)
 }
 
 // ShowPhoto    godoc
@@ -323,21 +323,21 @@ func ShowComment(c *gin.Context) {
 // @Success     200  {object}  model.Photo
 // @Failure     404  {object}  httpError
 // @Router      /photos/{id} [get]
-func ShowPhoto(c *gin.Context) {
-	id, err := strconv.Atoi(c.Param("id"))
+func ShowPhoto(ctx *gin.Context) {
+	id, err := strconv.Atoi(ctx.Param("id"))
 	if err != nil {
 		panic(err)
 	}
 
-	resourceType := strings.Split(c.Request.URL.Path, "/")[3]
+	resourceType := strings.Split(ctx.Request.URL.Path, "/")[3]
 
 	result, err := getByID(resourceType, id)
 	if err != nil {
-		c.JSON(http.StatusNotFound, &httpError{Error: err.Error()})
+		ctx.JSON(http.StatusNotFound, &httpError{Error: err.Error()})
 		return
 	}
 
-	c.JSON(http.StatusOK, result)
+	ctx.JSON(http.StatusOK, result)
 }
 
 // ShowPost     godoc
@@ -350,21 +350,21 @@ func ShowPhoto(c *gin.Context) {
 // @Success     200  {object}  model.Post
 // @Failure     404  {object}  httpError
 // @Router      /posts/{id} [get]
-func ShowPost(c *gin.Context) {
-	id, err := strconv.Atoi(c.Param("id"))
+func ShowPost(ctx *gin.Context) {
+	id, err := strconv.Atoi(ctx.Param("id"))
 	if err != nil {
 		panic(err)
 	}
 
-	resourceType := strings.Split(c.Request.URL.Path, "/")[3]
+	resourceType := strings.Split(ctx.Request.URL.Path, "/")[3]
 
 	result, err := getByID(resourceType, id)
 	if err != nil {
-		c.JSON(http.StatusNotFound, &httpError{Error: err.Error()})
+		ctx.JSON(http.StatusNotFound, &httpError{Error: err.Error()})
 		return
 	}
 
-	c.JSON(http.StatusOK, result)
+	ctx.JSON(http.StatusOK, result)
 }
 
 // ShowTodo     godoc
@@ -377,21 +377,21 @@ func ShowPost(c *gin.Context) {
 // @Success     200  {object}  model.Todo
 // @Failure     404  {object}  httpError
 // @Router      /todos/{id} [get]
-func ShowTodo(c *gin.Context) {
-	id, err := strconv.Atoi(c.Param("id"))
+func ShowTodo(ctx *gin.Context) {
+	id, err := strconv.Atoi(ctx.Param("id"))
 	if err != nil {
 		panic(err)
 	}
 
-	resourceType := strings.Split(c.Request.URL.Path, "/")[3]
+	resourceType := strings.Split(ctx.Request.URL.Path, "/")[3]
 
 	result, err := getByID(resourceType, id)
 	if err != nil {
-		c.JSON(http.StatusNotFound, &httpError{Error: err.Error()})
+		ctx.JSON(http.StatusNotFound, &httpError{Error: err.Error()})
 		return
 	}
 
-	c.JSON(http.StatusOK, result)
+	ctx.JSON(http.StatusOK, result)
 }
 
 // ShowUser     godoc
@@ -404,19 +404,19 @@ func ShowTodo(c *gin.Context) {
 // @Success     200  {object}  model.User
 // @Failure     404  {object}  httpError
 // @Router      /users/{id} [get]
-func ShowUser(c *gin.Context) {
-	id, err := strconv.Atoi(c.Param("id"))
+func ShowUser(ctx *gin.Context) {
+	id, err := strconv.Atoi(ctx.Param("id"))
 	if err != nil {
 		panic(err)
 	}
 
-	resourceType := strings.Split(c.Request.URL.Path, "/")[3]
+	resourceType := strings.Split(ctx.Request.URL.Path, "/")[3]
 
 	result, err := getByID(resourceType, id)
 	if err != nil {
-		c.JSON(http.StatusNotFound, &httpError{Error: err.Error()})
+		ctx.JSON(http.StatusNotFound, &httpError{Error: err.Error()})
 		return
 	}
 
-	c.JSON(http.StatusOK, result)
+	ctx.JSON(http.StatusOK, result)
 }

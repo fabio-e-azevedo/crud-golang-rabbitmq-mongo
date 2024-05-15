@@ -34,60 +34,60 @@ type Resource struct {
 
 type Album struct {
 	Id     int    `json:"id" bson:"_id"`
-	UserId int16  `json:"userId" bson:"userId"`
-	Title  string `json:"title" bson:"title"`
+	UserId int16  `json:"userId" bson:"userId" validate:"required"`
+	Title  string `json:"title" bson:"title" validate:"required"`
 }
 
 type Comment struct {
 	Id     int    `json:"id" bson:"_id"`
-	PostId int16  `json:"postId" bson:"postId"`
-	Name   string `json:"name" bson:"name"`
-	Email  string `json:"email" bson:"email"`
-	Body   string `json:"body" bson:"body"`
+	PostId int16  `json:"postId" bson:"postId" validate:"required"`
+	Name   string `json:"name" bson:"name" validate:"required"`
+	Email  string `json:"email" bson:"email" validate:"required"`
+	Body   string `json:"body" bson:"body" validate:"required"`
 }
 
 type Post struct {
 	Id     int    `json:"id" bson:"_id"`
-	UserId int16  `json:"userId" bson:"userId"`
-	Title  string `json:"title" bson:"title"`
-	Body   string `json:"body" bson:"body"`
+	UserId int16  `json:"userId" bson:"userId" validate:"required"`
+	Title  string `json:"title" bson:"title" validate:"required"`
+	Body   string `json:"body" bson:"body" validate:"required"`
 }
 
 type Photo struct {
 	Id           int    `json:"id" bson:"_id"`
-	AlbumId      int16  `json:"albumId" bson:"albumId"`
-	Title        string `json:"title" bson:"title"`
-	Url          string `json:"url" bson:"url"`
-	ThumbnailUrl string `json:"thumbnailUrl" bson:"thumbnailUrl"`
+	AlbumId      int16  `json:"albumId" bson:"albumId" validate:"required"`
+	Title        string `json:"title" bson:"title" validate:"required"`
+	Url          string `json:"url" bson:"url" validate:"required"`
+	ThumbnailUrl string `json:"thumbnailUrl" bson:"thumbnailUrl" validate:"required"`
 }
 
 type Todo struct {
 	Id        int    `json:"id" bson:"_id"`
-	UserId    int16  `json:"userId" bson:"userId"`
-	Title     string `json:"title" bson:"title"`
-	Completed bool   `json:"completed" bson:"completed"`
+	UserId    int16  `json:"userId" bson:"userId" validate:"required"`
+	Title     string `json:"title" bson:"title" validate:"required"`
+	Completed bool   `json:"completed" bson:"completed" validate:"required"`
 }
 
 type User struct {
 	Id       int    `json:"id" bson:"_id"`
-	Name     string `json:"name" bson:"name"`
-	Username string `json:"username" bson:"username"`
-	Email    string `json:"email" bson:"email"`
+	Name     string `json:"name" bson:"name" validate:"required"`
+	Username string `json:"username" bson:"username" validate:"required"`
+	Email    string `json:"email" bson:"email" validate:"required"`
 	Address  struct {
-		Street  string `json:"street" bson:"street"`
-		Suite   string `json:"suite" bson:"suite"`
-		City    string `json:"city" bson:"city"`
-		ZipCode string `json:"zipcode" bson:"zipcode"`
+		Street  string `json:"street" bson:"street" validate:"required"`
+		Suite   string `json:"suite" bson:"suite" validate:"required"`
+		City    string `json:"city" bson:"city" validate:"required"`
+		ZipCode string `json:"zipcode" bson:"zipcode" validate:"required"`
 		Geo     struct {
-			Lat string `json:"lat" bson:"lat"`
-			Lng string `json:"lng" bson:"lng"`
-		} `json:"geo" bson:"geo"`
-	} `json:"address" bson:"address"`
-	Phone   string `json:"phone" bson:"phone"`
-	Website string `json:"website" bson:"website"`
+			Lat string `json:"lat" bson:"lat" validate:"required"`
+			Lng string `json:"lng" bson:"lng" validate:"required"`
+		} `json:"geo" bson:"geo" validate:"required"`
+	} `json:"address" bson:"address" validate:"required"`
+	Phone   string `json:"phone" bson:"phone" validate:"required"`
+	Website string `json:"website" bson:"website" validate:"required"`
 	Company struct {
-		Name        string `json:"name" bson:"name"`
-		CatchPhrase string `json:"catchPhrase" bson:"catchPhrase"`
-		Bs          string `json:"bs" bson:"bs"`
-	} `json:"company" bson:"company"`
+		Name        string `json:"name" bson:"name" validate:"required"`
+		CatchPhrase string `json:"catchPhrase" bson:"catchPhrase" validate:"required"`
+		Bs          string `json:"bs" bson:"bs" validate:"required"`
+	} `json:"company" bson:"company" validate:"required"`
 }

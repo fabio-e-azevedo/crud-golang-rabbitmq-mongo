@@ -19,9 +19,7 @@ type httpSuccess struct {
 	Result string `json:"result"`
 }
 
-func deleteByID(r string, id int) (string, error) {
-	resourceType := r
-
+func deleteByID(resourceType string, id int) (string, error) {
 	cfg := config.NewConfigMongo()
 	cfgMongo := mongodb.DbConnect{
 		URI:        cfg.MongoURI,
@@ -47,21 +45,21 @@ func deleteByID(r string, id int) (string, error) {
 // @Success     204  {object}  httpSuccess
 // @Failure     404  {object}  httpError
 // @Router      /albums/{id} [delete]
-func DeleteAlbum(c *gin.Context) {
-	id, err := strconv.Atoi(c.Param("id"))
+func DeleteAlbum(ctx *gin.Context) {
+	id, err := strconv.Atoi(ctx.Param("id"))
 	if err != nil {
 		panic(err)
 	}
 
-	resourceType := strings.Split(c.Request.URL.Path, "/")[3]
+	resourceType := strings.Split(ctx.Request.URL.Path, "/")[3]
 
 	result, err := deleteByID(resourceType, id)
 	if err != nil {
-		c.JSON(http.StatusNotFound, &httpError{Error: err.Error()})
+		ctx.JSON(http.StatusNotFound, &httpError{Error: err.Error()})
 		return
 	}
 
-	c.JSON(http.StatusNoContent, &httpSuccess{Result: result})
+	ctx.JSON(http.StatusNoContent, &httpSuccess{Result: result})
 }
 
 // DeleteComment godoc
@@ -74,21 +72,21 @@ func DeleteAlbum(c *gin.Context) {
 // @Success      204  {object}  httpSuccess
 // @Failure      404  {object}  httpError
 // @Router       /comments/{id} [delete]
-func DeleteComment(c *gin.Context) {
-	id, err := strconv.Atoi(c.Param("id"))
+func DeleteComment(ctx *gin.Context) {
+	id, err := strconv.Atoi(ctx.Param("id"))
 	if err != nil {
 		panic(err)
 	}
 
-	resourceType := strings.Split(c.Request.URL.Path, "/")[3]
+	resourceType := strings.Split(ctx.Request.URL.Path, "/")[3]
 
 	result, err := deleteByID(resourceType, id)
 	if err != nil {
-		c.JSON(http.StatusNotFound, &httpError{Error: err.Error()})
+		ctx.JSON(http.StatusNotFound, &httpError{Error: err.Error()})
 		return
 	}
 
-	c.JSON(http.StatusNoContent, &httpSuccess{Result: result})
+	ctx.JSON(http.StatusNoContent, &httpSuccess{Result: result})
 }
 
 // DeletePhoto  godoc
@@ -101,21 +99,21 @@ func DeleteComment(c *gin.Context) {
 // @Success     204  {object}  httpSuccess
 // @Failure     404  {object}  httpError
 // @Router      /photos/{id} [delete]
-func DeletePhoto(c *gin.Context) {
-	id, err := strconv.Atoi(c.Param("id"))
+func DeletePhoto(ctx *gin.Context) {
+	id, err := strconv.Atoi(ctx.Param("id"))
 	if err != nil {
 		panic(err)
 	}
 
-	resourceType := strings.Split(c.Request.URL.Path, "/")[3]
+	resourceType := strings.Split(ctx.Request.URL.Path, "/")[3]
 
 	result, err := deleteByID(resourceType, id)
 	if err != nil {
-		c.JSON(http.StatusNotFound, &httpError{Error: err.Error()})
+		ctx.JSON(http.StatusNotFound, &httpError{Error: err.Error()})
 		return
 	}
 
-	c.JSON(http.StatusNoContent, &httpSuccess{Result: result})
+	ctx.JSON(http.StatusNoContent, &httpSuccess{Result: result})
 }
 
 // DeletePost   godoc
@@ -128,21 +126,21 @@ func DeletePhoto(c *gin.Context) {
 // @Success     204  {object}  httpSuccess
 // @Failure     404  {object}  httpError
 // @Router      /posts/{id} [delete]
-func DeletePost(c *gin.Context) {
-	id, err := strconv.Atoi(c.Param("id"))
+func DeletePost(ctx *gin.Context) {
+	id, err := strconv.Atoi(ctx.Param("id"))
 	if err != nil {
 		panic(err)
 	}
 
-	resourceType := strings.Split(c.Request.URL.Path, "/")[3]
+	resourceType := strings.Split(ctx.Request.URL.Path, "/")[3]
 
 	result, err := deleteByID(resourceType, id)
 	if err != nil {
-		c.JSON(http.StatusNotFound, &httpError{Error: err.Error()})
+		ctx.JSON(http.StatusNotFound, &httpError{Error: err.Error()})
 		return
 	}
 
-	c.JSON(http.StatusNoContent, &httpSuccess{Result: result})
+	ctx.JSON(http.StatusNoContent, &httpSuccess{Result: result})
 }
 
 // DeleteTodo   godoc
@@ -155,21 +153,21 @@ func DeletePost(c *gin.Context) {
 // @Success     204  {object}  httpSuccess
 // @Failure     404  {object}  httpError
 // @Router      /todos/{id} [delete]
-func DeleteTodo(c *gin.Context) {
-	id, err := strconv.Atoi(c.Param("id"))
+func DeleteTodo(ctx *gin.Context) {
+	id, err := strconv.Atoi(ctx.Param("id"))
 	if err != nil {
 		panic(err)
 	}
 
-	resourceType := strings.Split(c.Request.URL.Path, "/")[3]
+	resourceType := strings.Split(ctx.Request.URL.Path, "/")[3]
 
 	result, err := deleteByID(resourceType, id)
 	if err != nil {
-		c.JSON(http.StatusNotFound, &httpError{Error: err.Error()})
+		ctx.JSON(http.StatusNotFound, &httpError{Error: err.Error()})
 		return
 	}
 
-	c.JSON(http.StatusNoContent, &httpSuccess{Result: result})
+	ctx.JSON(http.StatusNoContent, &httpSuccess{Result: result})
 }
 
 // DeleteUser   godoc
@@ -182,19 +180,19 @@ func DeleteTodo(c *gin.Context) {
 // @Success     204  {object}  httpSuccess
 // @Failure     404  {object}  httpError
 // @Router      /users/{id} [delete]
-func DeleteUser(c *gin.Context) {
-	id, err := strconv.Atoi(c.Param("id"))
+func DeleteUser(ctx *gin.Context) {
+	id, err := strconv.Atoi(ctx.Param("id"))
 	if err != nil {
 		panic(err)
 	}
 
-	resourceType := strings.Split(c.Request.URL.Path, "/")[3]
+	resourceType := strings.Split(ctx.Request.URL.Path, "/")[3]
 
 	result, err := deleteByID(resourceType, id)
 	if err != nil {
-		c.JSON(http.StatusNotFound, &httpError{Error: err.Error()})
+		ctx.JSON(http.StatusNotFound, &httpError{Error: err.Error()})
 		return
 	}
 
-	c.JSON(http.StatusNoContent, &httpSuccess{Result: result})
+	ctx.JSON(http.StatusNoContent, &httpSuccess{Result: result})
 }

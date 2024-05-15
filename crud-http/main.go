@@ -2,6 +2,7 @@ package main
 
 import (
 	"crud-golang-rabbitmq-mongo/crud-http/controllers"
+	"log"
 	"net/http"
 
 	_ "crud-golang-rabbitmq-mongo/pkg/docs"
@@ -34,6 +35,7 @@ func main() {
 			albums.GET("", controllers.ListAlbums)
 			albums.POST("", controllers.AddAlbum)
 			albums.DELETE(":id", controllers.DeleteAlbum)
+			albums.PUT(":id", controllers.UpdateAlbum)
 		}
 
 		comments := v1.Group("/comments")
@@ -42,6 +44,7 @@ func main() {
 			comments.GET("", controllers.ListComments)
 			comments.POST("", controllers.AddComment)
 			comments.DELETE(":id", controllers.DeleteComment)
+			comments.PUT(":id", controllers.UpdateComment)
 		}
 
 		photos := v1.Group("/photos")
@@ -50,6 +53,7 @@ func main() {
 			photos.GET("", controllers.ListPhotos)
 			photos.POST("", controllers.AddPhoto)
 			photos.DELETE(":id", controllers.DeletePhoto)
+			photos.PUT(":id", controllers.UpdatePhoto)
 		}
 
 		posts := v1.Group("/posts")
@@ -58,6 +62,7 @@ func main() {
 			posts.GET("", controllers.ListPosts)
 			posts.POST("", controllers.AddPost)
 			posts.DELETE(":id", controllers.DeletePost)
+			posts.PUT(":id", controllers.UpdatePost)
 		}
 
 		todos := v1.Group("/todos")
@@ -66,6 +71,7 @@ func main() {
 			todos.GET("", controllers.ListTodos)
 			todos.POST("", controllers.AddTodo)
 			todos.DELETE(":id", controllers.DeleteTodo)
+			todos.PUT(":id", controllers.UpdateTodo)
 		}
 
 		users := v1.Group("/users")
@@ -74,6 +80,7 @@ func main() {
 			users.GET("", controllers.ListUsers)
 			users.POST("", controllers.AddUser)
 			users.DELETE(":id", controllers.DeleteUser)
+			users.PUT(":id", controllers.UpdateUser)
 		}
 	}
 	router.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerfiles.Handler))
@@ -90,5 +97,5 @@ func main() {
 	// v2.GET("/users", controllers.GetAllv2)
 
 	//router.PATCH("/users/:id", patchUserByID)
-	router.Run("0.0.0.0:5000")
+	log.Fatal(router.Run("0.0.0.0:5000"))
 }
