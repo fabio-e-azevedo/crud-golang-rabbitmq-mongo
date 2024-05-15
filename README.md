@@ -44,28 +44,6 @@ make down
 
 ## API REST
 
-| Method      |          Resource           |
-|:-----------:|:---------------------------:|
-|  GET, POST  |     /api/v1/albums          |
-|  GET, POST  |     /api/v1/comments        |
-|  GET, POST  |     /api/v1/photos          |
-|  GET, POST  |     /api/v1/posts           |
-|  GET, POST  |     /api/v1/todos           |
-|  GET, POST  |     /api/v1/users           |
-| GET, DELETE |     /api/v1/albums/{id}     |
-| GET, DELETE |     /api/v1/comments/{id}   |
-| GET, DELETE |     /api/v1/photos/{id}     |
-| GET, DELETE |     /api/v1/posts/{id}      |
-| GET, DELETE |     /api/v1/todos/{id}      |
-| GET, DELETE |     /api/v1/users/{id}      |
-
-
-
-
-
-
-
-
-
-
-
+| Method |  Resource  |
+|:------:|:----------:|
+|  GET   |  /swagger  |

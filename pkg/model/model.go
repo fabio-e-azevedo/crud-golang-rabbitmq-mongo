@@ -1,4 +1,4 @@
-package jsonplaceholder
+package model
 
 type Resource struct {
 	Id       int     `json:"id" bson:"_id"`

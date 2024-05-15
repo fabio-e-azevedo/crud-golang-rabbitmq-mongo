@@ -15,7 +15,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-// func GetAllv2(c *gin.Context) {
+// func GetAll(c *gin.Context) {
 // 	resourceType := strings.Split(c.Request.URL.Path, "/")[3]
 
 // 	cfg := config.NewConfigMongo()
@@ -44,12 +44,10 @@ import (
 // 	c.JSON(http.StatusOK, &result)
 // }
 
-func getAllV2(r string) ([]jph.IResource, error) {
+func getAll(resourceType string) ([]jph.IResource, error) {
 	var resultBytes []byte
 	var totalDocuments int
 	var err error
-
-	resourceType := r
 
 	resultRedis, err := rediscache.Get(resourceType)
 	if err != nil {
@@ -82,19 +80,19 @@ func getAllV2(r string) ([]jph.IResource, error) {
 	return result, nil
 }
 
-// ListAlbums godoc
-// @Summary      List albums
-// @Description  get all albums
-// @Tags         albums
-// @Accept       json
-// @Produce      json
-// @Success      200  {array}   jph.Album
-// @Failure      404  {string}  "error"
-// @Router       /albums [get]
-func GetAlbums(c *gin.Context) {
+// ListAlbums   godoc
+// @Summary     List All Albums
+// @Description get all albums
+// @Tags        albums
+// @Accept      json
+// @Produce     json
+// @Success     200  {array}   model.Album
+// @Failure     404  {string}  "error"
+// @Router      /albums [get]
+func ListAlbums(c *gin.Context) {
 	resourceType := strings.Split(c.Request.URL.Path, "/")[3]
 
-	result, err := getAllV2(resourceType)
+	result, err := getAll(resourceType)
 	if err != nil {
 		c.JSON(http.StatusNotFound, gin.H{
 			"error": err,
@@ -106,18 +104,18 @@ func GetAlbums(c *gin.Context) {
 }
 
 // ListComments godoc
-// @Summary      List comments
-// @Description  get all comments
-// @Tags         comments
-// @Accept       json
-// @Produce      json
-// @Success      200  {array}   jph.Comment
-// @Failure      404  {string}  "error"
-// @Router       /comments [get]
-func GetComments(c *gin.Context) {
+// @Summary     List All Comments
+// @Description get all comments
+// @Tags        comments
+// @Accept      json
+// @Produce     json
+// @Success     200  {array}   model.Comment
+// @Failure     404  {string}  "error"
+// @Router      /comments [get]
+func ListComments(c *gin.Context) {
 	resourceType := strings.Split(c.Request.URL.Path, "/")[3]
 
-	result, err := getAllV2(resourceType)
+	result, err := getAll(resourceType)
 	if err != nil {
 		c.JSON(http.StatusNotFound, gin.H{
 			"error": err,
@@ -128,19 +126,19 @@ func GetComments(c *gin.Context) {
 	c.JSON(http.StatusOK, &result)
 }
 
-// ListPhotos godoc
-// @Summary      List photos
-// @Description  get all photos
-// @Tags         photos
-// @Accept       json
-// @Produce      json
-// @Success      200  {array}   jph.Photo
-// @Failure      404  {string}  "error"
-// @Router       /photos [get]
-func GetPhotos(c *gin.Context) {
+// ListPhotos   godoc
+// @Summary     List All Photos
+// @Description get all photos
+// @Tags        photos
+// @Accept      json
+// @Produce     json
+// @Success     200  {array}   model.Photo
+// @Failure     404  {string}  "error"
+// @Router      /photos [get]
+func ListPhotos(c *gin.Context) {
 	resourceType := strings.Split(c.Request.URL.Path, "/")[3]
 
-	result, err := getAllV2(resourceType)
+	result, err := getAll(resourceType)
 	if err != nil {
 		c.JSON(http.StatusNotFound, gin.H{
 			"error": err,
@@ -151,19 +149,19 @@ func GetPhotos(c *gin.Context) {
 	c.JSON(http.StatusOK, &result)
 }
 
-// ListPosts godoc
-// @Summary      List posts
-// @Description  get all posts
-// @Tags         posts
-// @Accept       json
-// @Produce      json
-// @Success      200  {array}   jph.Post
-// @Failure      404  {string}  "error"
-// @Router       /posts [get]
-func GetPosts(c *gin.Context) {
+// ListPosts    godoc
+// @Summary     List All Posts
+// @Description get all posts
+// @Tags        posts
+// @Accept      json
+// @Produce     json
+// @Success     200  {array}   model.Post
+// @Failure     404  {string}  "error"
+// @Router      /posts [get]
+func ListPosts(c *gin.Context) {
 	resourceType := strings.Split(c.Request.URL.Path, "/")[3]
 
-	result, err := getAllV2(resourceType)
+	result, err := getAll(resourceType)
 	if err != nil {
 		c.JSON(http.StatusNotFound, gin.H{
 			"error": err,
@@ -174,19 +172,19 @@ func GetPosts(c *gin.Context) {
 	c.JSON(http.StatusOK, &result)
 }
 
-// ListTodos godoc
-// @Summary      List todos
-// @Description  get all todos
-// @Tags         todos
-// @Accept       json
-// @Produce      json
-// @Success      200  {array}   jph.Todo
-// @Failure      404  {string}  "error"
-// @Router       /todos [get]
-func GetTodos(c *gin.Context) {
+// ListTodos    godoc
+// @Summary     List All Todos
+// @Description get all todos
+// @Tags        todos
+// @Accept      json
+// @Produce     json
+// @Success     200  {array}   model.Todo
+// @Failure     404  {string}  "error"
+// @Router      /todos [get]
+func ListTodos(c *gin.Context) {
 	resourceType := strings.Split(c.Request.URL.Path, "/")[3]
 
-	result, err := getAllV2(resourceType)
+	result, err := getAll(resourceType)
 	if err != nil {
 		c.JSON(http.StatusNotFound, gin.H{
 			"error": err,
@@ -197,19 +195,19 @@ func GetTodos(c *gin.Context) {
 	c.JSON(http.StatusOK, &result)
 }
 
-// ListUsers godoc
-// @Summary      List users
-// @Description  get all users
-// @Tags         users
-// @Accept       json
-// @Produce      json
-// @Success      200  {array}   jph.User
-// @Failure      404  {string}  "error"
-// @Router       /users [get]
-func GetUsers(c *gin.Context) {
+// ListUsers    godoc
+// @Summary     List All Users
+// @Description get all users
+// @Tags        users
+// @Accept      json
+// @Produce     json
+// @Success     200  {array}   model.User
+// @Failure     404  {string}  "error"
+// @Router      /users [get]
+func ListUsers(c *gin.Context) {
 	resourceType := strings.Split(c.Request.URL.Path, "/")[3]
 
-	result, err := getAllV2(resourceType)
+	result, err := getAll(resourceType)
 	if err != nil {
 		c.JSON(http.StatusNotFound, gin.H{
 			"error": err,
@@ -243,14 +241,7 @@ func GetUsers(c *gin.Context) {
 // 	}
 // }
 
-func GetByID(c *gin.Context) {
-	id, err := strconv.Atoi(c.Param("id"))
-	if err != nil {
-		panic(err)
-	}
-
-	resourceType := strings.Split(c.Request.URL.Path, "/")[3]
-
+func getByID(resourceType string, id int) (*jph.IResource, error) {
 	cfg := config.NewConfigMongo()
 	cfgMongo := mongodb.DbConnect{
 		URI:        cfg.MongoURI,
@@ -260,13 +251,172 @@ func GetByID(c *gin.Context) {
 
 	resultBytes, err := mongodb.FindOneById(id, &cfgMongo)
 	if err != nil {
-		c.JSON(http.StatusNotFound, gin.H{
-			"error": "not found document in mongo",
-		})
-		return
+		return nil, fmt.Errorf("not found document in mongo")
 	}
 
 	resource, _ := jph.GetResource(resourceType, resultBytes)
 
-	c.JSON(http.StatusOK, &resource)
+	return &resource, nil
+}
+
+// ShowAlbum    godoc
+// @Summary     Get Album By ID
+// @Description get album by id
+// @Tags        albums
+// @Accept      json
+// @Produce     json
+// @Param       id   path      int  true  "Album ID" minimum(1)
+// @Success     200  {object}  model.Album
+// @Failure     404  {object}  httpError
+// @Router      /albums/{id} [get]
+func ShowAlbum(c *gin.Context) {
+	id, err := strconv.Atoi(c.Param("id"))
+	if err != nil {
+		panic(err)
+	}
+
+	resourceType := strings.Split(c.Request.URL.Path, "/")[3]
+
+	result, err := getByID(resourceType, id)
+	if err != nil {
+		c.JSON(http.StatusNotFound, &httpError{Error: err.Error()})
+		return
+	}
+
+	c.JSON(http.StatusOK, result)
+}
+
+// ShowComment  godoc
+// @Summary     Get Comment By ID
+// @Description get comment by id
+// @Tags        comments
+// @Accept      json
+// @Produce     json
+// @Param       id   path      int  true  "Comment ID" minimum(1)
+// @Success     200  {object}  model.Comment
+// @Failure     404  {object}  httpError
+// @Router      /comments/{id} [get]
+func ShowComment(c *gin.Context) {
+	id, err := strconv.Atoi(c.Param("id"))
+	if err != nil {
+		panic(err)
+	}
+
+	resourceType := strings.Split(c.Request.URL.Path, "/")[3]
+
+	result, err := getByID(resourceType, id)
+	if err != nil {
+		c.JSON(http.StatusNotFound, &httpError{Error: err.Error()})
+		return
+	}
+
+	c.JSON(http.StatusOK, result)
+}
+
+// ShowPhoto    godoc
+// @Summary     Get Photo By ID
+// @Description get photo by id
+// @Tags        photos
+// @Accept      json
+// @Produce     json
+// @Param       id   path      int  true  "Photo ID" minimum(1)
+// @Success     200  {object}  model.Photo
+// @Failure     404  {object}  httpError
+// @Router      /photos/{id} [get]
+func ShowPhoto(c *gin.Context) {
+	id, err := strconv.Atoi(c.Param("id"))
+	if err != nil {
+		panic(err)
+	}
+
+	resourceType := strings.Split(c.Request.URL.Path, "/")[3]
+
+	result, err := getByID(resourceType, id)
+	if err != nil {
+		c.JSON(http.StatusNotFound, &httpError{Error: err.Error()})
+		return
+	}
+
+	c.JSON(http.StatusOK, result)
+}
+
+// ShowPost     godoc
+// @Summary     Get Post By ID
+// @Description get post by id
+// @Tags        posts
+// @Accept      json
+// @Produce     json
+// @Param       id   path      int  true  "Post ID" minimum(1)
+// @Success     200  {object}  model.Post
+// @Failure     404  {object}  httpError
+// @Router      /posts/{id} [get]
+func ShowPost(c *gin.Context) {
+	id, err := strconv.Atoi(c.Param("id"))
+	if err != nil {
+		panic(err)
+	}
+
+	resourceType := strings.Split(c.Request.URL.Path, "/")[3]
+
+	result, err := getByID(resourceType, id)
+	if err != nil {
+		c.JSON(http.StatusNotFound, &httpError{Error: err.Error()})
+		return
+	}
+
+	c.JSON(http.StatusOK, result)
+}
+
+// ShowTodo     godoc
+// @Summary     Get Todo By ID
+// @Description get todo by id
+// @Tags        todos
+// @Accept      json
+// @Produce     json
+// @Param       id   path      int  true  "Todo ID" minimum(1)
+// @Success     200  {object}  model.Todo
+// @Failure     404  {object}  httpError
+// @Router      /todos/{id} [get]
+func ShowTodo(c *gin.Context) {
+	id, err := strconv.Atoi(c.Param("id"))
+	if err != nil {
+		panic(err)
+	}
+
+	resourceType := strings.Split(c.Request.URL.Path, "/")[3]
+
+	result, err := getByID(resourceType, id)
+	if err != nil {
+		c.JSON(http.StatusNotFound, &httpError{Error: err.Error()})
+		return
+	}
+
+	c.JSON(http.StatusOK, result)
+}
+
+// ShowUser     godoc
+// @Summary     Get User By ID
+// @Description get user by id
+// @Tags        users
+// @Accept      json
+// @Produce     json
+// @Param       id   path      int  true  "User ID" minimum(1)
+// @Success     200  {object}  model.User
+// @Failure     404  {object}  httpError
+// @Router      /users/{id} [get]
+func ShowUser(c *gin.Context) {
+	id, err := strconv.Atoi(c.Param("id"))
+	if err != nil {
+		panic(err)
+	}
+
+	resourceType := strings.Split(c.Request.URL.Path, "/")[3]
+
+	result, err := getByID(resourceType, id)
+	if err != nil {
+		c.JSON(http.StatusNotFound, &httpError{Error: err.Error()})
+		return
+	}
+
+	c.JSON(http.StatusOK, result)
 }

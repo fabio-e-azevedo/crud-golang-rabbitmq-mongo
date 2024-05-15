@@ -1,4 +1,4 @@
-package jsonplaceholder
+package model
 
 import (
 	"encoding/json"

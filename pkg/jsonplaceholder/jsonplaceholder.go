@@ -1,15 +1,12 @@
 package jsonplaceholder
 
 import (
+	"crud-golang-rabbitmq-mongo/pkg/model"
 	"encoding/json"
 	"fmt"
 	"io"
 	"net/http"
 )
-
-type ValidResource interface {
-	User | Photo | Post | Comment | Album | Todo
-}
 
 type IResource interface {
 	Show() []byte
@@ -24,22 +21,22 @@ func GetResources(resourceType string, length int, data []byte) ([]IResource, er
 
 	switch resourceType {
 	case "albums":
-		resources := make([]*Album, length)
+		resources := make([]*model.Album, length)
 		result, err = newResources(resources, data)
 	case "comments":
-		resources := make([]*Comment, length)
+		resources := make([]*model.Comment, length)
 		result, err = newResources(resources, data)
 	case "photos":
-		resources := make([]*Photo, length)
+		resources := make([]*model.Photo, length)
 		result, err = newResources(resources, data)
 	case "posts":
-		resources := make([]*Post, length)
+		resources := make([]*model.Post, length)
 		result, err = newResources(resources, data)
 	case "todos":
-		resources := make([]*Todo, length)
+		resources := make([]*model.Todo, length)
 		result, err = newResources(resources, data)
 	case "users":
-		resources := make([]*User, length)
+		resources := make([]*model.User, length)
 		result, err = newResources(resources, data)
 	default:
 		return nil, nil
@@ -79,17 +76,17 @@ func newResource(resourceType string, data []byte) (IResource, error) {
 
 	switch resourceType {
 	case "albums":
-		resource = &Album{}
+		resource = &model.Album{}
 	case "comments":
-		resource = &Comment{}
+		resource = &model.Comment{}
 	case "photos":
-		resource = &Photo{}
+		resource = &model.Photo{}
 	case "posts":
-		resource = new(Post)
+		resource = new(model.Post)
 	case "todos":
-		resource = new(Todo)
+		resource = new(model.Todo)
 	case "users":
-		resource = new(User)
+		resource = new(model.User)
 	}
 
 	err := json.Unmarshal(data, &resource)
