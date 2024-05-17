@@ -41,10 +41,10 @@ func deleteByID(resourceType string, id int) (string, error) {
 // @Tags        albums
 // @Accept      json
 // @Produce     json
-// @Param       id   path      int  true  "Album ID" minimum(1)
+// @Param       id   path      int  true  "Album ID"
 // @Success     204  {object}  httpSuccess
 // @Failure     404  {object}  httpError
-// @Router      /albums/{id} [delete]
+// @Router      /v1/albums/{id} [delete]
 func DeleteAlbum(ctx *gin.Context) {
 	id, err := strconv.Atoi(ctx.Param("id"))
 	if err != nil {
@@ -68,10 +68,10 @@ func DeleteAlbum(ctx *gin.Context) {
 // @Tags         comments
 // @Accept       json
 // @Produce      json
-// @Param        id   path      int  true  "Comment ID" minimum(1)
+// @Param        id   path      int  true  "Comment ID"
 // @Success      204  {object}  httpSuccess
 // @Failure      404  {object}  httpError
-// @Router       /comments/{id} [delete]
+// @Router       /v1/comments/{id} [delete]
 func DeleteComment(ctx *gin.Context) {
 	id, err := strconv.Atoi(ctx.Param("id"))
 	if err != nil {
@@ -95,10 +95,10 @@ func DeleteComment(ctx *gin.Context) {
 // @Tags        photos
 // @Accept      json
 // @Produce     json
-// @Param       id   path      int  true  "Photo ID" minimum(1)
+// @Param       id   path      int  true  "Photo ID"
 // @Success     204  {object}  httpSuccess
 // @Failure     404  {object}  httpError
-// @Router      /photos/{id} [delete]
+// @Router      /v1/photos/{id} [delete]
 func DeletePhoto(ctx *gin.Context) {
 	id, err := strconv.Atoi(ctx.Param("id"))
 	if err != nil {
@@ -122,10 +122,10 @@ func DeletePhoto(ctx *gin.Context) {
 // @Tags        posts
 // @Accept      json
 // @Produce     json
-// @Param       id   path      int  true  "Post ID" minimum(1)
+// @Param       id   path      int  true  "Post ID"
 // @Success     204  {object}  httpSuccess
 // @Failure     404  {object}  httpError
-// @Router      /posts/{id} [delete]
+// @Router      /v1/posts/{id} [delete]
 func DeletePost(ctx *gin.Context) {
 	id, err := strconv.Atoi(ctx.Param("id"))
 	if err != nil {
@@ -149,10 +149,10 @@ func DeletePost(ctx *gin.Context) {
 // @Tags        todos
 // @Accept      json
 // @Produce     json
-// @Param       id   path      int  true  "Todo ID" minimum(1)
+// @Param       id   path      int  true  "Todo ID"
 // @Success     204  {object}  httpSuccess
 // @Failure     404  {object}  httpError
-// @Router      /todos/{id} [delete]
+// @Router      /v1/todos/{id} [delete]
 func DeleteTodo(ctx *gin.Context) {
 	id, err := strconv.Atoi(ctx.Param("id"))
 	if err != nil {
@@ -176,10 +176,10 @@ func DeleteTodo(ctx *gin.Context) {
 // @Tags        users
 // @Accept      json
 // @Produce     json
-// @Param       id   path      int  true  "User ID" minimum(1)
+// @Param       id   path      int  true  "User ID"
 // @Success     204  {object}  httpSuccess
 // @Failure     404  {object}  httpError
-// @Router      /users/{id} [delete]
+// @Router      /v1/users/{id} [delete]
 func DeleteUser(ctx *gin.Context) {
 	id, err := strconv.Atoi(ctx.Param("id"))
 	if err != nil {

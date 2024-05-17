@@ -1,4 +1,4 @@
-basePath: /api/v1
+basePath: /api
 definitions:
   controllers.httpError:
     properties:
@@ -166,7 +166,7 @@ info:
   title: CRUD API REST
   version: 1.0.0
 paths:
-  /albums:
+  /v1/albums:
     get:
       consumes:
       - application/json
@@ -219,7 +219,6 @@ paths:
       parameters:
       - description: Album ID
         in: path
-        minimum: 1
         name: id
         required: true
         type: integer
@@ -243,7 +242,7 @@ paths:
       summary: Update Album
       tags:
       - albums
-  /albums/{id}:
+  /v1/albums/{id}:
     delete:
       consumes:
       - application/json
@@ -251,7 +250,6 @@ paths:
       parameters:
       - description: Album ID
         in: path
-        minimum: 1
         name: id
         required: true
         type: integer
@@ -276,7 +274,6 @@ paths:
       parameters:
       - description: Album ID
         in: path
-        minimum: 1
         name: id
         required: true
         type: integer
@@ -294,7 +291,7 @@ paths:
       summary: Get Album By ID
       tags:
       - albums
-  /comments:
+  /v1/comments:
     get:
       consumes:
       - application/json
@@ -347,7 +344,6 @@ paths:
       parameters:
       - description: Comment ID
         in: path
-        minimum: 1
         name: id
         required: true
         type: integer
@@ -371,7 +367,7 @@ paths:
       summary: Update Comment
       tags:
       - comments
-  /comments/{id}:
+  /v1/comments/{id}:
     delete:
       consumes:
       - application/json
@@ -379,7 +375,6 @@ paths:
       parameters:
       - description: Comment ID
         in: path
-        minimum: 1
         name: id
         required: true
         type: integer
@@ -404,7 +399,6 @@ paths:
       parameters:
       - description: Comment ID
         in: path
-        minimum: 1
         name: id
         required: true
         type: integer
@@ -422,7 +416,7 @@ paths:
       summary: Get Comment By ID
       tags:
       - comments
-  /photos:
+  /v1/photos:
     get:
       consumes:
       - application/json
@@ -475,7 +469,6 @@ paths:
       parameters:
       - description: Photo ID
         in: path
-        minimum: 1
         name: id
         required: true
         type: integer
@@ -499,7 +492,7 @@ paths:
       summary: Update Photo
       tags:
       - photos
-  /photos/{id}:
+  /v1/photos/{id}:
     delete:
       consumes:
       - application/json
@@ -507,7 +500,6 @@ paths:
       parameters:
       - description: Photo ID
         in: path
-        minimum: 1
         name: id
         required: true
         type: integer
@@ -532,7 +524,6 @@ paths:
       parameters:
       - description: Photo ID
         in: path
-        minimum: 1
         name: id
         required: true
         type: integer
@@ -550,7 +541,7 @@ paths:
       summary: Get Photo By ID
       tags:
       - photos
-  /posts:
+  /v1/posts:
     get:
       consumes:
       - application/json
@@ -603,7 +594,6 @@ paths:
       parameters:
       - description: Post ID
         in: path
-        minimum: 1
         name: id
         required: true
         type: integer
@@ -627,7 +617,7 @@ paths:
       summary: Update Post
       tags:
       - posts
-  /posts/{id}:
+  /v1/posts/{id}:
     delete:
       consumes:
       - application/json
@@ -635,7 +625,6 @@ paths:
       parameters:
       - description: Post ID
         in: path
-        minimum: 1
         name: id
         required: true
         type: integer
@@ -660,7 +649,6 @@ paths:
       parameters:
       - description: Post ID
         in: path
-        minimum: 1
         name: id
         required: true
         type: integer
@@ -678,7 +666,7 @@ paths:
       summary: Get Post By ID
       tags:
       - posts
-  /todos:
+  /v1/todos:
     get:
       consumes:
       - application/json
@@ -731,7 +719,6 @@ paths:
       parameters:
       - description: Todo ID
         in: path
-        minimum: 1
         name: id
         required: true
         type: integer
@@ -755,7 +742,7 @@ paths:
       summary: Update Todo
       tags:
       - todos
-  /todos/{id}:
+  /v1/todos/{id}:
     delete:
       consumes:
       - application/json
@@ -763,7 +750,6 @@ paths:
       parameters:
       - description: Todo ID
         in: path
-        minimum: 1
         name: id
         required: true
         type: integer
@@ -788,7 +774,6 @@ paths:
       parameters:
       - description: Todo ID
         in: path
-        minimum: 1
         name: id
         required: true
         type: integer
@@ -806,7 +791,7 @@ paths:
       summary: Get Todo By ID
       tags:
       - todos
-  /users:
+  /v1/users:
     get:
       consumes:
       - application/json
@@ -859,7 +844,6 @@ paths:
       parameters:
       - description: User ID
         in: path
-        minimum: 1
         name: id
         required: true
         type: integer
@@ -883,7 +867,7 @@ paths:
       summary: Update User
       tags:
       - users
-  /users/{id}:
+  /v1/users/{id}:
     delete:
       consumes:
       - application/json
@@ -891,7 +875,6 @@ paths:
       parameters:
       - description: User ID
         in: path
-        minimum: 1
         name: id
         required: true
         type: integer
@@ -916,7 +899,6 @@ paths:
       parameters:
       - description: User ID
         in: path
-        minimum: 1
         name: id
         required: true
         type: integer

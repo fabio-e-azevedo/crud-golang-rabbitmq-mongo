@@ -30,7 +30,7 @@ func postAll(resourceType string, content jsonplaceholder.IResource) {
 // @Param       request body model.Album true "album model for creation"
 // @Success     204  {object}  model.Album
 // @Failure     400  {object}  httpError
-// @Router      /albums         [post]
+// @Router      /v1/albums [post]
 func AddAlbum(ctx *gin.Context) {
 	resourceType := strings.Split(ctx.Request.URL.Path, "/")[3]
 
@@ -54,7 +54,7 @@ func AddAlbum(ctx *gin.Context) {
 // @Param       request body model.Comment true "comment model for creation"
 // @Success     204  {object}  model.Comment
 // @Failure     400  {object}  httpError
-// @Router      /comments         [post]
+// @Router      /v1/comments [post]
 func AddComment(ctx *gin.Context) {
 	resourceType := strings.Split(ctx.Request.URL.Path, "/")[3]
 
@@ -78,7 +78,7 @@ func AddComment(ctx *gin.Context) {
 // @Param       request body model.Photo true "photo model for creation"
 // @Success     204  {object}  model.Photo
 // @Failure     400  {object}  httpError
-// @Router      /photos         [post]
+// @Router      /v1/photos [post]
 func AddPhoto(ctx *gin.Context) {
 	resourceType := strings.Split(ctx.Request.URL.Path, "/")[3]
 
@@ -102,7 +102,7 @@ func AddPhoto(ctx *gin.Context) {
 // @Param       request body model.Post true "post model for creation"
 // @Success     204  {object}  model.Post
 // @Failure     400  {object}  httpError
-// @Router      /posts         [post]
+// @Router      /v1/posts [post]
 func AddPost(ctx *gin.Context) {
 	resourceType := strings.Split(ctx.Request.URL.Path, "/")[3]
 
@@ -126,7 +126,7 @@ func AddPost(ctx *gin.Context) {
 // @Param       request body model.Todo true "todo model for creation"
 // @Success     204  {object}  model.Todo
 // @Failure     400  {object}  httpError
-// @Router      /todos         [post]
+// @Router      /v1/todos [post]
 func AddTodo(ctx *gin.Context) {
 	resourceType := strings.Split(ctx.Request.URL.Path, "/")[3]
 
@@ -150,7 +150,7 @@ func AddTodo(ctx *gin.Context) {
 // @Param       request body model.User true "user model for creation"
 // @Success     204  {object}  model.User
 // @Failure     400  {object}  httpError
-// @Router      /users         [post]
+// @Router      /v1/users [post]
 func AddUser(ctx *gin.Context) {
 	resourceType := strings.Split(ctx.Request.URL.Path, "/")[3]
 

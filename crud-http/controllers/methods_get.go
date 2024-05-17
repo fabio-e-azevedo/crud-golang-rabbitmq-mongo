@@ -88,7 +88,7 @@ func getAll(resourceType string) ([]jph.IResource, error) {
 // @Produce     json
 // @Success     200  {array}   model.Album
 // @Failure     404  {string}  "error"
-// @Router      /albums [get]
+// @Router      /v1/albums [get]
 func ListAlbums(ctx *gin.Context) {
 	resourceType := strings.Split(ctx.Request.URL.Path, "/")[3]
 
@@ -111,7 +111,7 @@ func ListAlbums(ctx *gin.Context) {
 // @Produce     json
 // @Success     200  {array}   model.Comment
 // @Failure     404  {string}  "error"
-// @Router      /comments [get]
+// @Router      /v1/comments [get]
 func ListComments(ctx *gin.Context) {
 	resourceType := strings.Split(ctx.Request.URL.Path, "/")[3]
 
@@ -134,7 +134,7 @@ func ListComments(ctx *gin.Context) {
 // @Produce     json
 // @Success     200  {array}   model.Photo
 // @Failure     404  {string}  "error"
-// @Router      /photos [get]
+// @Router      /v1/photos [get]
 func ListPhotos(ctx *gin.Context) {
 	resourceType := strings.Split(ctx.Request.URL.Path, "/")[3]
 
@@ -157,7 +157,7 @@ func ListPhotos(ctx *gin.Context) {
 // @Produce     json
 // @Success     200  {array}   model.Post
 // @Failure     404  {string}  "error"
-// @Router      /posts [get]
+// @Router      /v1/posts [get]
 func ListPosts(ctx *gin.Context) {
 	resourceType := strings.Split(ctx.Request.URL.Path, "/")[3]
 
@@ -180,7 +180,7 @@ func ListPosts(ctx *gin.Context) {
 // @Produce     json
 // @Success     200  {array}   model.Todo
 // @Failure     404  {string}  "error"
-// @Router      /todos [get]
+// @Router      /v1/todos [get]
 func ListTodos(ctx *gin.Context) {
 	resourceType := strings.Split(ctx.Request.URL.Path, "/")[3]
 
@@ -203,7 +203,7 @@ func ListTodos(ctx *gin.Context) {
 // @Produce     json
 // @Success     200  {array}   model.User
 // @Failure     404  {string}  "error"
-// @Router      /users [get]
+// @Router      /v1/users [get]
 func ListUsers(ctx *gin.Context) {
 	resourceType := strings.Split(ctx.Request.URL.Path, "/")[3]
 
@@ -265,10 +265,10 @@ func getByID(resourceType string, id int) (*jph.IResource, error) {
 // @Tags        albums
 // @Accept      json
 // @Produce     json
-// @Param       id   path      int  true  "Album ID" minimum(1)
+// @Param       id   path      int  true  "Album ID"
 // @Success     200  {object}  model.Album
 // @Failure     404  {object}  httpError
-// @Router      /albums/{id} [get]
+// @Router      /v1/albums/{id} [get]
 func ShowAlbum(ctx *gin.Context) {
 	id, err := strconv.Atoi(ctx.Param("id"))
 	if err != nil {
@@ -292,10 +292,10 @@ func ShowAlbum(ctx *gin.Context) {
 // @Tags        comments
 // @Accept      json
 // @Produce     json
-// @Param       id   path      int  true  "Comment ID" minimum(1)
+// @Param       id   path      int  true  "Comment ID"
 // @Success     200  {object}  model.Comment
 // @Failure     404  {object}  httpError
-// @Router      /comments/{id} [get]
+// @Router      /v1/comments/{id} [get]
 func ShowComment(ctx *gin.Context) {
 	id, err := strconv.Atoi(ctx.Param("id"))
 	if err != nil {
@@ -319,10 +319,10 @@ func ShowComment(ctx *gin.Context) {
 // @Tags        photos
 // @Accept      json
 // @Produce     json
-// @Param       id   path      int  true  "Photo ID" minimum(1)
+// @Param       id   path      int  true  "Photo ID"
 // @Success     200  {object}  model.Photo
 // @Failure     404  {object}  httpError
-// @Router      /photos/{id} [get]
+// @Router      /v1/photos/{id} [get]
 func ShowPhoto(ctx *gin.Context) {
 	id, err := strconv.Atoi(ctx.Param("id"))
 	if err != nil {
@@ -346,10 +346,10 @@ func ShowPhoto(ctx *gin.Context) {
 // @Tags        posts
 // @Accept      json
 // @Produce     json
-// @Param       id   path      int  true  "Post ID" minimum(1)
+// @Param       id   path      int  true  "Post ID"
 // @Success     200  {object}  model.Post
 // @Failure     404  {object}  httpError
-// @Router      /posts/{id} [get]
+// @Router      /v1/posts/{id} [get]
 func ShowPost(ctx *gin.Context) {
 	id, err := strconv.Atoi(ctx.Param("id"))
 	if err != nil {
@@ -373,10 +373,10 @@ func ShowPost(ctx *gin.Context) {
 // @Tags        todos
 // @Accept      json
 // @Produce     json
-// @Param       id   path      int  true  "Todo ID" minimum(1)
+// @Param       id   path      int  true  "Todo ID"
 // @Success     200  {object}  model.Todo
 // @Failure     404  {object}  httpError
-// @Router      /todos/{id} [get]
+// @Router      /v1/todos/{id} [get]
 func ShowTodo(ctx *gin.Context) {
 	id, err := strconv.Atoi(ctx.Param("id"))
 	if err != nil {
@@ -400,10 +400,10 @@ func ShowTodo(ctx *gin.Context) {
 // @Tags        users
 // @Accept      json
 // @Produce     json
-// @Param       id   path      int  true  "User ID" minimum(1)
+// @Param       id   path      int  true  "User ID"
 // @Success     200  {object}  model.User
 // @Failure     404  {object}  httpError
-// @Router      /users/{id} [get]
+// @Router      /v1/users/{id} [get]
 func ShowUser(ctx *gin.Context) {
 	id, err := strconv.Atoi(ctx.Param("id"))
 	if err != nil {

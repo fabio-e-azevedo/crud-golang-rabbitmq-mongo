@@ -20,7 +20,7 @@ import (
 // @license.name              MIT
 // @license.url               https://www.mit.edu/~amini/LICENSE.md
 // @host                      cao-veio:5000
-// @BasePath                  /api/v1
+// @BasePath                  /api
 // @externalDocs.description  OpenAPI
 // @externalDocs.url          https://swagger.io/resources/open-api/
 func main() {

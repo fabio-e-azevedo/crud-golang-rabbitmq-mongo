@@ -48,11 +48,11 @@ func updateAll(ctx *gin.Context, resource *jsonplaceholder.IResource) {
 // @Tags        albums
 // @Accept      json
 // @Produce     json
-// @Param       id   path      int  true  "Album ID" minimum(1)
+// @Param       id   path      int  true  "Album ID"
 // @Param       request body model.Album true "album model for update"
 // @Success     204  {object}  model.Album
 // @Failure     400  {object}  httpError
-// @Router      /albums         [put]
+// @Router      /v1/albums [put]
 func UpdateAlbum(ctx *gin.Context) {
 	var resource jsonplaceholder.IResource = &model.Album{}
 	updateAll(ctx, &resource)
@@ -64,11 +64,11 @@ func UpdateAlbum(ctx *gin.Context) {
 // @Tags         comments
 // @Accept       json
 // @Produce      json
-// @Param        id   path      int  true  "Comment ID" minimum(1)
+// @Param        id   path      int  true  "Comment ID"
 // @Param        request body model.Comment true "comment model for update"
 // @Success      204  {object}  model.Comment
 // @Failure      400  {object}  httpError
-// @Router       /comments         [put]
+// @Router       /v1/comments [put]
 func UpdateComment(ctx *gin.Context) {
 	var resource jsonplaceholder.IResource = &model.Comment{}
 	updateAll(ctx, &resource)
@@ -80,11 +80,11 @@ func UpdateComment(ctx *gin.Context) {
 // @Tags        photos
 // @Accept      json
 // @Produce     json
-// @Param       id   path      int  true  "Photo ID" minimum(1)
+// @Param       id   path      int  true  "Photo ID"
 // @Param       request body model.Photo true "photo model for update"
 // @Success     204  {object}  model.Photo
 // @Failure     400  {object}  httpError
-// @Router      /photos         [put]
+// @Router      /v1/photos [put]
 func UpdatePhoto(ctx *gin.Context) {
 	var resource jsonplaceholder.IResource = &model.Photo{}
 	updateAll(ctx, &resource)
@@ -96,11 +96,11 @@ func UpdatePhoto(ctx *gin.Context) {
 // @Tags        posts
 // @Accept      json
 // @Produce     json
-// @Param       id   path      int  true  "Post ID" minimum(1)
+// @Param       id   path      int  true  "Post ID"
 // @Param       request body model.Post true "post model for update"
 // @Success     204  {object}  model.Post
 // @Failure     400  {object}  httpError
-// @Router      /posts         [put]
+// @Router      /v1/posts [put]
 func UpdatePost(ctx *gin.Context) {
 	var resource jsonplaceholder.IResource = &model.Post{}
 	updateAll(ctx, &resource)
@@ -112,11 +112,11 @@ func UpdatePost(ctx *gin.Context) {
 // @Tags        todos
 // @Accept      json
 // @Produce     json
-// @Param       id   path      int  true  "Todo ID" minimum(1)
+// @Param       id   path      int  true  "Todo ID"
 // @Param       request body model.Todo true "todo model for update"
 // @Success     204  {object}  model.Todo
 // @Failure     400  {object}  httpError
-// @Router      /todos         [put]
+// @Router      /v1/todos [put]
 func UpdateTodo(ctx *gin.Context) {
 	var resource jsonplaceholder.IResource = &model.Todo{}
 	updateAll(ctx, &resource)
@@ -128,11 +128,11 @@ func UpdateTodo(ctx *gin.Context) {
 // @Tags        users
 // @Accept      json
 // @Produce     json
-// @Param       id   path      int  true  "User ID" minimum(1)
+// @Param       id   path      int  true  "User ID"
 // @Param       request body model.User true "user model for update"
 // @Success     204  {object}  model.User
 // @Failure     400  {object}  httpError
-// @Router      /users         [put]
+// @Router      /v1/users [put]
 func UpdateUser(ctx *gin.Context) {
 	var resource jsonplaceholder.IResource = &model.User{}
 	updateAll(ctx, &resource)

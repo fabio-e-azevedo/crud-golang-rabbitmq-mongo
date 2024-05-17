@@ -22,7 +22,7 @@ const docTemplate = `{
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
-        "/albums": {
+        "/v1/albums": {
             "get": {
                 "description": "get all albums",
                 "consumes": [
@@ -67,7 +67,6 @@ const docTemplate = `{
                 "summary": "Update Album",
                 "parameters": [
                     {
-                        "minimum": 1,
                         "type": "integer",
                         "description": "Album ID",
                         "name": "id",
@@ -138,7 +137,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/albums/{id}": {
+        "/v1/albums/{id}": {
             "get": {
                 "description": "get album by id",
                 "consumes": [
@@ -153,7 +152,6 @@ const docTemplate = `{
                 "summary": "Get Album By ID",
                 "parameters": [
                     {
-                        "minimum": 1,
                         "type": "integer",
                         "description": "Album ID",
                         "name": "id",
@@ -190,7 +188,6 @@ const docTemplate = `{
                 "summary": "Delete Album By ID",
                 "parameters": [
                     {
-                        "minimum": 1,
                         "type": "integer",
                         "description": "Album ID",
                         "name": "id",
@@ -214,7 +211,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/comments": {
+        "/v1/comments": {
             "get": {
                 "description": "get all comments",
                 "consumes": [
@@ -259,7 +256,6 @@ const docTemplate = `{
                 "summary": "Update Comment",
                 "parameters": [
                     {
-                        "minimum": 1,
                         "type": "integer",
                         "description": "Comment ID",
                         "name": "id",
@@ -330,7 +326,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/comments/{id}": {
+        "/v1/comments/{id}": {
             "get": {
                 "description": "get comment by id",
                 "consumes": [
@@ -345,7 +341,6 @@ const docTemplate = `{
                 "summary": "Get Comment By ID",
                 "parameters": [
                     {
-                        "minimum": 1,
                         "type": "integer",
                         "description": "Comment ID",
                         "name": "id",
@@ -382,7 +377,6 @@ const docTemplate = `{
                 "summary": "Delete Comment By ID",
                 "parameters": [
                     {
-                        "minimum": 1,
                         "type": "integer",
                         "description": "Comment ID",
                         "name": "id",
@@ -406,7 +400,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/photos": {
+        "/v1/photos": {
             "get": {
                 "description": "get all photos",
                 "consumes": [
@@ -451,7 +445,6 @@ const docTemplate = `{
                 "summary": "Update Photo",
                 "parameters": [
                     {
-                        "minimum": 1,
                         "type": "integer",
                         "description": "Photo ID",
                         "name": "id",
@@ -522,7 +515,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/photos/{id}": {
+        "/v1/photos/{id}": {
             "get": {
                 "description": "get photo by id",
                 "consumes": [
@@ -537,7 +530,6 @@ const docTemplate = `{
                 "summary": "Get Photo By ID",
                 "parameters": [
                     {
-                        "minimum": 1,
                         "type": "integer",
                         "description": "Photo ID",
                         "name": "id",
@@ -574,7 +566,6 @@ const docTemplate = `{
                 "summary": "Delete Photo By ID",
                 "parameters": [
                     {
-                        "minimum": 1,
                         "type": "integer",
                         "description": "Photo ID",
                         "name": "id",
@@ -598,7 +589,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/posts": {
+        "/v1/posts": {
             "get": {
                 "description": "get all posts",
                 "consumes": [
@@ -643,7 +634,6 @@ const docTemplate = `{
                 "summary": "Update Post",
                 "parameters": [
                     {
-                        "minimum": 1,
                         "type": "integer",
                         "description": "Post ID",
                         "name": "id",
@@ -714,7 +704,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/posts/{id}": {
+        "/v1/posts/{id}": {
             "get": {
                 "description": "get post by id",
                 "consumes": [
@@ -729,7 +719,6 @@ const docTemplate = `{
                 "summary": "Get Post By ID",
                 "parameters": [
                     {
-                        "minimum": 1,
                         "type": "integer",
                         "description": "Post ID",
                         "name": "id",
@@ -766,7 +755,6 @@ const docTemplate = `{
                 "summary": "Delete Post By ID",
                 "parameters": [
                     {
-                        "minimum": 1,
                         "type": "integer",
                         "description": "Post ID",
                         "name": "id",
@@ -790,7 +778,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/todos": {
+        "/v1/todos": {
             "get": {
                 "description": "get all todos",
                 "consumes": [
@@ -835,7 +823,6 @@ const docTemplate = `{
                 "summary": "Update Todo",
                 "parameters": [
                     {
-                        "minimum": 1,
                         "type": "integer",
                         "description": "Todo ID",
                         "name": "id",
@@ -906,7 +893,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/todos/{id}": {
+        "/v1/todos/{id}": {
             "get": {
                 "description": "get todo by id",
                 "consumes": [
@@ -921,7 +908,6 @@ const docTemplate = `{
                 "summary": "Get Todo By ID",
                 "parameters": [
                     {
-                        "minimum": 1,
                         "type": "integer",
                         "description": "Todo ID",
                         "name": "id",
@@ -958,7 +944,6 @@ const docTemplate = `{
                 "summary": "Delete Todo By ID",
                 "parameters": [
                     {
-                        "minimum": 1,
                         "type": "integer",
                         "description": "Todo ID",
                         "name": "id",
@@ -982,7 +967,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/users": {
+        "/v1/users": {
             "get": {
                 "description": "get all users",
                 "consumes": [
@@ -1027,7 +1012,6 @@ const docTemplate = `{
                 "summary": "Update User",
                 "parameters": [
                     {
-                        "minimum": 1,
                         "type": "integer",
                         "description": "User ID",
                         "name": "id",
@@ -1098,7 +1082,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/users/{id}": {
+        "/v1/users/{id}": {
             "get": {
                 "description": "get user by id",
                 "consumes": [
@@ -1113,7 +1097,6 @@ const docTemplate = `{
                 "summary": "Get User By ID",
                 "parameters": [
                     {
-                        "minimum": 1,
                         "type": "integer",
                         "description": "User ID",
                         "name": "id",
@@ -1150,7 +1133,6 @@ const docTemplate = `{
                 "summary": "Delete User By ID",
                 "parameters": [
                     {
-                        "minimum": 1,
                         "type": "integer",
                         "description": "User ID",
                         "name": "id",
@@ -1407,7 +1389,7 @@ const docTemplate = `{
 var SwaggerInfo = &swag.Spec{
 	Version:          "1.0.0",
 	Host:             "cao-veio:5000",
-	BasePath:         "/api/v1",
+	BasePath:         "/api",
 	Schemes:          []string{},
 	Title:            "CRUD API REST",
 	Description:      "API REST created to apply knowledge in learning the Go language",
