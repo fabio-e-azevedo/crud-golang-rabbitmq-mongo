@@ -2,13 +2,13 @@ version: '3.9'
 
 services:
   rabbitmq1:
-    image: rabbitmq:3-management
+    image: rabbitmq:3.13.2-management
     container_name: rabbitmq1
     hostname: rabbitmq1
     environment:
       - RABBITMQ_DEFAULT_USER=guest
       - RABBITMQ_DEFAULT_PASS=guest
-      - RABBITMQ_DEFAULT_VHOST=/
+      - RABBITMQ_DEFAULT_VHOST=resources
     volumes:
       - ./containers/.erlang.cookie:/var/lib/rabbitmq/.erlang.cookie
       - ./containers/cluster-entrypoint.sh:/usr/local/bin/cluster-entrypoint.sh
@@ -23,7 +23,7 @@ services:
       start_period: 15s
 
   rabbitmq2:
-    image: rabbitmq:3-management
+    image: rabbitmq:3.13.2-management
     container_name: rabbitmq2
     hostname: rabbitmq2
     depends_on:
@@ -44,7 +44,7 @@ services:
       start_period: 15s
 
   rabbitmq3:
-    image: rabbitmq:3-management
+    image: rabbitmq:3.13.2-management
     container_name: rabbitmq3
     hostname: rabbitmq3
     depends_on:
@@ -125,6 +125,7 @@ services:
       context: .
       dockerfile: consumer-amqp.Dockerfile
     image: consumer-rabbitmq:v1
+    restart: on-failure
     environment:
       RESOURCE_TYPE: users
     env_file:
@@ -137,6 +138,7 @@ services:
   consumer-albums: &consumer
     container_name: consumer-albums
     image: consumer-rabbitmq:v1
+    restart: on-failure
     environment:
       RESOURCE_TYPE: albums
     env_file:

@@ -1,3 +1,3 @@
-RABBITMQ_URI=amqp://guest:guest@haproxy:5672/
+RABBITMQ_URI=amqp://guest:guest@haproxy:5672/resources
 MONGODB_URI=mongodb://root:root@mongodb
 MONGODB_DATABASE=db
