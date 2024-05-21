@@ -12,6 +12,7 @@ services:
     volumes:
       - ./containers/.erlang.cookie:/var/lib/rabbitmq/.erlang.cookie
       - ./containers/cluster-entrypoint.sh:/usr/local/bin/cluster-entrypoint.sh
+      - ./containers/rabbitmq.conf:/etc/rabbitmq/conf.d/10-defaults.conf
     entrypoint: /usr/local/bin/cluster-entrypoint.sh
     networks:
       - network_default
@@ -33,6 +34,7 @@ services:
     volumes:
       - ./containers/.erlang.cookie:/var/lib/rabbitmq/.erlang.cookie
       - ./containers/cluster-entrypoint.sh:/usr/local/bin/cluster-entrypoint.sh
+      - ./containers/rabbitmq.conf:/etc/rabbitmq/conf.d/10-defaults.conf
     entrypoint: /usr/local/bin/cluster-entrypoint.sh
     networks:
       - network_default
@@ -54,6 +56,7 @@ services:
     volumes:
       - ./containers/.erlang.cookie:/var/lib/rabbitmq/.erlang.cookie
       - ./containers/cluster-entrypoint.sh:/usr/local/bin/cluster-entrypoint.sh
+      - ./containers/rabbitmq.conf:/etc/rabbitmq/conf.d/10-defaults.conf
     entrypoint: /usr/local/bin/cluster-entrypoint.sh
     networks:
       - network_default

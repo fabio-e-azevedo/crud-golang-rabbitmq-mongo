@@ -1,7 +1,7 @@
 package model
 
 type Resource struct {
-	Id       int     `json:"id" bson:"_id"`
+	Id       int     `json:"id,omitempty" bson:"_id,omitempty"`
 	Name     *string `json:"name,omitempty" bson:"name,omitempty"`
 	Username *string `json:"username,omitempty" bson:"username,omitempty"`
 	Email    *string `json:"email,omitempty" bson:"email,omitempty"`
@@ -33,13 +33,13 @@ type Resource struct {
 }
 
 type Album struct {
-	Id     int    `json:"id" bson:"_id"`
+	Id     int    `json:"id,omitempty" bson:"_id,omitempty"`
 	UserId int16  `json:"userId" bson:"userId" validate:"required"`
 	Title  string `json:"title" bson:"title" validate:"required"`
 }
 
 type Comment struct {
-	Id     int    `json:"id" bson:"_id"`
+	Id     int    `json:"id,omitempty" bson:"_id,omitempty"`
 	PostId int16  `json:"postId" bson:"postId" validate:"required"`
 	Name   string `json:"name" bson:"name" validate:"required"`
 	Email  string `json:"email" bson:"email" validate:"required"`
@@ -47,14 +47,14 @@ type Comment struct {
 }
 
 type Post struct {
-	Id     int    `json:"id" bson:"_id"`
+	Id     int    `json:"id,omitempty" bson:"_id,omitempty"`
 	UserId int16  `json:"userId" bson:"userId" validate:"required"`
 	Title  string `json:"title" bson:"title" validate:"required"`
 	Body   string `json:"body" bson:"body" validate:"required"`
 }
 
 type Photo struct {
-	Id           int    `json:"id" bson:"_id"`
+	Id           int    `json:"id,omitempty" bson:"_id,omitempty"`
 	AlbumId      int16  `json:"albumId" bson:"albumId" validate:"required"`
 	Title        string `json:"title" bson:"title" validate:"required"`
 	Url          string `json:"url" bson:"url" validate:"required"`
@@ -62,14 +62,14 @@ type Photo struct {
 }
 
 type Todo struct {
-	Id        int    `json:"id" bson:"_id"`
+	Id        int    `json:"id,omitempty" bson:"_id,omitempty"`
 	UserId    int16  `json:"userId" bson:"userId" validate:"required"`
 	Title     string `json:"title" bson:"title" validate:"required"`
 	Completed bool   `json:"completed" bson:"completed" validate:"required"`
 }
 
 type User struct {
-	Id       int    `json:"id" bson:"_id"`
+	Id       int    `json:"id,omitempty" bson:"_id,omitempty"`
 	Name     string `json:"name" bson:"name" validate:"required"`
 	Username string `json:"username" bson:"username" validate:"required"`
 	Email    string `json:"email" bson:"email" validate:"required"`
