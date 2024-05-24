@@ -1,6 +1,24 @@
 version: '3.9'
 
 services:
+  traefik:
+    image: "traefik:v3.0"
+    container_name: "traefik"
+    command:
+      #- "--log.level=DEBUG"
+      - "--api.insecure=true"
+      - "--providers.docker=true"
+      - "--providers.docker.exposedbydefault=false"
+      - "--entryPoints.web.address=:80"
+    ports:
+      - "80:80"
+      - "8080:8080"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      #- ./containers/traefik.yml:/traefik.yml
+    networks:
+      - network_default
+  
   rabbitmq1:
     image: rabbitmq:3.13.2-management
     container_name: rabbitmq1
@@ -189,8 +207,13 @@ services:
       context: .
       dockerfile: crud-http.Dockerfile
     image: crud-http:v1
-    ports:
-      - "5000:5000"
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.resources.rule=PathPrefix(`/api/v1/`)"
+      - "traefik.http.routers.swagger.rule=PathPrefix(`/swagger`)"
+      - "traefik.http.services.app.loadbalancer.server.port=5000"
+    # ports:
+    #   - "5000:5000"
     env_file:
       - containers/.environment
     networks:

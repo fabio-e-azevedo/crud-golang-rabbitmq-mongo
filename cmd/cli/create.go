@@ -42,7 +42,7 @@ var createCmd = &cobra.Command{
 		resources, err := jph.GetResources(resourceType, 1, fileContent)
 		utils.FailOnError(err, fmt.Sprintf("failed to read file %s", filePath))
 
-		urlPost := fmt.Sprintf("http://localhost:5000/api/v1/%s", resourceType)
+		urlPost := fmt.Sprintf("http://localhost/api/v1/%s", resourceType)
 
 		for i := range resources {
 			msgByte, err := json.Marshal(resources[i])

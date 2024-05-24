@@ -27,7 +27,7 @@ var deleteCmd = &cobra.Command{
 }
 
 func deleteResourceById(resourceType string, resourceId int) {
-	url := fmt.Sprintf("http://localhost:5000/api/v1/%s/%d", resourceType, resourceId)
+	url := fmt.Sprintf("http://localhost/api/v1/%s/%d", resourceType, resourceId)
 	req, err := http.NewRequest("DELETE", url, nil)
 	if err != nil {
 		fmt.Println("error request delete:", err)

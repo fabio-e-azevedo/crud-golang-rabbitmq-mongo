@@ -32,6 +32,7 @@ Use "crud [command] --help" for more information about a command.
 - [RabbitMQ](https://www.rabbitmq.com/)
 - [MongoDB](https://www.mongodb.com/)
 - [Redis](https://redis.io/)
+- [Traefik](https://traefik.io/traefik/)
 
 
 To run and stop the applications by Makefile:

@@ -23,7 +23,7 @@ var readCmd = &cobra.Command{
 	Use:   "read",
 	Short: "Getting by ID or Listing all resources",
 	Run: func(cmd *cobra.Command, args []string) {
-		url := fmt.Sprintf("%s/%s", "http://localhost:5000/api/v1", resourceName.String())
+		url := fmt.Sprintf("%s/%s", "http://localhost/api/v1", resourceName.String())
 
 		if resourceId > 0 {
 			urlId := fmt.Sprintf("%s/%d", url, resourceId)
