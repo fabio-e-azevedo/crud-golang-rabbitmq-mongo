@@ -12,7 +12,8 @@ up:
 
 # Down all containers by docker-compose.
 down:
-	docker-compose down
+	@docker-compose down crud-http consumer-users consumer-albums consumer-posts consumer-photos consumer-comments consumer-todos
+	@docker-compose down
 	@sudo chown $$USER containers/.erlang.cookie
 .PHONY: down
 

@@ -19,7 +19,7 @@ import (
 // @description               API REST created to apply knowledge in learning the Go language
 // @license.name              MIT
 // @license.url               https://www.mit.edu/~amini/LICENSE.md
-// @host                      cao-veio:5000
+// @host                      cao-veio:80
 // @BasePath                  /api
 // @externalDocs.description  OpenAPI
 // @externalDocs.url          https://swagger.io/resources/open-api/
